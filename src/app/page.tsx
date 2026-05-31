@@ -16,33 +16,34 @@ export default function Home() {
       </nav>
 
       {/* Hero */}
-      <section className="bg-black relative min-h-screen flex flex-col items-center justify-center text-center px-6" style={{paddingTop: '72px'}}>
-        <p className="text-xs tracking-[0.3em] uppercase text-white/30 mb-6">
+      <section className="cosmic-bg grain relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-24">
+        <p className="fade-up text-xs tracking-[0.3em] uppercase text-white/30 mb-6">
           Kimberley van Ruiven
         </p>
-        <h1 className="text-5xl sm:text-7xl font-bold tracking-tight leading-[1.05] max-w-3xl">
+        <h1 className="fade-up fade-up-delay-1 text-5xl sm:text-7xl font-bold tracking-tight leading-[1.05] max-w-3xl">
           Ethische AI
           <br />
           <span className="text-white/30">zonder bullshit.</span>
         </h1>
-        <p className="mt-8 text-lg text-white/40 max-w-md leading-relaxed">
+        <p className="fade-up fade-up-delay-2 mt-8 text-lg text-white/40 max-w-md leading-relaxed">
           Geen hype, geen vaagtaal. Eerlijke verhalen over wat AI doet met mensen, bedrijven en de wereld.
         </p>
-        <div className="mt-12 flex flex-col sm:flex-row gap-4">
+        <div className="fade-up fade-up-delay-3 mt-12 flex flex-col sm:flex-row gap-4">
           <a
             href="#aanbod"
-            className="px-8 py-3 bg-white text-black text-sm font-semibold rounded-full hover:bg-white/90 transition-colors outline-none"
+            className="px-8 py-3 bg-white text-black text-sm font-semibold rounded-full hover:bg-white/90 transition-colors"
           >
             Wat ik doe
           </a>
           <a
             href="#sessie"
-            className="px-8 py-3 border border-white/30 text-white text-sm font-semibold rounded-full hover:border-white/60 transition-colors outline-none"
+            className="px-8 py-3 border border-white/20 text-white text-sm font-semibold rounded-full hover:border-white/50 transition-colors"
           >
             Boek een sessie
           </a>
         </div>
 
+        {/* Scroll indicator */}
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/20">
           <span className="text-xs tracking-widest uppercase">Scroll</span>
           <div className="w-px h-12 bg-gradient-to-b from-white/20 to-transparent" />
@@ -140,7 +141,7 @@ export default function Home() {
           </p>
           <a
             href="mailto:info@kimberleyvanruiven.nl"
-            className="inline-block px-10 py-4 bg-white text-black text-sm font-semibold rounded-full hover:bg-white/90 transition-colors outline-none"
+            className="inline-block px-10 py-4 bg-white text-black text-sm font-semibold rounded-full hover:bg-white/90 transition-colors"
           >
             Plan een sessie
           </a>
