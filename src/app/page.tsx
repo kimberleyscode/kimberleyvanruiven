@@ -1,6 +1,6 @@
 export default function Home() {
   return (
-    <main className="bg-black text-white min-h-screen font-[family-name:var(--font-geist)]">
+    <main className="bg-black text-white min-h-screen font-[family-name:var(--font-geist)] overflow-x-hidden">
 
       {/* Nav */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-6 border-b border-white/5 backdrop-blur-sm bg-black/60">
@@ -16,31 +16,21 @@ export default function Home() {
       </nav>
 
       {/* Hero */}
-      <section className="cosmic-bg grain relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-24">
+      <section className="cosmic-bg grain relative min-h-screen flex flex-col items-center justify-center text-center px-6 py-28">
         <p className="fade-up text-xs tracking-[0.3em] uppercase text-white/30 mb-6">
           Kimberley van Ruiven
         </p>
-        <h1 className="fade-up fade-up-delay-1 text-5xl sm:text-7xl font-bold tracking-tight leading-[1.05] max-w-3xl">
+        <h1 className="fade-up fade-up-delay-1 text-4xl sm:text-6xl font-bold tracking-tight leading-[1.05] max-w-3xl">
           Ethische AI
           <br />
-          <span className="text-white/30">zonder bullshit.</span>
+          <span className="text-white/55">zonder bullshit.</span>
         </h1>
         <p className="fade-up fade-up-delay-2 mt-8 text-lg text-white/40 max-w-md leading-relaxed">
           Geen hype, geen vaagtaal. Eerlijke verhalen over wat AI doet met mensen, bedrijven en de wereld.
         </p>
-        <div className="fade-up fade-up-delay-3 mt-12 flex flex-col sm:flex-row gap-4">
-          <a
-            href="#aanbod"
-            className="px-8 py-3 bg-white text-black text-sm font-semibold rounded-full hover:bg-white/90 transition-colors"
-          >
-            Wat ik doe
-          </a>
-          <a
-            href="#sessie"
-            className="px-8 py-3 border border-white/20 text-white text-sm font-semibold rounded-full hover:border-white/50 transition-colors"
-          >
-            Boek een sessie
-          </a>
+        <div className="fade-up fade-up-delay-3 mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="#aanbod" className="btn-primary">Wat ik doe</a>
+          <a href="#sessie" className="btn-secondary">Boek een sessie</a>
         </div>
 
         {/* Scroll indicator */}
@@ -51,13 +41,13 @@ export default function Home() {
       </section>
 
       {/* Over */}
-      <section id="over" className="px-6 py-32 max-w-3xl mx-auto">
+      <section id="over" className="section-center">
         <p className="text-xs tracking-[0.3em] uppercase text-white/30 mb-8">Over</p>
-        <h2 className="text-3xl sm:text-4xl font-bold leading-tight mb-8">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight mb-8 break-words">
           Ik geloof dat je AI kunt begrijpen
-          <span className="text-white/30"> zonder dat je technicus hoeft te zijn.</span>
+          <span className="text-white/55"> zonder dat je technicus hoeft te zijn.</span>
         </h2>
-        <div className="space-y-5 text-white/50 leading-relaxed text-lg">
+        <div className="space-y-5 text-white/60 leading-relaxed text-lg">
           <p>
             Ik ben Kimberley van Ruiven. Online ondernemer, denker en iemand die zich actief verdiept in ethische AI: wat het betekent, wat het doet, en hoe we het eerlijker kunnen maken.
           </p>
@@ -139,10 +129,7 @@ export default function Home() {
           <p className="text-white/40 text-lg leading-relaxed mb-10">
             Boek een gesprek met mij. We praten over AI, jouw business, en hoe jij het eerlijk en slim kunt inzetten.
           </p>
-          <a
-            href="mailto:info@kimberleyvanruiven.nl"
-            className="inline-block px-10 py-4 bg-white text-black text-sm font-semibold rounded-full hover:bg-white/90 transition-colors"
-          >
+          <a href="mailto:info@kimberleyvanruiven.nl" className="btn-primary">
             Plan een sessie
           </a>
         </div>
