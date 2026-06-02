@@ -137,8 +137,8 @@ export default function Home() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-sm">
           {[
             { label: "Email", value: "info@kimberleyvanruiven.nl", href: "mailto:info@kimberleyvanruiven.nl" },
-            { label: "Instagram", value: "@kimberleyvanruiven", href: "https://instagram.com/kimberleyvanruiven" },
-            { label: "LinkedIn", value: "Kimberley van Ruiven", href: "https://linkedin.com" },
+            { label: "Instagram", value: "@kimberleyvanruiven", href: "https://www.instagram.com/kimberleyvanruiven" },
+            { label: "LinkedIn", value: "Kimberley van Ruiven", href: "https://www.linkedin.com/in/kimberley-van-ruiven" },
           ].map((item) => (
             <a key={item.label} href={item.href} className="group">
               <p className="text-white/25 text-xs tracking-widest uppercase mb-2">{item.label}</p>
