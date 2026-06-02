@@ -81,7 +81,7 @@ export default function Home() {
               title: "Spill Your Tea sessie",
               desc: "Een één-op-één gesprek over hoe jij als ondernemer omgaat met AI: eerlijk, praktisch en zonder jargon.",
               cta: "Plan een sessie",
-              href: "#sessie",
+              href: "https://calendar.app.google/douZqiDQ7p39Xf6u7",
             },
             {
               label: "03",
