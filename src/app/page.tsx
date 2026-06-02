@@ -101,17 +101,13 @@ export default function Home() {
             <a
               key={item.label}
               href={item.href}
-              className={`group block p-8 border rounded-2xl transition-all duration-300 ${
-                item.soon
-                  ? "border-white/5 cursor-default"
-                  : "border-white/10 hover:border-white/30 hover:bg-white/[0.03]"
-              }`}
+              className="group block p-8 border rounded-2xl transition-all duration-300 border-white/10 hover:border-white/30 hover:bg-white/[0.03]"
             >
               <span className="text-xs text-white/20 font-mono">{item.label}</span>
               <h3 className="mt-4 text-xl font-semibold mb-3">{item.title}</h3>
               <p className="text-white/40 text-sm leading-relaxed mb-6">{item.desc}</p>
-              <span className={`text-sm font-medium ${item.soon ? "text-white/20" : "text-white/60 group-hover:text-white transition-colors"}`}>
-                {item.cta} {!item.soon && "→"}
+              <span className="text-sm font-medium text-white/60 group-hover:text-white transition-colors">
+                {item.cta} →
               </span>
             </a>
           ))}
