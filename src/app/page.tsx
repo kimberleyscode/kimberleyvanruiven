@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import ParallaxInit from './ParallaxInit';
 
 export default function Home() {
@@ -176,7 +177,9 @@ export default function Home() {
       <footer className="footer">
         <span>© 2026 Kimberley van Ruiven</span>
         <span className="footer-brand">Spill Your Tea</span>
-        <span className="footer-ai">Deze website is ontwikkeld met AI-ondersteuning.</span>
+        <span className="footer-ai">
+          Deze website is ontwikkeld met AI-ondersteuning. &nbsp;·&nbsp; <Link href="/privacy" className="footer-privacy-link">Privacybeleid</Link>
+        </span>
       </footer>
 
     </main>

@@ -20,7 +20,22 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: "Kimberley van Ruiven · Spill Your Tea",
-  description: "Ethische AI zonder bullshit. Door Kimberley van Ruiven.",
+  description: "Ethische AI zonder bullshit. Kimberley van Ruiven helpt ondernemers verantwoord en bewust omgaan met AI — vanuit integriteit en menselijkheid.",
+  keywords: ["ethische AI", "AI consultant", "AI bias", "verantwoorde AI", "Kimberley van Ruiven", "Spill Your Tea"],
+  authors: [{ name: "Kimberley van Ruiven" }],
+  openGraph: {
+    title: "Kimberley van Ruiven · Spill Your Tea",
+    description: "Ethische AI zonder bullshit. Voor een mens-gerichte toekomst met technologie.",
+    url: "https://spillyourtea.nl",
+    siteName: "Spill Your Tea",
+    locale: "nl_NL",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Kimberley van Ruiven · Spill Your Tea",
+    description: "Ethische AI zonder bullshit. Voor een mens-gerichte toekomst met technologie.",
+  },
 };
 
 export default function RootLayout({
