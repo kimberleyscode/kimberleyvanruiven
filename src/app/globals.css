@@ -571,10 +571,19 @@ body {
   border-top: 1px solid rgba(255,255,255,0.05);
   padding: 2rem;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   font-size: 0.75rem;
   color: rgba(255,255,255,0.5);
+}
+
+.footer-ai {
+  width: 100%;
+  text-align: center;
+  margin-top: 0.75rem;
+  opacity: 0.4;
+  font-style: italic;
 }
 
 .footer-brand {

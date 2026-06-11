@@ -176,6 +176,7 @@ export default function Home() {
       <footer className="footer">
         <span>© 2026 Kimberley van Ruiven</span>
         <span className="footer-brand">Spill Your Tea</span>
+        <span className="footer-ai">Deze website is ontwikkeld met AI-ondersteuning.</span>
       </footer>
 
     </main>
