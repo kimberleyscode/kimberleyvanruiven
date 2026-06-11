@@ -69,7 +69,8 @@ export default function Home() {
         <div className="quote-section">
           <p className="quote-text">
             <span className="quote-serif">Technologie en menselijkheid</span><br />
-            gaan <em>samen.</em>
+            gaan <em>samen,</em><br />
+            als je bereid bent de juiste vragen te stellen.
           </p>
         </div>
       </div>
