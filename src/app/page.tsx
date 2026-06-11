@@ -70,7 +70,7 @@ export default function Home() {
           <p className="quote-text">
             <span className="quote-serif">Technologie en menselijkheid</span><br />
             gaan <em>samen,</em><br />
-            als je bereid bent de juiste vragen te stellen.
+            <em>als je bereid bent de juiste vragen te stellen.</em>
           </p>
         </div>
       </div>
