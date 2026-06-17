@@ -515,14 +515,15 @@ footer {
   /* Hero-tekst volledig wit op mobiel */
   .hero-desc { color: #fff; }
 
-  /* Portrait: uitgesneden foto op donkere achtergrond */
+  /* Portrait: uitgesneden foto, zwart-wit, geen overlay */
   .featured-visual {
     aspect-ratio: unset;
     height: 420px;
     max-height: none;
     background: var(--surface) url('/kimberley-cutout.png') center bottom / contain no-repeat;
-    filter: none;
+    filter: grayscale(100%);
   }
+  .featured-visual-inner { background: none; }
 
   /* "S" foil verbergen op mobiel */
   .featured-foil { display: none; }
