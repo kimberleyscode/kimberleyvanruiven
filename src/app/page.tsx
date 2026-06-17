@@ -45,8 +45,8 @@ export default function Home() {
         parallaxBgs.forEach((bg) => {
           const parent = bg.parentElement!;
           const rect = parent.getBoundingClientRect();
-          const raw = (rect.top + rect.height / 2 - window.innerHeight / 2) * 0.18;
-          const offset = Math.max(-50, Math.min(50, raw));
+          const raw = (rect.top + rect.height / 2 - window.innerHeight / 2) * 0.35;
+          const offset = Math.max(-75, Math.min(75, raw));
           bg.style.transform = `translateY(${offset}px)`;
         });
       }
@@ -411,7 +411,7 @@ export default function Home() {
           <span className="footer-logo">Spill Your Tea</span>
         </div>
         <div className="footer-bottom">
-          <span>Deze website is ontwikkeld met AI-ondersteuning.</span>
+          <span className="footer-ai">Deze website is ontwikkeld met AI-ondersteuning.</span>
           <span className="footer-sep">·</span>
           <a href="/privacy">Privacybeleid</a>
           <span className="footer-sep">·</span>

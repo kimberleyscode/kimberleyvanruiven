@@ -446,6 +446,7 @@ footer {
 .footer-bottom a { color: rgba(255,255,255,0.35); text-decoration: underline; text-underline-offset: 2px; transition: color 0.2s; }
 .footer-bottom a:hover { color: rgba(255,255,255,0.7); }
 .footer-sep { color: rgba(255,255,255,0.15); }
+.footer-ai { color: rgba(255,255,255,0.42); font-style: italic; }
 
 .reveal {
   opacity: 0; transform: translateY(22px);
@@ -462,10 +463,10 @@ footer {
     overflow: hidden;
   }
 
-  /* parallax-bg: steekt 60px uit boven en onder zodat randen nooit zichtbaar zijn */
+  /* parallax-bg: steekt 90px uit boven en onder zodat randen nooit zichtbaar zijn */
   .parallax-bg {
     position: absolute;
-    top: -60px; bottom: -60px; left: 0; right: 0;
+    top: -90px; bottom: -90px; left: 0; right: 0;
     background-size: cover;
     background-position: center;
     z-index: 0;
