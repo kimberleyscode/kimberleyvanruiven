@@ -534,6 +534,14 @@ footer {
   .dashboard-grid { grid-template-columns: 1fr; }
   .process-item { grid-template-columns: 3rem 1fr; }
   .process-desc { display: none; }
+  /* CTA tekst wit en leesbaar */
+  .cta-body { color: rgba(255,255,255,0.9); font-size: 1.05rem; }
+
+  /* Footer beter zichtbaar */
+  .footer-logo, .footer-copy { color: rgba(255,255,255,0.7); }
+  .footer-bottom a { color: rgba(255,255,255,0.65); }
+  .footer-sep { color: rgba(255,255,255,0.4); }
+
   footer { padding: 2rem 1.5rem; }
   .footer-top { flex-direction: column; gap: 0.5rem; text-align: center; }
 }

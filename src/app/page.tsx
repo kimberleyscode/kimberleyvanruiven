@@ -219,7 +219,7 @@ export default function Home() {
             <div className="service-num">01</div>
             <h3 className="service-name">AI CO₂ Calculator</h3>
             <p className="service-desc">Bereken hoeveel CO₂ jouw AI-gebruik uitstoot en ontdek groenere alternatieven voor jouw workflow.</p>
-            <a href="https://pastatimes.github.io/ai-co2-calculator/" target="_blank" rel="noopener noreferrer" className="service-link">Open calculator →</a>
+            <a href="/co2" className="service-link">Open calculator →</a>
           </div>
           <div className="service-card">
             <div className="service-num">02</div>
@@ -397,7 +397,7 @@ export default function Home() {
           Laten we een eerlijk<br />gesprek hebben.
         </h2>
         <p className="cta-body reveal" style={{ '--delay': '0.2s' } as React.CSSProperties}>
-          Geen pitch of jargon. Gewoon een open gesprek over AI,
+          Geen pitch of jargon. Wel een open gesprek over AI,
           jouw business en hoe je het integer kunt inzetten.
         </p>
         <a href="https://calendar.app.google/douZqiDQ7p39Xf6u7" target="_blank" rel="noopener noreferrer" className="cta-btn reveal" style={{ '--delay': '0.3s' } as React.CSSProperties}>
