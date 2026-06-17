@@ -45,7 +45,9 @@ export default function Home() {
         parallaxEls.forEach((el) => {
           const rect = el.getBoundingClientRect();
           const offset = (rect.top + rect.height / 2 - window.innerHeight / 2) * 0.25;
-          el.style.backgroundPositionY = `calc(50% + ${offset}px)`;
+          const maxOffset = 40;
+          const clamped = Math.max(-maxOffset, Math.min(maxOffset, offset * 0.15));
+          el.style.backgroundPositionY = `calc(50% + ${clamped}px)`;
         });
       }
     };
@@ -390,7 +392,7 @@ export default function Home() {
           Laten we een eerlijk<br />gesprek hebben.
         </h2>
         <p className="cta-body reveal" style={{ '--delay': '0.2s' } as React.CSSProperties}>
-          Geen pitch, geen jargon. Gewoon een open gesprek over AI,
+          Geen pitch of jargon. Gewoon een open gesprek over AI,
           jouw business en hoe je het integer kunt inzetten.
         </p>
         <a href="https://calendar.app.google/douZqiDQ7p39Xf6u7" target="_blank" rel="noopener noreferrer" className="cta-btn reveal" style={{ '--delay': '0.3s' } as React.CSSProperties}>

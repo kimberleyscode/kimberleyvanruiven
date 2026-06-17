@@ -482,18 +482,31 @@ footer {
     background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), var(--photo-url);
   }
 
-  /* CTA-sectie: overlay veel lichter */
+  /* CTA-sectie: zelfde donkerheid als hero */
   .cta-section {
-    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), var(--photo-url);
+    background-image: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), var(--photo-url);
+    background-size: auto 130%;
   }
 
-  /* Portrait: staand formaat bewaren, focus op gezicht */
+  /* Parallax-secties: extra achtergrondruimte zodat randen niet zichtbaar zijn */
+  .hero { background-size: auto 130%; }
+  .photo-stripe { background-size: auto 130%; }
+  .parallax-divider { background-size: auto 130%; }
+
+  /* Hero-tekst volledig wit op mobiel */
+  .hero-desc { color: #fff; }
+
+  /* Portrait: vaste hoogte zodat het gezicht altijd in beeld blijft */
   .featured-visual {
-    aspect-ratio: 3/4;
-    max-height: 420px;
-    background-position: center top;
+    aspect-ratio: unset;
+    height: 300px;
+    max-height: none;
+    background-position: center 20%;
     background-size: cover;
   }
+
+  /* "S" foil verbergen op mobiel */
+  .featured-foil { display: none; }
 
   nav { padding: 1.25rem 1.5rem; }
   .nav-links { display: none; }
