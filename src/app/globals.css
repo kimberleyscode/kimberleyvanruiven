@@ -454,16 +454,46 @@ footer {
 .reveal.is-visible { opacity: 1; transform: none; }
 
 @media (max-width: 768px) {
+  /* Parallax: CSS fixed uitgeschakeld, JS neemt over */
   .hero, .photo-stripe, .parallax-divider, .cta-section {
     background-attachment: scroll;
   }
 
+  /* Hero: meer ruimte tussen titel en knop */
+  .hero { padding: 6rem 1.5rem 3.5rem; }
+  .hero-title { margin-bottom: 4.5rem; font-size: clamp(2.6rem, 9vw, 4rem); }
+
+  /* Hero-meta: knop onder tekst zodat hij niet uit beeld valt */
+  .hero-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+
+  /* Photo-stripe: minder hoog, lichtere overlay */
+  .photo-stripe {
+    min-height: 28vh;
+    background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), var(--photo-url);
+  }
+
+  /* Parallax-divider: minder hoog, lichtere overlay */
+  .parallax-divider {
+    height: 28vh; min-height: 160px;
+    background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), var(--photo-url);
+  }
+
+  /* Portrait: betere uitsnede zodat het gezicht zichtbaar blijft */
+  .featured-visual {
+    aspect-ratio: 4/3;
+    background-position: center 15%;
+    max-height: 320px;
+  }
+
   nav { padding: 1.25rem 1.5rem; }
   .nav-links { display: none; }
-  .hero, .quote-section, .services, .featured, .photo-stripe, .dashboard, .process, .cta-section { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .quote-section, .services, .featured, .photo-stripe, .dashboard, .process, .cta-section { padding-left: 1.5rem; padding-right: 1.5rem; }
   .quote-section, .featured { grid-template-columns: 1fr; }
   .tab-panel.active { grid-template-columns: 1fr; }
-  .featured-visual { aspect-ratio: 4/3; }
   .dashboard-grid { grid-template-columns: 1fr; }
   .process-item { grid-template-columns: 3rem 1fr; }
   .process-desc { display: none; }
