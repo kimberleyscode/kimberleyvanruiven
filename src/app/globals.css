@@ -515,13 +515,13 @@ footer {
   /* Hero-tekst volledig wit op mobiel */
   .hero-desc { color: #fff; }
 
-  /* Portrait: vaste hoogte zodat het gezicht altijd in beeld blijft */
+  /* Portrait: uitgesneden foto op donkere achtergrond */
   .featured-visual {
     aspect-ratio: unset;
-    height: 300px;
+    height: 420px;
     max-height: none;
-    background-position: center 20%;
-    background-size: cover;
+    background: var(--surface) url('/kimberley-cutout.png') center bottom / contain no-repeat;
+    filter: none;
   }
 
   /* "S" foil verbergen op mobiel */
