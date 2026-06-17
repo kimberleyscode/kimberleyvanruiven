@@ -174,8 +174,8 @@ export default function Home() {
         </h1>
         <div className="hero-meta">
           <p className="hero-desc">
-            Ik help ondernemers AI verantwoord, bewust en integer inzetten:
-            vanuit menselijkheid in plaats van hype.
+            Ik help ondernemers AI verantwoord, bewust en efficiënt inzetten:
+            voor een mens-gerichte toekomst met technologie.
           </p>
           <a href="https://calendar.app.google/douZqiDQ7p39Xf6u7" target="_blank" rel="noopener noreferrer" className="hero-cta">
             Plan een gesprek
