@@ -264,6 +264,8 @@ nav {
   font-family: var(--font-dm-sans), sans-serif; font-size: 0.75rem;
   letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4);
 }
+.featured-caption-mobile { display: none; }
+
 .featured-foil {
   position: absolute; top: 2rem; right: 2rem; z-index: 3;
   width: 3rem; height: 3rem;
@@ -523,7 +525,14 @@ footer {
     background: var(--surface) url('/kimberley-cutout.png') center bottom / contain no-repeat;
     filter: grayscale(100%);
   }
-  .featured-visual-inner { background: none; }
+  .featured-visual-inner { display: none; }
+
+  .featured-caption-mobile {
+    font-family: var(--font-playfair), serif;
+    font-size: 1.05rem; font-style: italic; line-height: 1.5;
+    color: rgba(255,255,255,0.75);
+    padding: 1rem 0 0;
+  }
 
   /* "S" foil verbergen op mobiel */
   .featured-foil { display: none; }

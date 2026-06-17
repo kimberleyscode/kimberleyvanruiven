@@ -277,6 +277,7 @@ export default function Home() {
             <p className="featured-visual-sub">Spill Your Tea · 2026</p>
           </div>
         </div>
+        <p className="featured-caption-mobile">Voor een mens-gerichte toekomst met technologie</p>
         <div className="featured-content">
           <p className="featured-label">Over Kimberley</p>
           <h2 className="featured-title">Online ondernemer. <em>Altijd mens.</em></h2>
