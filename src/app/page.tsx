@@ -1,159 +1,407 @@
-export default function Home() {
-  return (
-    <main className="bg-black text-white min-h-screen font-[family-name:var(--font-geist)] overflow-x-hidden">
+'use client';
 
-      {/* Nav */}
-      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-6 border-b border-white/5 backdrop-blur-sm bg-black/60">
-        <span className="text-sm font-semibold tracking-widest uppercase text-white/90">
-          Spill Your Tea
-        </span>
-        <div className="flex items-center gap-8 text-sm text-white/50">
-          <a href="#over" className="hover:text-white transition-colors">Over</a>
-          <a href="#aanbod" className="hover:text-white transition-colors">Aanbod</a>
-          <a href="#sessie" className="hover:text-white transition-colors">Sessie</a>
-          <a href="#contact" className="hover:text-white transition-colors">Contact</a>
+import { useState, useEffect, useRef } from 'react';
+import {
+  Chart,
+  RadarController,
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+  Tooltip,
+} from 'chart.js';
+
+Chart.register(RadarController, RadialLinearScale, PointElement, LineElement, Filler, Tooltip);
+
+type Tab = 'tools' | 'advies' | 'begeleiding';
+
+export default function Home() {
+  const [activeTab, setActiveTab] = useState<Tab>('tools');
+  const radarRef = useRef<HTMLCanvasElement>(null);
+  const chartRef = useRef<Chart | null>(null);
+
+  const showTab = (id: Tab) => setActiveTab(id);
+
+  useEffect(() => {
+    const revealObs = new IntersectionObserver(
+      (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-visible'); revealObs.unobserve(e.target); } }),
+      { threshold: 0.12 }
+    );
+    document.querySelectorAll('.reveal').forEach((el) => revealObs.observe(el));
+
+    const lineObs = new IntersectionObserver(
+      (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('line-drawn'); lineObs.unobserve(e.target); } }),
+      { threshold: 0.5 }
+    );
+    document.querySelectorAll('.section-header').forEach((el) => lineObs.observe(el));
+
+    const progressBar = document.getElementById('progress-bar');
+    const handleScroll = () => {
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      if (progressBar) progressBar.style.width = (window.scrollY / total * 100).toFixed(1) + '%';
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    function animateCounter(el: Element) {
+      const original = el.textContent?.trim() ?? '';
+      const m = original.match(/^([\d]+(?:[,.]\d+)?)(.*)$/);
+      if (!m) return;
+      const raw = parseFloat(m[1].replace(',', '.'));
+      const suffix = m[2];
+      const hasDecimal = m[1].includes(',');
+      const t0 = performance.now(), dur = 1400;
+      function step(now: number) {
+        const p = Math.min((now - t0) / dur, 1);
+        const val = raw * (1 - Math.pow(1 - p, 3));
+        el.textContent = (hasDecimal ? val.toFixed(1).replace('.', ',') : Math.round(val)) + suffix;
+        if (p < 1) requestAnimationFrame(step); else el.textContent = original;
+      }
+      requestAnimationFrame(step);
+    }
+
+    const cardObs = new IntersectionObserver(
+      (entries) => entries.forEach((e) => {
+        if (e.isIntersecting) {
+          const big = e.target.querySelector('.stat-big');
+          if (big) animateCounter(big);
+          e.target.querySelectorAll<HTMLElement>('.mini-bar-fill[data-w]').forEach((bar) => {
+            bar.style.width = bar.getAttribute('data-w') + '%';
+          });
+          cardObs.unobserve(e.target);
+        }
+      }),
+      { threshold: 0.3 }
+    );
+    document.querySelectorAll('[data-animate-bars]').forEach((el) => cardObs.observe(el));
+
+    document.querySelectorAll<HTMLElement>('.stat-card').forEach((card) => {
+      card.addEventListener('mouseenter', () => {
+        card.querySelectorAll<HTMLElement>('.mini-bar-fill[data-w]').forEach((bar) => {
+          bar.style.transition = 'none'; bar.style.width = '0%';
+          requestAnimationFrame(() => requestAnimationFrame(() => {
+            bar.style.transition = 'width 0.8s cubic-bezier(0.25,1,0.5,1)';
+            bar.style.width = bar.getAttribute('data-w') + '%';
+          }));
+        });
+      });
+    });
+
+    return () => {
+      revealObs.disconnect();
+      lineObs.disconnect();
+      cardObs.disconnect();
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!radarRef.current) return;
+    if (chartRef.current) chartRef.current.destroy();
+    chartRef.current = new Chart(radarRef.current, {
+      type: 'radar',
+      data: {
+        labels: ['Transparantie', 'Eerlijkheid', 'Privacy', 'Verantwoording', 'Duurzaamheid'],
+        datasets: [{
+          label: 'Typisch MKB',
+          data: [42, 33, 52, 38, 27],
+          backgroundColor: 'rgba(200,169,110,0.12)',
+          borderColor: '#C8A96E',
+          borderWidth: 2,
+          pointBackgroundColor: '#C8A96E',
+          pointBorderColor: '#000',
+          pointBorderWidth: 1.5,
+          pointRadius: 5,
+          pointHoverRadius: 7,
+        }],
+      },
+      options: {
+        responsive: true,
+        animation: { duration: 1400, easing: 'easeInOutQuart' },
+        scales: {
+          r: {
+            min: 0, max: 100,
+            ticks: { stepSize: 25, display: false },
+            grid: { color: 'rgba(255,255,255,0.07)' },
+            angleLines: { color: 'rgba(255,255,255,0.07)' },
+            pointLabels: { font: { family: 'var(--font-dm-sans), sans-serif', size: 11 }, color: 'rgba(255,255,255,0.38)' },
+          },
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#111',
+            borderColor: 'rgba(200,169,110,0.4)',
+            borderWidth: 1,
+            callbacks: { label: (c) => ' Score: ' + c.raw + '/100' },
+            bodyColor: '#C8A96E',
+          },
+        },
+      },
+    });
+    return () => { chartRef.current?.destroy(); };
+  }, []);
+
+  return (
+    <>
+      <div id="progress-bar" />
+
+      <nav>
+        <a href="#" className="nav-logo">Spill Your Tea</a>
+        <div className="nav-links">
+          <a href="#diensten">Diensten</a>
+          <a href="#aanpak">Aanpak</a>
+          <a href="#over">Over</a>
+          <a href="#contact">Contact</a>
         </div>
       </nav>
 
       {/* Hero */}
-      <section className="cosmic-bg grain relative min-h-screen flex flex-col items-center justify-center text-center px-6 py-28">
-        <p className="fade-up text-xs tracking-[0.3em] uppercase text-white/30 mb-6">
-          Kimberley van Ruiven
-        </p>
-        <h1 className="fade-up fade-up-delay-1 text-4xl sm:text-6xl font-bold tracking-tight leading-[1.05] max-w-3xl">
-          Ethische AI
-          <br />
-          <span className="text-white/55">zonder bullshit.</span>
+      <section className="hero">
+        <div className="hero-tag">Ethische AI Advisory · Soul Tech Architect · Kimberley van Ruiven</div>
+        <h1 className="hero-title">
+          AI met <em>karakter.</em><br />Technologie met geweten.
         </h1>
-        <p className="fade-up fade-up-delay-2 mt-8 text-lg text-white/40 max-w-md leading-relaxed">
-          Geen hype, geen vaagtaal. Eerlijke verhalen over wat AI doet met mensen, bedrijven en de wereld.
-        </p>
-        <div className="fade-up fade-up-delay-3 flex flex-col sm:flex-row gap-4 justify-center" style={{marginTop: '5rem'}}>
-          <a href="#aanbod" className="btn-primary">Wat ik doe</a>
-          <a href="https://calendar.app.google/douZqiDQ7p39Xf6u7" className="btn-secondary">Spill Your Tea</a>
-        </div>
-
-        {/* Scroll indicator */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/20">
-          <span className="text-xs tracking-widest uppercase">Scroll</span>
-          <div className="w-px h-12 bg-gradient-to-b from-white/20 to-transparent" />
-        </div>
-      </section>
-
-      {/* Over */}
-      <section id="over" className="section-center">
-        <p className="text-xs tracking-[0.3em] uppercase text-white/30 mb-8">Over</p>
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight mb-8 break-words">
-          Ik geloof dat je AI kunt begrijpen
-          <span className="text-white/55"> zonder dat je technicus hoeft te zijn.</span>
-        </h2>
-        <div className="space-y-5 text-white/60 leading-relaxed text-lg">
-          <p>
-            Ik ben Kimberley van Ruiven. Online ondernemer, denker en iemand die zich actief verdiept in ethische AI: wat het betekent, wat het doet, en hoe we het eerlijker kunnen maken.
+        <div className="hero-meta">
+          <p className="hero-desc">
+            Ik help ondernemers AI verantwoord, bewust en integer inzetten:
+            vanuit menselijkheid in plaats van hype.
           </p>
-          <p>
-            Spill Your Tea is mijn plek om dat te delen. Geen academisch jargon, geen ongefundeerde hype. Gewoon eerlijke gesprekken over een onderwerp dat iedereen raakt.
-          </p>
-        </div>
-      </section>
-
-      {/* Divider */}
-      <div className="max-w-3xl mx-auto px-6">
-        <div className="h-px bg-white/5" />
-      </div>
-
-      {/* Aanbod */}
-      <section id="aanbod" className="section-wide">
-        <p className="text-xs tracking-[0.3em] uppercase text-white/30 mb-8">Aanbod</p>
-        <h2 className="text-3xl sm:text-4xl font-bold mb-16">Wat je hier vindt</h2>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          {[
-            {
-              label: "01",
-              title: "Lees & leer",
-              desc: "Artikelen en dashboards over ethische AI, bias, vertrouwen en wat het betekent voor jou als ondernemer.",
-              cta: "Lees verder",
-              href: "#",
-            },
-            {
-              label: "02",
-              title: "Spill Your Tea sessie",
-              desc: "Een één-op-één gesprek over hoe jij als ondernemer omgaat met AI: eerlijk, praktisch en zonder jargon.",
-              cta: "Spill Your Tea",
-              href: "https://calendar.app.google/douZqiDQ7p39Xf6u7",
-            },
-            {
-              label: "03",
-              title: "Volg me",
-              desc: "Op Instagram deel ik dagelijkse inzichten, vragen en eerlijke meningen over AI en ondernemen.",
-              cta: "Naar Instagram",
-              href: "https://instagram.com",
-            },
-            {
-              label: "04",
-              title: "AI CO₂ Calculator",
-              desc: "Bereken hoeveel CO₂ jouw AI-gebruik uitstoot — en ontdek groenere alternatieven.",
-              cta: "Open calculator",
-              href: "/co2",
-            },
-          ].map((item) => (
-            <a
-              key={item.label}
-              href={item.href}
-              className="group block p-8 border rounded-2xl transition-all duration-300 border-white/10 hover:border-white/30 hover:bg-white/[0.03]"
-            >
-              <span className="text-xs text-white/20 font-mono">{item.label}</span>
-              <h3 className="mt-4 text-xl font-semibold mb-3">{item.title}</h3>
-              <p className="text-white/40 text-sm leading-relaxed mb-6">{item.desc}</p>
-              <span className="text-sm font-medium text-white/60 group-hover:text-white transition-colors">
-                {item.cta} →
-              </span>
-            </a>
-          ))}
-        </div>
-      </section>
-
-      {/* Sessie CTA */}
-      <section id="sessie" className="cosmic-bg px-6 py-32">
-        <div style={{maxWidth: '42rem', marginLeft: 'auto', marginRight: 'auto', textAlign: 'center'}}>
-          <p className="text-xs tracking-[0.3em] uppercase text-white/30 mb-6">Spill Your Tea sessie</p>
-          <h2 className="text-3xl sm:text-4xl font-bold mb-6">
-            Klaar om te spillen?
-          </h2>
-          <p className="text-white/40 text-lg leading-relaxed mb-10">
-            Boek een gesprek met mij. We praten over AI, jouw business, en hoe jij het eerlijk en slim kunt inzetten.
-          </p>
-          <a href="https://calendar.app.google/douZqiDQ7p39Xf6u7" className="btn-primary" style={{marginTop: '5rem', display: 'inline-block'}}>
-            Spill Your Tea
+          <a href="https://calendar.app.google/douZqiDQ7p39Xf6u7" target="_blank" rel="noopener noreferrer" className="hero-cta">
+            Plan een gesprek
           </a>
         </div>
       </section>
 
-      {/* Contact / Volg */}
-      <section id="contact" className="section-narrow">
-        <p className="text-xs tracking-[0.3em] uppercase text-white/30 mb-8">Contact</p>
-        <h2 className="text-3xl font-bold mb-12">Laten we praten</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-sm">
-          {[
-            { label: "Email", value: "info@kimberleyvanruiven.nl", href: "mailto:info@kimberleyvanruiven.nl" },
-            { label: "Instagram", value: "@kimberleyvanruiven", href: "https://www.instagram.com/kimberleyvanruiven" },
-            { label: "LinkedIn", value: "Kimberley van Ruiven", href: "https://www.linkedin.com/in/kimberley-van-ruiven" },
-          ].map((item) => (
-            <a key={item.label} href={item.href} className="group">
-              <p className="text-white/25 text-xs tracking-widest uppercase mb-2">{item.label}</p>
-              <p className="text-white/60 group-hover:text-white transition-colors">{item.value}</p>
-            </a>
-          ))}
+      {/* Quote */}
+      <section className="quote-section reveal">
+        <div className="quote-label">Filosofie</div>
+        <div>
+          <p className="quote-text">
+            &ldquo;Technologie en menselijkheid gaan samen,
+            als je bereid bent de juiste vragen te stellen.&rdquo;
+          </p>
+          <p className="quote-attr">Kimberley van Ruiven</p>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-white/5 px-8 py-8 flex items-center justify-between text-xs text-white/20">
-        <span>© 2026 Kimberley van Ruiven</span>
-        <span className="tracking-widest uppercase">Spill Your Tea</span>
-      </footer>
+      {/* Services */}
+      <section className="services" id="diensten">
+        <div className="section-header">
+          <h2 className="section-title">Wat ik aanbied</h2>
+          <span className="section-count">03 diensten</span>
+        </div>
+        <div className="tab-nav">
+          {(['tools', 'advies', 'begeleiding'] as Tab[]).map((tab) => (
+            <button
+              key={tab}
+              className={`tab-btn${activeTab === tab ? ' active' : ''}`}
+              onClick={() => showTab(tab)}
+            >
+              {tab.charAt(0).toUpperCase() + tab.slice(1)}
+            </button>
+          ))}
+        </div>
 
-    </main>
+        <div className={`tab-panel${activeTab === 'tools' ? ' active' : ''}`}>
+          <div className="service-card">
+            <div className="service-num">01</div>
+            <h3 className="service-name">AI CO₂ Calculator</h3>
+            <p className="service-desc">Bereken hoeveel CO₂ jouw AI-gebruik uitstoot en ontdek groenere alternatieven voor jouw workflow.</p>
+            <a href="https://pastatimes.github.io/ai-co2-calculator/" target="_blank" rel="noopener noreferrer" className="service-link">Open calculator →</a>
+          </div>
+          <div className="service-card">
+            <div className="service-num">02</div>
+            <h3 className="service-name">Ethical AI Checklist</h3>
+            <p className="service-desc">Ontdek hoe bewust jij omgaat met AI. De checklist helpt je inzicht te krijgen in je huidige gebruik en blinde vlekken.</p>
+            <a href="#" className="service-link">Binnenkort beschikbaar →</a>
+          </div>
+        </div>
+
+        <div className={`tab-panel${activeTab === 'advies' ? ' active' : ''}`}>
+          <div className="service-card">
+            <div className="service-num">03</div>
+            <h3 className="service-name">Ethical AI Audit</h3>
+            <p className="service-desc">Een grondige doorlichting van hoe jouw organisatie AI inzet. Van bias-risico&apos;s tot transparantie: ik breng in kaart wat er speelt en wat er beter kan.</p>
+            <a href="#contact" className="service-link">Meer informatie →</a>
+          </div>
+          <div className="service-card">
+            <div className="service-num">04</div>
+            <h3 className="service-name">AVG &amp; AI Act Compliance</h3>
+            <p className="service-desc">Praktisch advies over hoe jouw AI-gebruik voldoet aan de Europese regelgeving. Geen juridisch jargon, wél concrete stappen.</p>
+            <a href="#contact" className="service-link">Meer informatie →</a>
+          </div>
+        </div>
+
+        <div className={`tab-panel${activeTab === 'begeleiding' ? ' active' : ''}`}>
+          <div className="service-card">
+            <div className="service-num">05</div>
+            <h3 className="service-name">Strippenkaart Bewuste AI</h3>
+            <p className="service-desc">Tien uur hulp per kwartaal. Een vast aanspreekpunt voor al je vragen over verantwoord AI-gebruik, wanneer jij het nodig hebt.</p>
+            <a href="#contact" className="service-link">Meer informatie →</a>
+          </div>
+          <div className="service-card">
+            <div className="service-num">06</div>
+            <h3 className="service-name">Losse sessie</h3>
+            <p className="service-desc">Één uur gerichte hulp, precies waar jij behoefte aan hebt. Vastzitten met een vraagstuk? Je boekt wanneer het jou uitkomt.</p>
+            <a href="#contact" className="service-link">Meer informatie →</a>
+          </div>
+        </div>
+      </section>
+
+      {/* Foto-stripe */}
+      <div className="photo-stripe reveal">
+        <div className="photo-stripe-inner">
+          <p className="photo-stripe-label">Soul Tech Architect</p>
+          <p className="photo-stripe-text">&ldquo;Ik geloof dat je AI kunt begrijpen<br />zonder dat je technicus hoeft te zijn.&rdquo;</p>
+        </div>
+      </div>
+
+      {/* Featured / Over */}
+      <section className="featured reveal" id="over">
+        <div className="featured-visual">
+          <div className="featured-visual-inner">
+            <div className="featured-foil"><span>S</span></div>
+            <p className="featured-visual-title">Voor een mens-gerichte toekomst met technologie</p>
+            <p className="featured-visual-sub">Spill Your Tea · 2026</p>
+          </div>
+        </div>
+        <div className="featured-content">
+          <p className="featured-label">Over Kimberley</p>
+          <h2 className="featured-title">Online ondernemer. <em>Altijd mens.</em></h2>
+          <div className="featured-body">
+            <p>Ik ben Kimberley, voormalig IT consultant en gespecialiseerd in ethische AI en AI-bias vanuit mijn academische achtergrond MSc Information Studies. Ik werk met AI vanuit een zo ethisch, bewuste en verantwoordelijke manier en ik help je om je bedrijf aan de achterkant op orde te krijgen, zodat je productiever en met meer structuur kunt werken.</p>
+            <p>Ik geloof dat technologie en menselijkheid samen kunnen gaan, en dat vrouwelijke perspectieven onmisbaar zijn in hoe we AI bouwen en gebruiken. Vanuit een achtergrond in informatiekunde, AI-bias en ethiek help ik ondernemers en kleine bedrijven begrijpen wat ze gebruiken, wat dat betekent, en hoe ze het verantwoord kunnen inrichten.</p>
+          </div>
+          <div className="featured-stats">
+            <div className="stat"><div className="stat-num">MSc</div><div className="stat-label">Information Studies</div></div>
+            <div className="stat"><div className="stat-num">AI</div><div className="stat-label">Bias &amp; Ethiek</div></div>
+            <div className="stat"><div className="stat-num">IT</div><div className="stat-label">Consultant achtergrond</div></div>
+            <div className="stat"><div className="stat-num">∞</div><div className="stat-label">Eerlijke gesprekken</div></div>
+          </div>
+          <a href="#contact" className="hero-cta" style={{ display: 'inline-block' }}>Leer me kennen →</a>
+        </div>
+      </section>
+
+      {/* Parallax divider */}
+      <div className="parallax-divider" />
+
+      {/* Dashboard */}
+      <section className="dashboard" id="data">
+        <div className="section-header">
+          <h2 className="section-title">AI in Nederland</h2>
+          <span className="section-count">03 inzichten</span>
+        </div>
+        <p className="dashboard-lead reveal">Feiten die tonen waar het MKB staat met AI, en waarom bewuste keuzes zo urgent zijn.</p>
+        <div className="dashboard-grid">
+          <div className="dashboard-radar reveal">
+            <div className="dashboard-radar-header">
+              <p>Ethische AI audit</p>
+              <h3>Typische score MKB</h3>
+            </div>
+            <div className="radar-canvas-wrap">
+              <canvas ref={radarRef} id="radarChart" />
+            </div>
+            <p className="chart-note">
+              Indicatieve scores gebaseerd op{' '}
+              <a href="https://www.cbs.nl/en-gb/news/2025/09/increasing-use-of-ai-by-business" target="_blank" rel="noopener noreferrer">CBS 2025</a>
+              {' '}en{' '}
+              <a href="https://ec.europa.eu/eurostat/web/products-eurostat-news/w/ddn-20251211-2" target="_blank" rel="noopener noreferrer">Eurostat 2025</a>.
+              {' '}Schaal 0–100.
+            </p>
+          </div>
+          <div className="stat-cards">
+            <div className="stat-card reveal" data-animate-bars="">
+              <p className="stat-eyebrow">AI-adoptie NL</p>
+              <div className="stat-big">18%</div>
+              <p className="stat-desc">van het Nederlandse MKB gebruikt AI in 2026, tegenover 41% bij grote bedrijven.</p>
+              <div className="mini-bars">
+                <div className="mini-bar-row"><span className="mini-bar-label">MKB</span><div className="mini-bar-track"><div className="mini-bar-fill" data-w="18" /></div><span className="mini-bar-pct">18%</span></div>
+                <div className="mini-bar-row"><span className="mini-bar-label">Groot</span><div className="mini-bar-track"><div className="mini-bar-fill mini-bar-fill--light" data-w="41" /></div><span className="mini-bar-pct">41%</span></div>
+              </div>
+              <p className="stat-source">Bron: <a href="https://ec.europa.eu/eurostat/web/products-eurostat-news/w/ddn-20251211-2" target="_blank" rel="noopener noreferrer">Eurostat 2024</a></p>
+            </div>
+            <div className="stat-card reveal" data-animate-bars="" style={{ '--delay': '0.1s' } as React.CSSProperties}>
+              <p className="stat-eyebrow">Grootste barrière</p>
+              <div className="stat-big">63%</div>
+              <p className="stat-desc">van de Nederlandse bedrijven noemt gebrek aan AI-expertise als voornaamste rem op verdere adoptie.</p>
+              <div className="mini-bars">
+                <div className="mini-bar-row"><span className="mini-bar-label">Expertise</span><div className="mini-bar-track"><div className="mini-bar-fill" data-w="63" /></div><span className="mini-bar-pct">63%</span></div>
+                <div className="mini-bar-row"><span className="mini-bar-label">Kosten</span><div className="mini-bar-track"><div className="mini-bar-fill mini-bar-fill--light" data-w="41" /></div><span className="mini-bar-pct">41%</span></div>
+              </div>
+              <p className="stat-source">Bron: <a href="https://www.cbs.nl/en-gb/news/2025/09/increasing-use-of-ai-by-business" target="_blank" rel="noopener noreferrer">CBS, september 2025</a></p>
+            </div>
+            <div className="stat-card reveal" data-animate-bars="" style={{ '--delay': '0.2s' } as React.CSSProperties}>
+              <p className="stat-eyebrow">Klimaatimpact</p>
+              <div className="stat-big">10×</div>
+              <p className="stat-desc">meer energie per AI-query dan een Google-zoekopdracht: 2,9 Wh versus 0,3 Wh per vraag.</p>
+              <div className="mini-bars">
+                <div className="mini-bar-row"><span className="mini-bar-label">ChatGPT</span><div className="mini-bar-track"><div className="mini-bar-fill mini-bar-fill--danger" data-w="91" /></div><span className="mini-bar-pct">2,9 Wh</span></div>
+                <div className="mini-bar-row"><span className="mini-bar-label">Google</span><div className="mini-bar-track"><div className="mini-bar-fill mini-bar-fill--green" data-w="9" /></div><span className="mini-bar-pct">0,3 Wh</span></div>
+              </div>
+              <p className="stat-source">Bron: <a href="https://www.aitooldiscovery.com/ai-infra/is-ai-bad-for-the-environment" target="_blank" rel="noopener noreferrer">AI Tool Discovery 2026</a></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Process */}
+      <section className="process" id="aanpak">
+        <div className="section-header">
+          <h2 className="section-title">Mijn aanpak</h2>
+          <span className="section-count">04 stappen</span>
+        </div>
+        <div className="process-list">
+          <div className="process-item reveal">
+            <div className="process-step">01</div>
+            <div className="process-name">Luisteren &amp; begrijpen</div>
+            <div className="process-desc">Ik begin met jouw situatie, niet met een standaardoplossing. Een goed gesprek over wat je doet, wat je gebruikt en waar je tegenaan loopt.</div>
+          </div>
+          <div className="process-item reveal" style={{ '--delay': '0.1s' } as React.CSSProperties}>
+            <div className="process-step">02</div>
+            <div className="process-name">Doorlichten &amp; analyseren</div>
+            <div className="process-desc">Ik breng in kaart welke AI-tools je gebruikt, welke risico&apos;s er zijn op het gebied van bias, privacy en transparantie.</div>
+          </div>
+          <div className="process-item reveal" style={{ '--delay': '0.2s' } as React.CSSProperties}>
+            <div className="process-step">03</div>
+            <div className="process-name">Advies zonder jargon</div>
+            <div className="process-desc">Concrete aanbevelingen die je begrijpt en kunt uitvoeren, geen abstracte rapporten maar praktische stappen.</div>
+          </div>
+          <div className="process-item reveal" style={{ '--delay': '0.3s' } as React.CSSProperties}>
+            <div className="process-step">04</div>
+            <div className="process-name">Blijven sparren</div>
+            <div className="process-desc">AI verandert snel. Via de strippenkaart of losse sessies blijf je up-to-date en heb je altijd iemand om mee te denken.</div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="cta-section" id="contact">
+        <p className="cta-eyebrow reveal">Klaar om te spillen?</p>
+        <h2 className="cta-title reveal" style={{ '--delay': '0.1s' } as React.CSSProperties}>
+          Laten we een eerlijk<br />gesprek hebben.
+        </h2>
+        <p className="cta-body reveal" style={{ '--delay': '0.2s' } as React.CSSProperties}>
+          Geen pitch, geen jargon. Gewoon een open gesprek over AI,
+          jouw business en hoe je het integer kunt inzetten.
+        </p>
+        <a href="https://calendar.app.google/douZqiDQ7p39Xf6u7" target="_blank" rel="noopener noreferrer" className="cta-btn reveal" style={{ '--delay': '0.3s' } as React.CSSProperties}>
+          Spill Your Tea →
+        </a>
+      </section>
+
+      <footer>
+        <div className="footer-top">
+          <span className="footer-copy">© 2026 Kimberley van Ruiven</span>
+          <span className="footer-logo">Spill Your Tea</span>
+        </div>
+        <div className="footer-bottom">
+          <span>Deze website is ontwikkeld met AI-ondersteuning.</span>
+          <span className="footer-sep">·</span>
+          <a href="/privacy">Privacybeleid</a>
+          <span className="footer-sep">·</span>
+          <span>KvK: 98007033</span>
+        </div>
+      </footer>
+    </>
   );
 }
