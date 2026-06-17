@@ -463,10 +463,10 @@ footer {
     overflow: hidden;
   }
 
-  /* parallax-bg: steekt 90px uit boven en onder zodat randen nooit zichtbaar zijn */
+  /* parallax-bg: steekt 250px uit boven en onder — ruimte voor volle beweging zonder randen */
   .parallax-bg {
     position: absolute;
-    top: -90px; bottom: -90px; left: 0; right: 0;
+    top: -250px; bottom: -250px; left: 0; right: 0;
     background-size: cover;
     background-position: center;
     z-index: 0;

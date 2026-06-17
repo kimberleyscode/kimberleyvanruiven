@@ -45,8 +45,7 @@ export default function Home() {
         parallaxBgs.forEach((bg) => {
           const parent = bg.parentElement!;
           const rect = parent.getBoundingClientRect();
-          const raw = (rect.top + rect.height / 2 - window.innerHeight / 2) * 0.35;
-          const offset = Math.max(-75, Math.min(75, raw));
+          const offset = (rect.top + rect.height / 2 - window.innerHeight / 2) * 0.3;
           bg.style.transform = `translateY(${offset}px)`;
         });
       }
