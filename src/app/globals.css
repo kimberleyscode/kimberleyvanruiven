@@ -454,6 +454,10 @@ footer {
 .reveal.is-visible { opacity: 1; transform: none; }
 
 @media (max-width: 768px) {
+  .hero, .photo-stripe, .parallax-divider, .cta-section {
+    background-attachment: scroll;
+  }
+
   nav { padding: 1.25rem 1.5rem; }
   .nav-links { display: none; }
   .hero, .quote-section, .services, .featured, .photo-stripe, .dashboard, .process, .cta-section { padding-left: 1.5rem; padding-right: 1.5rem; }

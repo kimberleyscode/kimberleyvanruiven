@@ -36,9 +36,18 @@ export default function Home() {
     document.querySelectorAll('.section-header').forEach((el) => lineObs.observe(el));
 
     const progressBar = document.getElementById('progress-bar');
+    const parallaxEls = document.querySelectorAll<HTMLElement>('.hero, .photo-stripe, .parallax-divider, .cta-section');
     const handleScroll = () => {
       const total = document.documentElement.scrollHeight - window.innerHeight;
       if (progressBar) progressBar.style.width = (window.scrollY / total * 100).toFixed(1) + '%';
+
+      if (window.innerWidth <= 768) {
+        parallaxEls.forEach((el) => {
+          const rect = el.getBoundingClientRect();
+          const offset = (rect.top + rect.height / 2 - window.innerHeight / 2) * 0.25;
+          el.style.backgroundPositionY = `calc(50% + ${offset}px)`;
+        });
+      }
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
 
