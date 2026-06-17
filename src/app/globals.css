@@ -454,10 +454,34 @@ footer {
 .reveal.is-visible { opacity: 1; transform: none; }
 
 @media (max-width: 768px) {
-  /* Parallax: CSS fixed uitgeschakeld, JS neemt over */
+  /* Parallax: achtergrond van element zelf verwijderen, parallax-bg div neemt over */
   .hero, .photo-stripe, .parallax-divider, .cta-section {
     background-attachment: scroll;
+    background-image: none;
+    position: relative;
+    overflow: hidden;
   }
+
+  /* parallax-bg: steekt 60px uit boven en onder zodat randen nooit zichtbaar zijn */
+  .parallax-bg {
+    position: absolute;
+    top: -60px; bottom: -60px; left: 0; right: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+    will-change: transform;
+    pointer-events: none;
+  }
+  .parallax-bg--hero  { background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), var(--photo-url); background-size: cover; background-position: center top; }
+  .parallax-bg--photo { background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), var(--photo-url); background-size: cover; background-position: center 30%; }
+  .parallax-bg--divider { background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), var(--photo-url); background-size: cover; background-position: center 70%; }
+  .parallax-bg--cta   { background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), var(--photo-url); background-size: cover; background-position: center 50%; }
+
+  /* Content boven parallax-bg houden */
+  .hero > *:not(.parallax-bg),
+  .photo-stripe > *:not(.parallax-bg),
+  .parallax-divider > *:not(.parallax-bg),
+  .cta-section > *:not(.parallax-bg) { position: relative; z-index: 1; }
 
   /* Hero: meer ruimte tussen titel en knop */
   .hero { padding: 6rem 1.5rem 3.5rem; }

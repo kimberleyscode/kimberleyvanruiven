@@ -36,9 +36,20 @@ export default function Home() {
     document.querySelectorAll('.section-header').forEach((el) => lineObs.observe(el));
 
     const progressBar = document.getElementById('progress-bar');
+    const parallaxBgs = document.querySelectorAll<HTMLElement>('.parallax-bg');
     const handleScroll = () => {
       const total = document.documentElement.scrollHeight - window.innerHeight;
       if (progressBar) progressBar.style.width = (window.scrollY / total * 100).toFixed(1) + '%';
+
+      if (window.innerWidth <= 768) {
+        parallaxBgs.forEach((bg) => {
+          const parent = bg.parentElement!;
+          const rect = parent.getBoundingClientRect();
+          const raw = (rect.top + rect.height / 2 - window.innerHeight / 2) * 0.18;
+          const offset = Math.max(-50, Math.min(50, raw));
+          bg.style.transform = `translateY(${offset}px)`;
+        });
+      }
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
 
@@ -157,6 +168,7 @@ export default function Home() {
 
       {/* Hero */}
       <section className="hero">
+        <div className="parallax-bg parallax-bg--hero" aria-hidden="true" />
         <div className="hero-tag">Ethische AI Advisory · Soul Tech Architect · Kimberley van Ruiven</div>
         <h1 className="hero-title">
           AI met <em>karakter.</em><br />Technologie met geweten.
@@ -250,6 +262,7 @@ export default function Home() {
 
       {/* Foto-stripe */}
       <div className="photo-stripe reveal">
+        <div className="parallax-bg parallax-bg--photo" aria-hidden="true" />
         <div className="photo-stripe-inner">
           <p className="photo-stripe-label">Soul Tech Architect</p>
           <p className="photo-stripe-text">&ldquo;Ik geloof dat je AI kunt begrijpen<br />zonder dat je technicus hoeft te zijn.&rdquo;</p>
@@ -283,7 +296,9 @@ export default function Home() {
       </section>
 
       {/* Parallax divider */}
-      <div className="parallax-divider" />
+      <div className="parallax-divider">
+        <div className="parallax-bg parallax-bg--divider" aria-hidden="true" />
+      </div>
 
       {/* Dashboard */}
       <section className="dashboard" id="data">
@@ -376,6 +391,7 @@ export default function Home() {
 
       {/* CTA */}
       <section className="cta-section" id="contact">
+        <div className="parallax-bg parallax-bg--cta" aria-hidden="true" />
         <p className="cta-eyebrow reveal">Klaar om te spillen?</p>
         <h2 className="cta-title reveal" style={{ '--delay': '0.1s' } as React.CSSProperties}>
           Laten we een eerlijk<br />gesprek hebben.
