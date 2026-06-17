@@ -479,14 +479,20 @@ footer {
   /* Parallax-divider: minder hoog, lichtere overlay */
   .parallax-divider {
     height: 28vh; min-height: 160px;
-    background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), var(--photo-url);
+    background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), var(--photo-url);
   }
 
-  /* Portrait: betere uitsnede zodat het gezicht zichtbaar blijft */
+  /* CTA-sectie: overlay veel lichter */
+  .cta-section {
+    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), var(--photo-url);
+  }
+
+  /* Portrait: staand formaat bewaren, focus op gezicht */
   .featured-visual {
-    aspect-ratio: 4/3;
-    background-position: center 15%;
-    max-height: 320px;
+    aspect-ratio: 3/4;
+    max-height: 420px;
+    background-position: center top;
+    background-size: cover;
   }
 
   nav { padding: 1.25rem 1.5rem; }
