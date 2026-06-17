@@ -485,13 +485,7 @@ footer {
   /* CTA-sectie: zelfde donkerheid als hero */
   .cta-section {
     background-image: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), var(--photo-url);
-    background-size: auto 130%;
   }
-
-  /* Parallax-secties: extra achtergrondruimte zodat randen niet zichtbaar zijn */
-  .hero { background-size: auto 130%; }
-  .photo-stripe { background-size: auto 130%; }
-  .parallax-divider { background-size: auto 130%; }
 
   /* Hero-tekst volledig wit op mobiel */
   .hero-desc { color: #fff; }
