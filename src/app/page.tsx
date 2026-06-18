@@ -168,7 +168,8 @@ export default function Home() {
       {/* Hero */}
       <section className="hero">
         <div className="parallax-bg parallax-bg--hero" aria-hidden="true" />
-        <div className="hero-tag">Ethische AI Advisory · Soul Tech Architect · Kimberley van Ruiven</div>
+        <div className="hero-tag">Soul Tech Architect · Kimberley van Ruiven</div>
+        <span className="hero-soul" aria-hidden="true">Ethische AI Advisory</span>
         <h1 className="hero-title">
           AI met <em>karakter.</em><br />Technologie met geweten.
         </h1>
