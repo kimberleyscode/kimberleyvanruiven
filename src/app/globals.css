@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --photo-url: url('https://images.unsplash.com/photo-1569091791842-7cfb64e04797?w=1920&q=80&auto=format&fit=crop');
+  --photo-url: url('/hero-bg.jpg');
   --ground:    #000;
   --surface:   #0f0f0f;
   --ink:       #fff;

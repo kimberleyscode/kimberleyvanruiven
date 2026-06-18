@@ -186,7 +186,7 @@ export default function CO2Page() {
         .co2-topbar { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.5rem; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); position: sticky; top: 0; z-index: 50; border-bottom: 1px solid rgba(255,255,255,0.1); }
         .co2-topbar a { color: #fff; text-decoration: none; font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.7; transition: opacity 0.2s; }
         .co2-topbar a:hover { opacity: 1; }
-        .co2-header { background: linear-gradient(rgba(0,0,0,0.48),rgba(0,0,0,0.48)), url('https://images.unsplash.com/photo-1607135097879-b6371869411a?fm=jpg&q=80&w=1920&auto=format&fit=crop') center/cover no-repeat; padding: 3rem 1.5rem 5rem; text-align: center; position: relative; overflow: hidden; }
+        .co2-header { background: linear-gradient(rgba(0,0,0,0.48),rgba(0,0,0,0.48)), url('/co2-bg.jpg') center/cover no-repeat; padding: 3rem 1.5rem 5rem; text-align: center; position: relative; overflow: hidden; }
         .header-inner { position: relative; z-index: 1; }
         .slogan { display: inline-block; background: rgba(255,255,255,0.22); color: #fff; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.4rem 1.1rem; border-radius: 99px; margin-bottom: 1rem; }
         .co2-header h1 { font-size: clamp(1.8rem,5vw,2.8rem); font-weight: 800; color: #fff; line-height: 1.15; margin-bottom: 0.5rem; text-shadow: 0 2px 12px rgba(0,0,0,0.8); }
