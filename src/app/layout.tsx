@@ -23,24 +23,24 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Kimberley van Ruiven · Spill Your Tea",
+  title: "Kimberley van Ruiven · Soul Tech Architect",
   description:
-    "Ethische AI zonder bullshit. Kimberley van Ruiven helpt ondernemers verantwoord en bewust omgaan met AI — vanuit integriteit en menselijkheid.",
-  keywords: ["ethische AI", "AI consultant", "AI bias", "verantwoorde AI", "Kimberley van Ruiven", "Spill Your Tea"],
+    "Ik bouw AI-systemen die werken én kloppen. Voor bedrijven die het serieus nemen — met de ethische laag ingebakken.",
+  keywords: ["AI consultant", "ethische AI", "AI-systemen bouwen", "EU AI Act", "AI bias", "Kimberley van Ruiven", "Soul Tech Architect"],
   authors: [{ name: "Kimberley van Ruiven" }],
   robots: "index, follow",
   openGraph: {
-    title: "Kimberley van Ruiven · Spill Your Tea",
-    description: "Ethische AI zonder bullshit. Voor een mens-gerichte toekomst met technologie.",
-    url: "https://spillyourtea.nl",
-    siteName: "Spill Your Tea",
+    title: "Kimberley van Ruiven · Soul Tech Architect",
+    description: "Ik bouw AI-systemen die werken én kloppen. Voor bedrijven die het serieus nemen.",
+    url: "https://kimberleyvanruiven.nl",
+    siteName: "Kimberley van Ruiven",
     locale: "nl_NL",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Kimberley van Ruiven · Spill Your Tea",
-    description: "Ethische AI zonder bullshit. Voor een mens-gerichte toekomst met technologie.",
+    title: "Kimberley van Ruiven · Soul Tech Architect",
+    description: "Ik bouw AI-systemen die werken én kloppen. Voor bedrijven die het serieus nemen.",
   },
 };
 

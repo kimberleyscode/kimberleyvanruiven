@@ -10,7 +10,7 @@ const securityHeaders = [
     value: [
       "default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://images.unsplash.com https://calendar.app.google",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-      "script-src 'self' 'unsafe-inline'",
+      `script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : ""}`,
       "img-src 'self' https://images.unsplash.com data:",
       "frame-ancestors 'none'",
     ].join("; "),

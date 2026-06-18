@@ -229,7 +229,7 @@ nav {
   font-family: var(--font-playfair), serif; font-size: 1.35rem;
   font-weight: 600; margin-bottom: 1rem; line-height: 1.3; color: var(--ink);
 }
-.service-desc { font-size: 0.9rem; color: var(--secondary); line-height: 1.7; }
+.service-desc { font-size: 1rem; color: var(--secondary); line-height: 1.7; }
 .service-link {
   display: inline-block; margin-top: 1.75rem;
   font-family: var(--font-dm-sans), sans-serif; font-size: 0.75rem;
@@ -367,7 +367,7 @@ nav {
   margin-bottom: 0.4rem; display: inline-block;
   transition: transform 0.35s ease; transform-origin: left center;
 }
-.stat-desc { font-size: 0.88rem; color: var(--secondary); line-height: 1.55; margin-bottom: 1rem; }
+.stat-desc { font-size: 1rem; color: var(--secondary); line-height: 1.55; margin-bottom: 1rem; }
 .mini-bars { display: flex; flex-direction: column; gap: 0.45rem; margin-bottom: 0.9rem; }
 .mini-bar-row {
   display: grid; grid-template-columns: 3.5rem 1fr 4rem; align-items: center; gap: 0.6rem;
@@ -403,7 +403,7 @@ nav {
   font-family: var(--font-playfair), serif; font-size: 1.2rem;
   font-weight: 600; line-height: 1.3; color: var(--ink);
 }
-.process-desc { font-size: 0.9rem; color: var(--secondary); line-height: 1.7; }
+.process-desc { font-size: 1rem; color: var(--secondary); line-height: 1.7; }
 
 .cta-section {
   padding: 9rem 3rem; text-align: center;
@@ -459,6 +459,200 @@ footer {
   transition: opacity 0.75s ease var(--delay,0s), transform 0.75s ease var(--delay,0s);
 }
 .reveal.is-visible { opacity: 1; transform: none; }
+
+/* ── Hero identity ── */
+.hero-identity {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-bottom: 2rem;
+}
+.hero-name {
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 0.8rem; font-weight: 500;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: rgba(255,255,255,0.9);
+}
+.hero-tagline {
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 0.7rem; font-weight: 400;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--amber);
+}
+.hero-title { max-width: 22ch; }
+.hero-cta-group {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.hero-cta--outline {
+  background: transparent;
+  border-color: rgba(255,255,255,0.55);
+  color: rgba(255,255,255,0.9);
+}
+.hero-cta--outline:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.9);
+}
+
+/* ── Werkervaring ── */
+.werkervaring {
+  padding: 7rem 3rem;
+  border-bottom: 1px solid var(--hairline);
+  max-width: 72ch;
+}
+.werk-title {
+  font-family: var(--font-playfair), serif;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 600; letter-spacing: -0.01em;
+  margin-bottom: 2rem;
+}
+.werk-body {
+  font-size: 1rem; color: var(--secondary);
+  line-height: 1.75; margin-bottom: 2rem;
+}
+.werk-labels { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.werk-label {
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 0.7rem; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--amber);
+  border: 1px solid rgba(200,169,110,0.35);
+  padding: 0.35rem 0.85rem;
+}
+
+/* ── Service groups ── */
+.service-group { margin-bottom: 4rem; }
+.service-group-title {
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 0.72rem; font-weight: 500;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--hairline);
+}
+.service-group-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+.service-group-grid--three {
+  grid-template-columns: repeat(3, 1fr);
+}
+.service-badge {
+  display: inline-block;
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 0.62rem; font-weight: 500;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--secondary);
+  border: 1px solid var(--hairline);
+  padding: 0.22rem 0.55rem;
+  margin-bottom: 1rem;
+}
+.service-badge--book {
+  color: var(--amber);
+  border-color: rgba(200,169,110,0.4);
+}
+
+/* ── Portfolio ── */
+.portfolio {
+  padding: 7rem 3rem;
+  border-bottom: 1px solid var(--hairline);
+}
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-top: 4rem;
+}
+.portfolio-card {
+  background: var(--surface);
+  padding: 2.5rem;
+  display: flex; flex-direction: column;
+  gap: 1.5rem;
+  transition: background 0.25s;
+}
+.portfolio-card:hover { background: rgba(200,169,110,0.07); }
+.portfolio-card-section { display: flex; flex-direction: column; gap: 0.4rem; }
+.portfolio-label {
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 0.65rem; font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--amber);
+}
+.portfolio-card p {
+  font-size: 0.88rem; color: var(--secondary); line-height: 1.65;
+}
+
+/* ── Persoonlijke alinea ── */
+.personal-statement {
+  padding: 7rem 3rem;
+  border-bottom: 1px solid var(--hairline);
+}
+.personal-statement-text {
+  font-family: var(--font-playfair), serif;
+  font-size: clamp(1.15rem, 2.2vw, 1.6rem);
+  font-style: italic; line-height: 1.6;
+  color: var(--secondary); max-width: 65ch;
+}
+
+/* ── Statistieken / Dashboard ── */
+.dashboard { padding: 6rem 3rem; border-bottom: 1px solid var(--hairline); }
+.stat-cards { display: flex; flex-direction: column; gap: 1.25rem; }
+.stat-cards--row { flex-direction: row; }
+.stat-card {
+  background: var(--surface); padding: 1.75rem 2rem 1.5rem;
+  border: 1px solid var(--hairline);
+  border-left: 2px solid var(--amber);
+  transition: transform 0.35s ease, box-shadow 0.35s ease; cursor: default;
+  flex: 1;
+}
+.stat-card:hover { transform: translateY(-6px); box-shadow: 0 20px 44px rgba(0,0,0,0.6); }
+.stat-card:hover .stat-big { transform: scale(1.06); }
+.stat-eyebrow {
+  font-family: var(--font-dm-sans), sans-serif; font-size: 0.68rem;
+  font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--amber-dim); margin-bottom: 0.4rem;
+}
+.stat-big {
+  font-family: var(--font-playfair), serif; font-size: 2.75rem;
+  font-weight: 700; line-height: 1; color: var(--ink);
+  margin-bottom: 0.4rem; display: inline-block;
+  transition: transform 0.35s ease; transform-origin: left center;
+}
+.stat-desc { font-size: 1rem; color: var(--secondary); line-height: 1.55; margin-bottom: 1rem; }
+.mini-bars { display: flex; flex-direction: column; gap: 0.45rem; margin-bottom: 0.9rem; }
+.mini-bar-row {
+  display: grid; grid-template-columns: 3.5rem 1fr 4rem; align-items: center; gap: 0.6rem;
+}
+.mini-bar-label { font-family: var(--font-dm-sans), sans-serif; font-size: 0.68rem; color: var(--dim); text-align: right; }
+.mini-bar-track { height: 3px; background: rgba(255,255,255,0.07); overflow: hidden; }
+.mini-bar-fill {
+  height: 100%; background: var(--amber);
+  width: 0; transition: width 1.2s cubic-bezier(0.25,1,0.5,1);
+}
+.mini-bar-fill--light  { background: rgba(200,169,110,0.35); }
+.mini-bar-fill--danger { background: rgba(200,169,110,0.9); }
+.mini-bar-fill--green  { background: rgba(200,169,110,0.3); }
+.mini-bar-pct { font-family: var(--font-dm-sans), sans-serif; font-size: 0.65rem; color: var(--dim); }
+.stat-source { font-family: var(--font-dm-sans), sans-serif; font-size: 0.65rem; color: rgba(255,255,255,0.22); font-style: italic; }
+.stat-source a { color: var(--dim); text-decoration: underline; text-underline-offset: 2px; }
+.dashboard .personal-statement-text {
+  margin-top: 3rem;
+  font-size: clamp(1rem, 1.6vw, 1.35rem);
+  font-weight: 400;
+  color: rgba(255,255,255,0.88);
+  line-height: 1.6;
+  max-width: 72ch;
+}
+
+/* ── Footer mission ── */
+.footer-mission {
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 0.75rem; letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.4);
+}
 
 @media (max-width: 768px) {
   /* Parallax: achtergrond van element zelf verwijderen, parallax-bg div neemt over */
@@ -543,7 +737,8 @@ footer {
 
   nav { padding: 1.25rem 1.5rem; }
   .nav-links { display: none; }
-  .quote-section, .services, .featured, .photo-stripe, .dashboard, .process, .cta-section { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .quote-section, .services, .featured, .photo-stripe, .dashboard, .process, .cta-section, .personal-statement { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .stat-cards--row { flex-direction: column; }
   .quote-section, .featured { grid-template-columns: 1fr; }
   .tab-panel.active { grid-template-columns: 1fr; }
   .dashboard-grid { grid-template-columns: 1fr; }
@@ -559,4 +754,11 @@ footer {
 
   footer { padding: 2rem 1.5rem; }
   .footer-top { flex-direction: column; gap: 0.5rem; text-align: center; }
+  .werkervaring { padding: 4rem 1.5rem; }
+  .service-group-grid, .service-group-grid--three { grid-template-columns: minmax(0, 1fr); }
+  .portfolio-grid { grid-template-columns: minmax(0, 1fr); }
+  .personal-statement { padding: 4rem 1.5rem; }
+  .hero-cta-group { flex-direction: column; gap: 0.75rem; }
+  .hero-identity { margin-bottom: 1.5rem; }
+  .hero-soul { display: none; }
 }

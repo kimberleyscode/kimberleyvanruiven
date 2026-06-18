@@ -1,27 +1,10 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import {
-  Chart,
-  RadarController,
-  RadialLinearScale,
-  PointElement,
-  LineElement,
-  Filler,
-  Tooltip,
-} from 'chart.js';
+import { useEffect } from 'react';
 
-Chart.register(RadarController, RadialLinearScale, PointElement, LineElement, Filler, Tooltip);
-
-type Tab = 'tools' | 'advies' | 'begeleiding';
+const CAL_LINK = "https://calendar.app.google/douZqiDQ7p39Xf6u7";
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<Tab>('tools');
-  const radarRef = useRef<HTMLCanvasElement>(null);
-  const chartRef = useRef<Chart | null>(null);
-
-  const showTab = (id: Tab) => setActiveTab(id);
-
   useEffect(() => {
     const revealObs = new IntersectionObserver(
       (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-visible'); revealObs.unobserve(e.target); } }),
@@ -40,13 +23,11 @@ export default function Home() {
     const handleScroll = () => {
       const total = document.documentElement.scrollHeight - window.innerHeight;
       if (progressBar) progressBar.style.width = (window.scrollY / total * 100).toFixed(1) + '%';
-
       if (window.innerWidth <= 768) {
         parallaxBgs.forEach((bg) => {
           const parent = bg.parentElement!;
           const rect = parent.getBoundingClientRect();
-          const offset = (rect.top + rect.height / 2 - window.innerHeight / 2) * 0.3;
-          bg.style.transform = `translateY(${offset}px)`;
+          bg.style.transform = `translateY(${(rect.top + rect.height / 2 - window.innerHeight / 2) * 0.3}px)`;
         });
       }
     };
@@ -96,59 +77,7 @@ export default function Home() {
       });
     });
 
-    return () => {
-      revealObs.disconnect();
-      lineObs.disconnect();
-      cardObs.disconnect();
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!radarRef.current) return;
-    if (chartRef.current) chartRef.current.destroy();
-    chartRef.current = new Chart(radarRef.current, {
-      type: 'radar',
-      data: {
-        labels: ['Transparantie', 'Eerlijkheid', 'Privacy', 'Verantwoording', 'Duurzaamheid'],
-        datasets: [{
-          label: 'Typisch MKB',
-          data: [42, 33, 52, 38, 27],
-          backgroundColor: 'rgba(200,169,110,0.12)',
-          borderColor: '#C8A96E',
-          borderWidth: 2,
-          pointBackgroundColor: '#C8A96E',
-          pointBorderColor: '#000',
-          pointBorderWidth: 1.5,
-          pointRadius: 5,
-          pointHoverRadius: 7,
-        }],
-      },
-      options: {
-        responsive: true,
-        animation: { duration: 1400, easing: 'easeInOutQuart' },
-        scales: {
-          r: {
-            min: 0, max: 100,
-            ticks: { stepSize: 25, display: false },
-            grid: { color: 'rgba(255,255,255,0.07)' },
-            angleLines: { color: 'rgba(255,255,255,0.07)' },
-            pointLabels: { font: { family: 'var(--font-dm-sans), sans-serif', size: 11 }, color: 'rgba(255,255,255,0.38)' },
-          },
-        },
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            backgroundColor: '#111',
-            borderColor: 'rgba(200,169,110,0.4)',
-            borderWidth: 1,
-            callbacks: { label: (c) => ' Score: ' + c.raw + '/100' },
-            bodyColor: '#C8A96E',
-          },
-        },
-      },
-    });
-    return () => { chartRef.current?.destroy(); };
+    return () => { revealObs.disconnect(); lineObs.disconnect(); cardObs.disconnect(); window.removeEventListener('scroll', handleScroll); };
   }, []);
 
   return (
@@ -156,7 +85,7 @@ export default function Home() {
       <div id="progress-bar" />
 
       <nav>
-        <a href="#" className="nav-logo">Spill Your Tea</a>
+        <a href="#" className="nav-logo">Kimberley van Ruiven</a>
         <div className="nav-links">
           <a href="#diensten">Diensten</a>
           <a href="#aanpak">Aanpak</a>
@@ -168,31 +97,40 @@ export default function Home() {
       {/* Hero */}
       <section className="hero">
         <div className="parallax-bg parallax-bg--hero" aria-hidden="true" />
-        <div className="hero-tag">Soul Tech Architect · Kimberley van Ruiven</div>
         <span className="hero-soul" aria-hidden="true">Ethische AI Advisory</span>
+        <div className="hero-identity">
+          <p className="hero-name">Kimberley van Ruiven</p>
+          <p className="hero-tagline">Soul Tech Architect</p>
+        </div>
         <h1 className="hero-title">
-          AI met <em>karakter.</em><br />Technologie met geweten.
+          Ik bouw AI-systemen die werken <em>én kloppen.</em> Voor bedrijven die het serieus nemen.
         </h1>
         <div className="hero-meta">
           <p className="hero-desc">
-            Ik help ondernemers AI verantwoord, bewust en efficiënt inzetten:
-            voor een mens-gerichte toekomst met technologie.
+            Of je nu een middelgroot bedrijf bent dat AI verantwoord wil implementeren, of een ondernemer die een slimme tool nodig heeft: ik bouw wat jij nodig hebt, met de ethische laag ingebakken. Voor een mens-gerichte toekomst met technologie.
           </p>
-          <a href="https://calendar.app.google/douZqiDQ7p39Xf6u7" target="_blank" rel="noopener noreferrer" className="hero-cta">
-            Plan een gesprek
-          </a>
+          <div className="hero-cta-group">
+            <a href={CAL_LINK} target="_blank" rel="noopener noreferrer" className="hero-cta">
+              Bespreek je project
+            </a>
+            <a href={CAL_LINK} target="_blank" rel="noopener noreferrer" className="hero-cta hero-cta--outline">
+              Boek een kennismaking
+            </a>
+          </div>
         </div>
       </section>
 
-      {/* Quote */}
-      <section className="quote-section reveal">
-        <div className="quote-label">Filosofie</div>
-        <div>
-          <p className="quote-text">
-            &ldquo;Technologie en menselijkheid gaan samen,
-            als je bereid bent de juiste vragen te stellen.&rdquo;
-          </p>
-          <p className="quote-attr">Kimberley van Ruiven</p>
+      {/* Werkervaring */}
+      <section className="werkervaring reveal">
+        <h2 className="werk-title">Gebouwd op echte sector-ervaring</h2>
+        <p className="werk-body">
+          Ik heb als IT-consultant en functioneel ontwerper gewerkt bij een bank, een pensioenfonds en een IT-startup. Ik weet hoe grote organisaties van binnenuit werken, waar AI-projecten stranden, en wat er nodig is om ze wél te laten landen. Mijn MSc-thesis ging over AI-bias en hate speech detectie. Die combinatie van bouwen en begrijpen is wat ik meeneem naar elk project.
+        </p>
+        <div className="werk-labels">
+          <span className="werk-label">Bank &amp; financiële sector</span>
+          <span className="werk-label">Pensioenfonds</span>
+          <span className="werk-label">IT-startup</span>
+          <span className="werk-label">MSc AI-bias &amp; ethiek</span>
         </div>
       </section>
 
@@ -200,62 +138,111 @@ export default function Home() {
       <section className="services" id="diensten">
         <div className="section-header">
           <h2 className="section-title">Wat ik aanbied</h2>
-          <span className="section-count">03 diensten</span>
-        </div>
-        <div className="tab-nav">
-          {(['tools', 'advies', 'begeleiding'] as Tab[]).map((tab) => (
-            <button
-              key={tab}
-              className={`tab-btn${activeTab === tab ? ' active' : ''}`}
-              onClick={() => showTab(tab)}
-            >
-              {tab.charAt(0).toUpperCase() + tab.slice(1)}
-            </button>
-          ))}
         </div>
 
-        <div className={`tab-panel${activeTab === 'tools' ? ' active' : ''}`}>
-          <div className="service-card">
-            <div className="service-num">01</div>
-            <h3 className="service-name">AI CO₂ Calculator</h3>
-            <p className="service-desc">Bereken hoeveel CO₂ jouw AI-gebruik uitstoot en ontdek groenere alternatieven voor jouw workflow.</p>
-            <a href="/co2" className="service-link">Open calculator →</a>
-          </div>
-          <div className="service-card">
-            <div className="service-num">02</div>
-            <h3 className="service-name">Ethical AI Checklist</h3>
-            <p className="service-desc">Ontdek hoe bewust jij omgaat met AI. De checklist helpt je inzicht te krijgen in je huidige gebruik en blinde vlekken.</p>
-            <a href="#" className="service-link">Binnenkort beschikbaar →</a>
-          </div>
-        </div>
-
-        <div className={`tab-panel${activeTab === 'advies' ? ' active' : ''}`}>
-          <div className="service-card">
-            <div className="service-num">03</div>
-            <h3 className="service-name">Ethical AI Audit</h3>
-            <p className="service-desc">Een grondige doorlichting van hoe jouw organisatie AI inzet. Van bias-risico&apos;s tot transparantie: ik breng in kaart wat er speelt en wat er beter kan.</p>
-            <a href="#contact" className="service-link">Meer informatie →</a>
-          </div>
-          <div className="service-card">
-            <div className="service-num">04</div>
-            <h3 className="service-name">AVG &amp; AI Act Compliance</h3>
-            <p className="service-desc">Praktisch advies over hoe jouw AI-gebruik voldoet aan de Europese regelgeving. Geen juridisch jargon, wél concrete stappen.</p>
-            <a href="#contact" className="service-link">Meer informatie →</a>
+        <div className="service-group reveal">
+          <h3 className="service-group-title">Voor bedrijven</h3>
+          <div className="service-group-grid">
+            <div className="service-card">
+              <span className="service-badge">op aanvraag</span>
+              <h4 className="service-name">AI-chatbot op maat</h4>
+              <p className="service-desc">Jouw klanten of medewerkers geholpen, 24/7, zonder extra personeel. Ik bouw een AI-chatbot die past bij jouw platform, GDPR-compliant is ingericht en direct waarde levert.</p>
+              <a href={CAL_LINK} target="_blank" rel="noopener noreferrer" className="service-link">Bespreek je project →</a>
+            </div>
+            <div className="service-card">
+              <span className="service-badge">op aanvraag</span>
+              <h4 className="service-name">AI-workflow automatisering</h4>
+              <p className="service-desc">Repetitieve processen geautomatiseerd, zodat jouw team zich focust op wat echt telt. Ik breng je workflow in kaart en bouw wat er nodig is.</p>
+              <a href={CAL_LINK} target="_blank" rel="noopener noreferrer" className="service-link">Bespreek je project →</a>
+            </div>
+            <div className="service-card">
+              <span className="service-badge">op aanvraag</span>
+              <h4 className="service-name">Webapplicatie of tool bouwen</h4>
+              <p className="service-desc">Een AI-tool die exact doet wat jij nodig hebt, gebouwd op maat: van idee tot werkend product, met de ethische laag ingebakken van dag één.</p>
+              <a href={CAL_LINK} target="_blank" rel="noopener noreferrer" className="service-link">Bespreek je project →</a>
+            </div>
+            <div className="service-card">
+              <span className="service-badge">op aanvraag</span>
+              <h4 className="service-name">EU AI Act implementatieondersteuning</h4>
+              <p className="service-desc">Klaar voor de nieuwe regelgeving voordat je er last van krijgt. Ik vertaal de EU AI Act naar concrete stappen voor jouw organisatie, zonder juridisch jargon.</p>
+              <a href={CAL_LINK} target="_blank" rel="noopener noreferrer" className="service-link">Bespreek je project →</a>
+            </div>
           </div>
         </div>
 
-        <div className={`tab-panel${activeTab === 'begeleiding' ? ' active' : ''}`}>
-          <div className="service-card">
-            <div className="service-num">05</div>
-            <h3 className="service-name">Strippenkaart Bewuste AI</h3>
-            <p className="service-desc">Tien uur hulp per kwartaal. Een vast aanspreekpunt voor al je vragen over verantwoord AI-gebruik, wanneer jij het nodig hebt.</p>
-            <a href="#contact" className="service-link">Meer informatie →</a>
+        <div className="service-group reveal">
+          <h3 className="service-group-title">Voor ondernemers</h3>
+          <div className="service-group-grid service-group-grid--three">
+            <div className="service-card">
+              <span className="service-badge service-badge--book">boek direct</span>
+              <h4 className="service-name">Losse sessie</h4>
+              <p className="service-desc">Vastgelopen met een AI-vraagstuk? In één uur kom je verder. Je boekt wanneer het jou uitkomt en gaat weg met een concrete volgende stap.</p>
+              <a href={CAL_LINK} target="_blank" rel="noopener noreferrer" className="service-link">Boek een sessie →</a>
+            </div>
+            <div className="service-card">
+              <span className="service-badge">op aanvraag</span>
+              <h4 className="service-name">Strippenkaart Bewuste AI</h4>
+              <p className="service-desc">10 uur verspreid over 6 maanden. Jij hebt altijd iemand om mee te sparren over AI en je weet zeker dat je het verantwoord doet, ook als de technologie alweer veranderd is.</p>
+              <a href={CAL_LINK} target="_blank" rel="noopener noreferrer" className="service-link">Boek een sessie →</a>
+            </div>
+            <div className="service-card">
+              <span className="service-badge">op aanvraag</span>
+              <h4 className="service-name">AI-implementatie op maat</h4>
+              <p className="service-desc">Van vraag tot werkende AI-oplossing: bewust, efficiënt en met de ethische afwegingen al gemaakt, zodat jij er gewoon gebruik van kunt maken.</p>
+              <a href={CAL_LINK} target="_blank" rel="noopener noreferrer" className="service-link">Boek een sessie →</a>
+            </div>
           </div>
-          <div className="service-card">
-            <div className="service-num">06</div>
-            <h3 className="service-name">Losse sessie</h3>
-            <p className="service-desc">Één uur gerichte hulp, precies waar jij behoefte aan hebt. Vastzitten met een vraagstuk? Je boekt wanneer het jou uitkomt.</p>
-            <a href="#contact" className="service-link">Meer informatie →</a>
+        </div>
+      </section>
+
+      {/* Portfolio */}
+      <section className="portfolio reveal" id="portfolio">
+        <div className="section-header">
+          <h2 className="section-title">Wat ik heb gebouwd</h2>
+        </div>
+        <div className="portfolio-grid">
+          <div className="portfolio-card">
+            <div className="portfolio-card-section">
+              <span className="portfolio-label">Probleem</span>
+              <p>Ondernemers hadden geen idee hoeveel CO₂ hun AI-gebruik veroorzaakte.</p>
+            </div>
+            <div className="portfolio-card-section">
+              <span className="portfolio-label">Oplossing</span>
+              <p>Een interactieve calculator die uitstoot berekent per tool en groenere alternatieven voorstelt.</p>
+            </div>
+            <div className="portfolio-card-section">
+              <span className="portfolio-label">Gebouwd met</span>
+              <p>Next.js, Claude API, onderzoeksdata op basis van Luccioni et al. (2023) en Mistral Environmental Report (2025).</p>
+            </div>
+            <a href="/co2" className="service-link">Bekijk de calculator →</a>
+          </div>
+          <div className="portfolio-card">
+            <div className="portfolio-card-section">
+              <span className="portfolio-label">Probleem</span>
+              <p>Klant wilde leden 24/7 kunnen helpen zonder extra personeel.</p>
+            </div>
+            <div className="portfolio-card-section">
+              <span className="portfolio-label">Oplossing</span>
+              <p>Een AI-chatbot op het Huddle-platform, gebouwd met Claude Sonnet, embedded via iframe, GDPR-compliant ingericht.</p>
+            </div>
+            <div className="portfolio-card-section">
+              <span className="portfolio-label">Gebouwd met</span>
+              <p>Claude API, Huddle, verwerkersovereenkomst met AI-addendum.</p>
+            </div>
+          </div>
+          <div className="portfolio-card">
+            <div className="portfolio-card-section">
+              <span className="portfolio-label">Probleem</span>
+              <p>Klant wilde haar eigen stem en expertise terugzien in AI-gegenereerde content.</p>
+            </div>
+            <div className="portfolio-card-section">
+              <span className="portfolio-label">Oplossing</span>
+              <p>Een volledig getrainde Claude-persona op basis van merkdocumenten, voice notes en bestaande content, inclusief systeem-prompts en projectmaps.</p>
+            </div>
+            <div className="portfolio-card-section">
+              <span className="portfolio-label">Gebouwd met</span>
+              <p>Claude Projects, Whisper, Fillout.</p>
+            </div>
           </div>
         </div>
       </section>
@@ -273,9 +260,9 @@ export default function Home() {
       <section className="featured reveal" id="over">
         <div className="featured-visual">
           <div className="featured-visual-inner">
-            <div className="featured-foil"><span>S</span></div>
+            <div className="featured-foil"><span>K</span></div>
             <p className="featured-visual-title">Voor een mens-gerichte toekomst met technologie</p>
-            <p className="featured-visual-sub">Spill Your Tea · 2026</p>
+            <p className="featured-visual-sub">Kimberley van Ruiven · 2026</p>
           </div>
         </div>
         <p className="featured-caption-mobile">Voor een mens-gerichte toekomst met technologie</p>
@@ -296,69 +283,42 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Statistieken */}
+      <section className="dashboard" id="data">
+        <div className="section-header">
+          <h2 className="section-title">Waarom AI in de praktijk misgaat</h2>
+        </div>
+        <div className="stat-cards stat-cards--row">
+          <div className="stat-card reveal" data-animate-bars="">
+            <p className="stat-eyebrow">Grootste barrière</p>
+            <div className="stat-big">63%</div>
+            <p className="stat-desc">van de Nederlandse bedrijven noemt gebrek aan AI-expertise als voornaamste rem op verdere adoptie.</p>
+            <div className="mini-bars">
+              <div className="mini-bar-row"><span className="mini-bar-label">Expertise</span><div className="mini-bar-track"><div className="mini-bar-fill" data-w="63" /></div><span className="mini-bar-pct">63%</span></div>
+              <div className="mini-bar-row"><span className="mini-bar-label">Kosten</span><div className="mini-bar-track"><div className="mini-bar-fill mini-bar-fill--light" data-w="41" /></div><span className="mini-bar-pct">41%</span></div>
+            </div>
+            <p className="stat-source">Bron: <a href="https://www.cbs.nl/en-gb/news/2025/09/increasing-use-of-ai-by-business" target="_blank" rel="noopener noreferrer">CBS, september 2025</a></p>
+          </div>
+          <div className="stat-card reveal" data-animate-bars="" style={{ '--delay': '0.1s' } as React.CSSProperties}>
+            <p className="stat-eyebrow">Klimaatimpact</p>
+            <div className="stat-big">10×</div>
+            <p className="stat-desc">meer energie per AI-query dan een Google-zoekopdracht: 2,9 Wh versus 0,3 Wh per vraag.</p>
+            <div className="mini-bars">
+              <div className="mini-bar-row"><span className="mini-bar-label">ChatGPT</span><div className="mini-bar-track"><div className="mini-bar-fill mini-bar-fill--danger" data-w="91" /></div><span className="mini-bar-pct">2,9 Wh</span></div>
+              <div className="mini-bar-row"><span className="mini-bar-label">Google</span><div className="mini-bar-track"><div className="mini-bar-fill mini-bar-fill--green" data-w="9" /></div><span className="mini-bar-pct">0,3 Wh</span></div>
+            </div>
+            <p className="stat-source">Bron: Luccioni et al. (2023) en Mistral Environmental Report (2025)</p>
+          </div>
+        </div>
+        <p className="personal-statement-text">
+          Tijdens mijn werk bij een pensioenfonds zag ik hoe AI-projecten strandden. Niet omdat de technologie niet werkte, maar omdat niemand had nagedacht over wat er in de data zat, wie er verantwoordelijk was, en wat je aan een medewerker uitlegt als een algoritme een beslissing neemt. Dat is het probleem dat ik op los.
+        </p>
+      </section>
+
       {/* Parallax divider */}
       <div className="parallax-divider">
         <div className="parallax-bg parallax-bg--divider" aria-hidden="true" />
       </div>
-
-      {/* Dashboard */}
-      <section className="dashboard" id="data">
-        <div className="section-header">
-          <h2 className="section-title">AI in Nederland</h2>
-          <span className="section-count">03 inzichten</span>
-        </div>
-        <p className="dashboard-lead reveal">Feiten die tonen waar het MKB staat met AI, en waarom bewuste keuzes zo urgent zijn.</p>
-        <div className="dashboard-grid">
-          <div className="dashboard-radar reveal">
-            <div className="dashboard-radar-header">
-              <p>Ethische AI audit</p>
-              <h3>Typische score MKB</h3>
-            </div>
-            <div className="radar-canvas-wrap">
-              <canvas ref={radarRef} id="radarChart" />
-            </div>
-            <p className="chart-note">
-              Indicatieve scores gebaseerd op{' '}
-              <a href="https://www.cbs.nl/en-gb/news/2025/09/increasing-use-of-ai-by-business" target="_blank" rel="noopener noreferrer">CBS 2025</a>
-              {' '}en{' '}
-              <a href="https://ec.europa.eu/eurostat/web/products-eurostat-news/w/ddn-20251211-2" target="_blank" rel="noopener noreferrer">Eurostat 2025</a>.
-              {' '}Schaal 0–100.
-            </p>
-          </div>
-          <div className="stat-cards">
-            <div className="stat-card reveal" data-animate-bars="">
-              <p className="stat-eyebrow">AI-adoptie NL</p>
-              <div className="stat-big">18%</div>
-              <p className="stat-desc">van het Nederlandse MKB gebruikt AI in 2026, tegenover 41% bij grote bedrijven.</p>
-              <div className="mini-bars">
-                <div className="mini-bar-row"><span className="mini-bar-label">MKB</span><div className="mini-bar-track"><div className="mini-bar-fill" data-w="18" /></div><span className="mini-bar-pct">18%</span></div>
-                <div className="mini-bar-row"><span className="mini-bar-label">Groot</span><div className="mini-bar-track"><div className="mini-bar-fill mini-bar-fill--light" data-w="41" /></div><span className="mini-bar-pct">41%</span></div>
-              </div>
-              <p className="stat-source">Bron: <a href="https://ec.europa.eu/eurostat/web/products-eurostat-news/w/ddn-20251211-2" target="_blank" rel="noopener noreferrer">Eurostat 2024</a></p>
-            </div>
-            <div className="stat-card reveal" data-animate-bars="" style={{ '--delay': '0.1s' } as React.CSSProperties}>
-              <p className="stat-eyebrow">Grootste barrière</p>
-              <div className="stat-big">63%</div>
-              <p className="stat-desc">van de Nederlandse bedrijven noemt gebrek aan AI-expertise als voornaamste rem op verdere adoptie.</p>
-              <div className="mini-bars">
-                <div className="mini-bar-row"><span className="mini-bar-label">Expertise</span><div className="mini-bar-track"><div className="mini-bar-fill" data-w="63" /></div><span className="mini-bar-pct">63%</span></div>
-                <div className="mini-bar-row"><span className="mini-bar-label">Kosten</span><div className="mini-bar-track"><div className="mini-bar-fill mini-bar-fill--light" data-w="41" /></div><span className="mini-bar-pct">41%</span></div>
-              </div>
-              <p className="stat-source">Bron: <a href="https://www.cbs.nl/en-gb/news/2025/09/increasing-use-of-ai-by-business" target="_blank" rel="noopener noreferrer">CBS, september 2025</a></p>
-            </div>
-            <div className="stat-card reveal" data-animate-bars="" style={{ '--delay': '0.2s' } as React.CSSProperties}>
-              <p className="stat-eyebrow">Klimaatimpact</p>
-              <div className="stat-big">10×</div>
-              <p className="stat-desc">meer energie per AI-query dan een Google-zoekopdracht: 2,9 Wh versus 0,3 Wh per vraag.</p>
-              <div className="mini-bars">
-                <div className="mini-bar-row"><span className="mini-bar-label">ChatGPT</span><div className="mini-bar-track"><div className="mini-bar-fill mini-bar-fill--danger" data-w="91" /></div><span className="mini-bar-pct">2,9 Wh</span></div>
-                <div className="mini-bar-row"><span className="mini-bar-label">Google</span><div className="mini-bar-track"><div className="mini-bar-fill mini-bar-fill--green" data-w="9" /></div><span className="mini-bar-pct">0,3 Wh</span></div>
-              </div>
-              <p className="stat-source">Bron: <a href="https://www.aitooldiscovery.com/ai-infra/is-ai-bad-for-the-environment" target="_blank" rel="noopener noreferrer">AI Tool Discovery 2026</a></p>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Process */}
       <section className="process" id="aanpak">
@@ -369,23 +329,23 @@ export default function Home() {
         <div className="process-list">
           <div className="process-item reveal">
             <div className="process-step">01</div>
-            <div className="process-name">Luisteren &amp; begrijpen</div>
-            <div className="process-desc">Ik begin met jouw situatie, niet met een standaardoplossing. Een goed gesprek over wat je doet, wat je gebruikt en waar je tegenaan loopt.</div>
+            <div className="process-name">Wat gebruik je en wat gaat er mis?</div>
+            <div className="process-desc">We beginnen met een eerlijk gesprek over welke AI-tools je gebruikt, waarvoor, en waar je tegenaan loopt. Geen aannames, geen standaardoplossing. Ik wil begrijpen hoe jouw organisatie werkt voordat ik ook maar iets voorstel.</div>
           </div>
           <div className="process-item reveal" style={{ '--delay': '0.1s' } as React.CSSProperties}>
             <div className="process-step">02</div>
-            <div className="process-name">Doorlichten &amp; analyseren</div>
-            <div className="process-desc">Ik breng in kaart welke AI-tools je gebruikt, welke risico&apos;s er zijn op het gebied van bias, privacy en transparantie.</div>
+            <div className="process-name">Ik kijk waar het wringt</div>
+            <div className="process-desc">Ik breng in kaart welke risico&apos;s er zitten in hoe je AI nu inzet: bias in je data, privacyvraagstukken, onduidelijkheid over wie er verantwoordelijk is als het misgaat. Dat doe ik op basis van mijn achtergrond in de financiële sector en mijn onderzoek naar AI-bias.</div>
           </div>
           <div className="process-item reveal" style={{ '--delay': '0.2s' } as React.CSSProperties}>
             <div className="process-step">03</div>
-            <div className="process-name">Advies zonder jargon</div>
-            <div className="process-desc">Concrete aanbevelingen die je begrijpt en kunt uitvoeren, geen abstracte rapporten maar praktische stappen.</div>
+            <div className="process-name">Ik bouw wat je nodig hebt</div>
+            <div className="process-desc">Geen rapport dat in een la verdwijnt. Ik maak het concreet: een chatbot, een tool, een workflow, een systeem. Iets wat je organisatie direct kunt gebruiken en waar de ethische keuzes al in zitten verwerkt.</div>
           </div>
           <div className="process-item reveal" style={{ '--delay': '0.3s' } as React.CSSProperties}>
             <div className="process-step">04</div>
-            <div className="process-name">Blijven sparren</div>
-            <div className="process-desc">AI verandert snel. Via de strippenkaart of losse sessies blijf je up-to-date en heb je altijd iemand om mee te denken.</div>
+            <div className="process-name">Je staat er niet alleen voor</div>
+            <div className="process-desc">AI verandert snel. Via de strippenkaart of een losse sessie houd je altijd een aanspreekpunt. Iemand die je systemen kent en meteen weet waar je het over hebt.</div>
           </div>
         </div>
       </section>
@@ -393,7 +353,7 @@ export default function Home() {
       {/* CTA */}
       <section className="cta-section" id="contact">
         <div className="parallax-bg parallax-bg--cta" aria-hidden="true" />
-        <p className="cta-eyebrow reveal">Klaar om te spillen?</p>
+        <p className="cta-eyebrow reveal">Klaar om te beginnen?</p>
         <h2 className="cta-title reveal" style={{ '--delay': '0.1s' } as React.CSSProperties}>
           Laten we een eerlijk<br />gesprek hebben.
         </h2>
@@ -401,15 +361,15 @@ export default function Home() {
           Geen pitch of jargon. Wel een open gesprek over AI,
           jouw business en hoe je het integer kunt inzetten.
         </p>
-        <a href="https://calendar.app.google/douZqiDQ7p39Xf6u7" target="_blank" rel="noopener noreferrer" className="cta-btn reveal" style={{ '--delay': '0.3s' } as React.CSSProperties}>
+        <a href={CAL_LINK} target="_blank" rel="noopener noreferrer" className="cta-btn reveal" style={{ '--delay': '0.3s' } as React.CSSProperties}>
           Spill Your Tea →
         </a>
       </section>
 
       <footer>
         <div className="footer-top">
+          <span className="footer-mission">Voor een mens-gerichte toekomst met technologie</span>
           <span className="footer-copy">© 2026 Kimberley van Ruiven</span>
-          <span className="footer-logo">Spill Your Tea</span>
         </div>
         <div className="footer-bottom">
           <span className="footer-ai">Deze website is ontwikkeld met AI-ondersteuning.</span>
