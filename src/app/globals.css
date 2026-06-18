@@ -593,7 +593,7 @@ footer {
 .personal-statement-text {
   font-family: var(--font-playfair), serif;
   font-size: clamp(1.15rem, 2.2vw, 1.6rem);
-  font-style: italic; line-height: 1.6;
+  font-style: normal; line-height: 1.6;
   color: var(--secondary); max-width: 65ch;
 }
 

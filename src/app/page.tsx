@@ -311,7 +311,7 @@ export default function Home() {
           </div>
         </div>
         <p className="personal-statement-text">
-          Tijdens mijn werk bij een pensioenfonds zag ik hoe AI-projecten strandden. Niet omdat de technologie niet werkte, maar omdat niemand had nagedacht over wat er in de data zat, wie er verantwoordelijk was, en wat je aan een medewerker uitlegt als een algoritme een beslissing neemt. Dat is het probleem dat ik op los.
+          &ldquo;Tijdens mijn werk bij een pensioenfonds zag ik hoe AI-projecten strandden. Niet omdat de technologie niet werkte, maar omdat niemand had nagedacht over wat er in de data zat, wie er verantwoordelijk was, en wat je aan een medewerker uitlegt als een algoritme een beslissing neemt. Dat is het probleem dat ik op los.&rdquo;
         </p>
       </section>
 
