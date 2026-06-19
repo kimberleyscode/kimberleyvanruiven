@@ -33,6 +33,7 @@ export const metadata: Metadata = {
     title: "Kimberley van Ruiven · Soul Tech Architect",
     description: "Ik bouw AI-systemen die werken én kloppen. Voor bedrijven die het serieus nemen.",
     url: "https://kimberleyvanruiven.nl",
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Kimberley van Ruiven · Soul Tech Architect" }],
     siteName: "Kimberley van Ruiven",
     locale: "nl_NL",
     type: "website",
