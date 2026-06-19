@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logo Preview — Kimberley van Ruiven</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --surface: #0f0f0f;
+    --ink:     #fff;
+    --dim:     rgba(255,255,255,0.38);
+    --amber:   #C8A96E;
+    --playfair: 'Playfair Display', Georgia, serif;
+    --dmsans:   'DM Sans', sans-serif;
+  }
+
+  body {
+    background: #1c1c1c;
+    font-family: var(--dmsans);
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    padding: 4rem 3rem 5rem;
+  }
+
+  .page-title {
+    font-family: var(--dmsans);
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+    margin-bottom: 3rem;
+    text-align: center;
+  }
+
+  /* ── FAVICON GRID ── */
+  .variants-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem 2rem;
+    max-width: 900px;
+    margin: 0 auto 5rem;
+  }
+
+  .variant {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .variant-label {
+    font-family: var(--dmsans);
+    font-size: 0.65rem;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.28);
+  }
+
+  .variant-sizes {
+    display: flex;
+    align-items: flex-end;
+    gap: 1rem;
+  }
+
+  .size-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .size-tag {
+    font-family: var(--dmsans);
+    font-size: 0.55rem;
+    color: rgba(255,255,255,0.18);
+    letter-spacing: 0.06em;
+  }
+
+  /* ── BASE ICON ── */
+  .icon {
+    background: var(--surface);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  /* ── VARIANT 1: Puur / geen kader ── */
+  .v1 .icon { background: var(--surface); }
+  .v1 .k {
+    font-family: var(--playfair);
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .v1 .icon.lg { width: 160px; height: 160px; }
+  .v1 .icon.sm { width: 48px;  height: 48px; }
+  .v1 .icon.xs { width: 24px;  height: 24px; }
+  .v1 .icon.lg .k { font-size: 80px; }
+  .v1 .icon.sm .k { font-size: 24px; }
+  .v1 .icon.xs .k { font-size: 13px; }
+  .v1 .sub {
+    font-family: var(--playfair);
+    font-weight: 600;
+    color: var(--ink);
+    display: flex;
+    align-items: baseline;
+    line-height: 1;
+    margin-top: 3px;
+  }
+  .v1 .icon.lg .sub .v { font-size: 16px; }
+  .v1 .icon.lg .sub .r { font-size: 50px; }
+  .v1 .icon.sm .sub .v { font-size: 5px; }
+  .v1 .icon.sm .sub .r { font-size: 15px; }
+  .v1 .icon.xs .sub { display: none; }
+
+  /* ── VARIANT 2: Dunne cirkel ── */
+  .v2 .icon {
+    background: transparent;
+    border: 1.5px solid rgba(255,255,255,0.7);
+    border-radius: 50%;
+  }
+  .v2 .icon.lg { width: 160px; height: 160px; border-width: 1.5px; }
+  .v2 .icon.sm { width: 48px;  height: 48px;  border-width: 1px; }
+  .v2 .icon.xs { width: 24px;  height: 24px;  border-width: 0.8px; }
+  .v2 .k {
+    font-family: var(--playfair);
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .v2 .icon.lg .k { font-size: 72px; }
+  .v2 .icon.sm .k { font-size: 22px; }
+  .v2 .icon.xs .k { font-size: 12px; }
+  .v2 .sub {
+    font-family: var(--playfair);
+    font-weight: 600;
+    color: var(--ink);
+    display: flex;
+    align-items: baseline;
+    line-height: 1;
+    margin-top: 2px;
+  }
+  .v2 .icon.lg .sub .v { font-size: 13px; }
+  .v2 .icon.lg .sub .r { font-size: 40px; }
+  .v2 .icon.sm .sub .v { font-size: 4px; }
+  .v2 .icon.sm .sub .r { font-size: 12px; }
+  .v2 .icon.xs .sub { display: none; }
+
+  /* ── VARIANT 3: Volle cirkel ── */
+  .v3 .icon {
+    background: var(--ink);
+    border-radius: 50%;
+  }
+  .v3 .icon.lg { width: 160px; height: 160px; }
+  .v3 .icon.sm { width: 48px;  height: 48px; }
+  .v3 .icon.xs { width: 24px;  height: 24px; }
+  .v3 .k {
+    font-family: var(--playfair);
+    font-weight: 700;
+    color: var(--surface);
+    line-height: 1;
+  }
+  .v3 .icon.lg .k { font-size: 72px; }
+  .v3 .icon.sm .k { font-size: 22px; }
+  .v3 .icon.xs .k { font-size: 12px; }
+  .v3 .sub {
+    font-family: var(--playfair);
+    font-weight: 600;
+    color: var(--surface);
+    display: flex;
+    align-items: baseline;
+    line-height: 1;
+    margin-top: 2px;
+  }
+  .v3 .icon.lg .sub .v { font-size: 13px; }
+  .v3 .icon.lg .sub .r { font-size: 40px; }
+  .v3 .icon.sm .sub .v { font-size: 4px; }
+  .v3 .icon.sm .sub .r { font-size: 12px; }
+  .v3 .icon.xs .sub { display: none; }
+
+  /* ── VARIANT 4: Scherp vierkant ── */
+  .v4 .icon {
+    background: transparent;
+    border: 1.5px solid rgba(255,255,255,0.7);
+    border-radius: 0;
+  }
+  .v4 .icon.lg { width: 160px; height: 160px; border-width: 1.5px; }
+  .v4 .icon.sm { width: 48px;  height: 48px;  border-width: 1px; }
+  .v4 .icon.xs { width: 24px;  height: 24px;  border-width: 0.8px; }
+  .v4 .k {
+    font-family: var(--playfair);
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .v4 .icon.lg .k { font-size: 72px; }
+  .v4 .icon.sm .k { font-size: 22px; }
+  .v4 .icon.xs .k { font-size: 12px; }
+  .v4 .sub {
+    font-family: var(--playfair);
+    font-weight: 600;
+    color: var(--ink);
+    display: flex;
+    align-items: baseline;
+    line-height: 1;
+    margin-top: 2px;
+  }
+  .v4 .icon.lg .sub .v { font-size: 13px; }
+  .v4 .icon.lg .sub .r { font-size: 40px; }
+  .v4 .icon.sm .sub .v { font-size: 4px; }
+  .v4 .icon.sm .sub .r { font-size: 12px; }
+  .v4 .icon.xs .sub { display: none; }
+
+  /* ── VARIANT 5: Volle vierkant donker ── */
+  .v5 .icon {
+    background: var(--surface);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 0;
+  }
+  .v5 .icon.lg { width: 160px; height: 160px; }
+  .v5 .icon.sm { width: 48px;  height: 48px; }
+  .v5 .icon.xs { width: 24px;  height: 24px; }
+  .v5 .k {
+    font-family: var(--playfair);
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .v5 .icon.lg .k { font-size: 72px; }
+  .v5 .icon.sm .k { font-size: 22px; }
+  .v5 .icon.xs .k { font-size: 12px; }
+  .v5 .sub {
+    font-family: var(--playfair);
+    font-weight: 600;
+    color: var(--ink);
+    display: flex;
+    align-items: baseline;
+    line-height: 1;
+    margin-top: 2px;
+  }
+  .v5 .icon.lg .sub .v { font-size: 13px; }
+  .v5 .icon.lg .sub .r { font-size: 40px; }
+  .v5 .icon.sm .sub .v { font-size: 4px; }
+  .v5 .icon.sm .sub .r { font-size: 12px; }
+  .v5 .icon.xs .sub { display: none; }
+
+  /* ── VARIANT 6: Afgerond vierkant (app-icoon stijl) ── */
+  .v6 .icon {
+    background: var(--ink);
+    border-radius: 28%;
+  }
+  .v6 .icon.lg { width: 160px; height: 160px; border-radius: 36px; }
+  .v6 .icon.sm { width: 48px;  height: 48px;  border-radius: 12px; }
+  .v6 .icon.xs { width: 24px;  height: 24px;  border-radius: 6px; }
+  .v6 .k {
+    font-family: var(--playfair);
+    font-weight: 700;
+    color: var(--surface);
+    line-height: 1;
+  }
+  .v6 .icon.lg .k { font-size: 72px; }
+  .v6 .icon.sm .k { font-size: 22px; }
+  .v6 .icon.xs .k { font-size: 12px; }
+  .v6 .sub {
+    font-family: var(--playfair);
+    font-weight: 600;
+    color: var(--surface);
+    display: flex;
+    align-items: baseline;
+    line-height: 1;
+    margin-top: 2px;
+  }
+  .v6 .icon.lg .sub .v { font-size: 13px; }
+  .v6 .icon.lg .sub .r { font-size: 40px; }
+  .v6 .icon.sm .sub .v { font-size: 4px; }
+  .v6 .icon.sm .sub .r { font-size: 12px; }
+  .v6 .icon.xs .sub { display: none; }
+
+  /* ── OG THUMBNAIL ── */
+  .og-section {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .og-section-label {
+    font-family: var(--dmsans);
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .og {
+    width: 100%;
+    aspect-ratio: 1200 / 630;
+    background: var(--surface);
+    border: 1px solid rgba(255,255,255,0.06);
+    position: relative;
+    padding: 6% 8.5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+  }
+
+  .og::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  }
+
+  .og-mark {
+    position: absolute;
+    right: 8%; top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--playfair);
+    font-size: clamp(6rem, 20vw, 14rem);
+    font-weight: 700;
+    color: rgba(255,255,255,0.03);
+    line-height: 1;
+    user-select: none;
+  }
+
+  .og-top {
+    font-family: var(--dmsans);
+    font-size: clamp(0.5rem, 1.2vw, 0.75rem);
+    font-weight: 400;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.32);
+  }
+
+  .og-title {
+    font-family: var(--playfair);
+    font-size: clamp(1.4rem, 3.8vw, 3rem);
+    font-weight: 600;
+    line-height: 1.2;
+    color: #fff;
+    letter-spacing: -0.01em;
+    max-width: 18ch;
+  }
+
+  .og-title em {
+    font-style: italic;
+    color: rgba(255,255,255,0.5);
+  }
+
+  .og-bottom { display: flex; flex-direction: column; gap: 10px; }
+
+  .og-rule { width: 40px; height: 1px; background: rgba(255,255,255,0.2); }
+
+  .og-name {
+    font-family: var(--dmsans);
+    font-size: clamp(0.5rem, 1vw, 0.65rem);
+    font-weight: 400;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+  }
+
+  .og-variant-label {
+    font-family: var(--dmsans);
+    font-size: 0.63rem;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.22);
+    margin: 2rem 0 0.75rem;
+  }
+
+  /* ── Herbruikbaar cirkel-mixin ── */
+  .badge-k, .og2-k, .og3-k, .og4-k {
+    font-family: var(--playfair);
+    font-weight: 700;
+    color: #fff;
+    line-height: 1;
+  }
+  .badge-sub, .og2-sub, .og3-sub, .og4-sub {
+    font-family: var(--playfair);
+    font-weight: 600;
+    color: #fff;
+    display: flex;
+    align-items: baseline;
+    line-height: 1;
+  }
+
+  /* ── OG 01: stempel rechtsboven ── */
+  .og1 { display: flex; flex-direction: column; justify-content: space-between; }
+  .og1-badge {
+    position: absolute;
+    top: 7%; right: 7%;
+    width: clamp(50px, 10%, 80px);
+    height: clamp(50px, 10%, 80px);
+    border-radius: 50%;
+    border: 1.5px solid rgba(255,255,255,0.6);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+  }
+  .og1-badge .badge-k { font-size: clamp(20px, 4%, 34px); }
+  .og1-badge .badge-sub { margin-top: 1px; }
+  .og1-badge .badge-v  { font-size: clamp(5px, 1%, 8px); }
+  .og1-badge .badge-r  { font-size: clamp(12px, 2.5%, 20px); }
+  .og1-content { display: flex; flex-direction: column; gap: 5%; }
+  .og1-tag {
+    font-family: var(--dmsans); font-size: clamp(0.5rem, 1.1vw, 0.72rem);
+    letter-spacing: 0.28em; text-transform: uppercase;
+    color: rgba(255,255,255,0.32);
+  }
+  .og1-title {
+    font-family: var(--playfair); font-weight: 600;
+    font-size: clamp(1.4rem, 3.6vw, 2.9rem); line-height: 1.2;
+    color: #fff; letter-spacing: -0.01em; max-width: 18ch;
+  }
+  .og1-title em { font-style: italic; color: rgba(255,255,255,0.5); }
+  .og1-bottom { display: flex; flex-direction: column; gap: 10px; }
+  .og1-rule { width: 40px; height: 1px; background: rgba(255,255,255,0.2); }
+  .og1-name {
+    font-family: var(--dmsans); font-size: clamp(0.5rem, 1vw, 0.65rem);
+    letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.4);
+  }
+
+  /* ── OG 02: Split ── */
+  .og2 { display: flex; flex-direction: row; align-items: stretch; padding: 0; }
+  .og2-left {
+    flex: 1; padding: 6% 8%;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .og2-tag {
+    font-family: var(--dmsans); font-size: clamp(0.5rem, 1.1vw, 0.72rem);
+    letter-spacing: 0.28em; text-transform: uppercase; color: rgba(255,255,255,0.32);
+  }
+  .og2-title {
+    font-family: var(--playfair); font-weight: 600;
+    font-size: clamp(1.2rem, 3.2vw, 2.6rem); line-height: 1.22;
+    color: #fff; letter-spacing: -0.01em;
+  }
+  .og2-title em { font-style: italic; color: rgba(255,255,255,0.5); }
+  .og2-name {
+    font-family: var(--dmsans); font-size: clamp(0.5rem, 1vw, 0.65rem);
+    letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.4);
+  }
+  .og2-right {
+    width: 38%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .og2-circle {
+    width: clamp(100px, 22%, 180px);
+    height: clamp(100px, 22%, 180px);
+    border-radius: 50%;
+    border: 1.5px solid rgba(255,255,255,0.6);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+  }
+  .og2-k  { font-size: clamp(38px, 8%, 72px); }
+  .og2-sub { margin-top: 2px; }
+  .og2-v  { font-size: clamp(8px, 1.8%, 14px); }
+  .og2-r  { font-size: clamp(22px, 5%, 46px); }
+
+  /* ── OG 03: Logo linksonder ── */
+  .og3 { display: flex; flex-direction: column; justify-content: space-between; }
+  .og3-tag {
+    font-family: var(--dmsans); font-size: clamp(0.5rem, 1.1vw, 0.72rem);
+    letter-spacing: 0.28em; text-transform: uppercase; color: rgba(255,255,255,0.32);
+  }
+  .og3-title {
+    font-family: var(--playfair); font-weight: 600;
+    font-size: clamp(1.4rem, 3.6vw, 2.9rem); line-height: 1.2;
+    color: #fff; letter-spacing: -0.01em; max-width: 22ch;
+  }
+  .og3-title em { font-style: italic; color: rgba(255,255,255,0.5); }
+  .og3-bottom { display: flex; align-items: center; justify-content: space-between; }
+  .og3-circle {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255,255,255,0.6);
+    flex-shrink: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+  }
+  .og3-k  { font-size: clamp(28px, 5.5%, 46px); }
+  .og3-sub { margin-top: 2px; }
+  .og3-v  { font-size: clamp(6px, 1.2%, 10px); }
+  .og3-r  { font-size: clamp(18px, 3.5%, 28px); }
+  .og3-name {
+    font-family: var(--dmsans); font-size: clamp(0.5rem, 1vw, 0.65rem);
+    letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.4);
+  }
+
+  /* ── OG 04: Gecentreerd ── */
+  .og4 {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; gap: 5%;
+  }
+  .og4-circle {
+    width: clamp(60px, 12%, 96px);
+    height: clamp(60px, 12%, 96px);
+    border-radius: 50%;
+    border: 1.5px solid rgba(255,255,255,0.6);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+  }
+  .og4-k  { font-size: clamp(24px, 5%, 42px); }
+  .og4-sub { margin-top: 1px; }
+  .og4-v  { font-size: clamp(5px, 1%, 8px); }
+  .og4-r  { font-size: clamp(14px, 3%, 26px); }
+  .og4-title {
+    font-family: var(--playfair); font-weight: 600;
+    font-size: clamp(1.3rem, 3.2vw, 2.6rem); line-height: 1.22;
+    color: #fff; letter-spacing: -0.01em;
+  }
+  .og4-title em { font-style: italic; color: rgba(255,255,255,0.5); }
+  .og4-name {
+    font-family: var(--dmsans); font-size: clamp(0.5rem, 1vw, 0.65rem);
+    letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.4);
+  }
+</style>
+</head>
+<body>
+
+<p class="page-title">Favicon varianten — Kimberley van Ruiven</p>
+
+<div class="variants-grid">
+
+  <!-- V1: Puur -->
+  <div class="variant v1">
+    <div class="variant-sizes">
+      <div class="size-col">
+        <div class="icon lg">
+          <span class="k">K</span>
+          <span class="sub"><span class="v">v</span><span class="r">R</span></span>
+        </div>
+        <span class="size-tag">preview</span>
+      </div>
+      <div class="size-col">
+        <div class="icon sm">
+          <span class="k">K</span>
+          <span class="sub"><span class="v">v</span><span class="r">R</span></span>
+        </div>
+        <span class="size-tag">48px</span>
+      </div>
+      <div class="size-col">
+        <div class="icon xs">
+          <span class="k">K</span>
+        </div>
+        <span class="size-tag">24px</span>
+      </div>
+    </div>
+    <span class="variant-label">01 — Puur, geen kader</span>
+  </div>
+
+  <!-- V2: Dunne cirkel -->
+  <div class="variant v2">
+    <div class="variant-sizes">
+      <div class="size-col">
+        <div class="icon lg">
+          <span class="k">K</span>
+          <span class="sub"><span class="v">v</span><span class="r">R</span></span>
+        </div>
+        <span class="size-tag">preview</span>
+      </div>
+      <div class="size-col">
+        <div class="icon sm">
+          <span class="k">K</span>
+          <span class="sub"><span class="v">v</span><span class="r">R</span></span>
+        </div>
+        <span class="size-tag">48px</span>
+      </div>
+      <div class="size-col">
+        <div class="icon xs">
+          <span class="k">K</span>
+        </div>
+        <span class="size-tag">24px</span>
+      </div>
+    </div>
+    <span class="variant-label">02 — Dunne cirkel</span>
+  </div>
+
+  <!-- V3: Volle cirkel -->
+  <div class="variant v3">
+    <div class="variant-sizes">
+      <div class="size-col">
+        <div class="icon lg">
+          <span class="k">K</span>
+          <span class="sub"><span class="v">v</span><span class="r">R</span></span>
+        </div>
+        <span class="size-tag">preview</span>
+      </div>
+      <div class="size-col">
+        <div class="icon sm">
+          <span class="k">K</span>
+          <span class="sub"><span class="v">v</span><span class="r">R</span></span>
+        </div>
+        <span class="size-tag">48px</span>
+      </div>
+      <div class="size-col">
+        <div class="icon xs">
+          <span class="k">K</span>
+        </div>
+        <span class="size-tag">24px</span>
+      </div>
+    </div>
+    <span class="variant-label">03 — Volle cirkel</span>
+  </div>
+
+  <!-- V4: Scherp vierkant -->
+  <div class="variant v4">
+    <div class="variant-sizes">
+      <div class="size-col">
+        <div class="icon lg">
+          <span class="k">K</span>
+          <span class="sub"><span class="v">v</span><span class="r">R</span></span>
+        </div>
+        <span class="size-tag">preview</span>
+      </div>
+      <div class="size-col">
+        <div class="icon sm">
+          <span class="k">K</span>
+          <span class="sub"><span class="v">v</span><span class="r">R</span></span>
+        </div>
+        <span class="size-tag">48px</span>
+      </div>
+      <div class="size-col">
+        <div class="icon xs">
+          <span class="k">K</span>
+        </div>
+        <span class="size-tag">24px</span>
+      </div>
+    </div>
+    <span class="variant-label">04 — Scherp vierkant</span>
+  </div>
+
+  <!-- V5: Donker vierkant -->
+  <div class="variant v5">
+    <div class="variant-sizes">
+      <div class="size-col">
+        <div class="icon lg">
+          <span class="k">K</span>
+          <span class="sub"><span class="v">v</span><span class="r">R</span></span>
+        </div>
+        <span class="size-tag">preview</span>
+      </div>
+      <div class="size-col">
+        <div class="icon sm">
+          <span class="k">K</span>
+          <span class="sub"><span class="v">v</span><span class="r">R</span></span>
+        </div>
+        <span class="size-tag">48px</span>
+      </div>
+      <div class="size-col">
+        <div class="icon xs">
+          <span class="k">K</span>
+        </div>
+        <span class="size-tag">24px</span>
+      </div>
+    </div>
+    <span class="variant-label">05 — Donker vierkant</span>
+  </div>
+
+  <!-- V6: App-icoon afgerond -->
+  <div class="variant v6">
+    <div class="variant-sizes">
+      <div class="size-col">
+        <div class="icon lg">
+          <span class="k">K</span>
+          <span class="sub"><span class="v">v</span><span class="r">R</span></span>
+        </div>
+        <span class="size-tag">preview</span>
+      </div>
+      <div class="size-col">
+        <div class="icon sm">
+          <span class="k">K</span>
+          <span class="sub"><span class="v">v</span><span class="r">R</span></span>
+        </div>
+        <span class="size-tag">48px</span>
+      </div>
+      <div class="size-col">
+        <div class="icon xs">
+          <span class="k">K</span>
+        </div>
+        <span class="size-tag">24px</span>
+      </div>
+    </div>
+    <span class="variant-label">06 — Afgerond vierkant</span>
+  </div>
+
+</div>
+
+<!-- OG THUMBNAILS -->
+<div class="og-section">
+  <p class="og-section-label">OG Thumbnail varianten — social media preview (1200 × 630)</p>
+
+  <!-- OG 01: Logo rechtsboven als merkstempel -->
+  <div class="og-variant-label">01 — Logo als stempel · rechtsboven</div>
+  <div class="og og1">
+    <div class="og1-badge">
+      <span class="badge-k">K</span>
+      <span class="badge-sub"><span class="badge-v">v</span><span class="badge-r">R</span></span>
+    </div>
+    <div class="og1-content">
+      <div class="og1-tag">Soul Tech Architect</div>
+      <div class="og1-title">AI voor een mens-gerichte<br>toekomst met <em>technologie.</em></div>
+    </div>
+    <div class="og1-bottom">
+      <div class="og1-rule"></div>
+      <div class="og1-name">Kimberley van Ruiven</div>
+    </div>
+  </div>
+
+  <!-- OG 02: Logo groot rechts, tekst links -->
+  <div class="og-variant-label">02 — Split · favicon groot rechts</div>
+  <div class="og og2">
+    <div class="og2-left">
+      <div class="og2-tag">Soul Tech Architect</div>
+      <div class="og2-title">AI voor een<br>mens-gerichte<br>toekomst met<br><em>technologie.</em></div>
+      <div class="og2-name">Kimberley van Ruiven</div>
+    </div>
+    <div class="og2-right">
+      <div class="og2-circle">
+        <span class="og2-k">K</span>
+        <span class="og2-sub"><span class="og2-v">v</span><span class="og2-r">R</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- OG 03: Brede tekst + logo rechtsonder -->
+  <div class="og-variant-label">03 — Brede tekst + logo rechtsonder</div>
+  <div class="og og3">
+    <div class="og3-top">
+      <div class="og3-tag">Soul Tech Architect · kimberleyvanruiven.nl</div>
+    </div>
+    <div class="og3-title">AI voor een mens-gerichte<br>toekomst met <em>technologie.</em></div>
+    <div class="og3-bottom">
+      <div class="og3-name">Kimberley van Ruiven</div>
+      <div class="og3-circle">
+        <span class="og3-k">K</span>
+        <span class="og3-sub"><span class="og3-v">v</span><span class="og3-r">R</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- OG 3B: Zelfde als 3 maar zonder logo -->
+  <div class="og-variant-label">03b — Zelfde lay-out, zonder logo</div>
+  <div class="og og3">
+    <div class="og3-top">
+      <div class="og3-tag">Soul Tech Architect · kimberleyvanruiven.nl</div>
+    </div>
+    <div class="og3-title">AI voor een mens-gerichte<br>toekomst met <em>technologie.</em></div>
+    <div class="og3-bottom">
+      <div class="og3-name">Kimberley van Ruiven</div>
+    </div>
+  </div>
+
+  <!-- OG 04: Gecentreerd, logo boven tekst -->
+  <div class="og-variant-label">04 — Gecentreerd · logo boven de tagline</div>
+  <div class="og og4">
+    <div class="og4-circle">
+      <span class="og4-k">K</span>
+      <span class="og4-sub"><span class="og4-v">v</span><span class="og4-r">R</span></span>
+    </div>
+    <div class="og4-title">AI voor een mens-gerichte<br>toekomst met <em>technologie.</em></div>
+    <div class="og4-name">Kimberley van Ruiven · Soul Tech Architect</div>
+  </div>
+
+</div>
+
+</body>
+</html>
