@@ -124,7 +124,7 @@ export default function Home() {
       <section className="werkervaring reveal">
         <h2 className="werk-title">Gebouwd op echte sector-ervaring</h2>
         <p className="werk-body">
-          Ik heb als IT-consultant en functioneel ontwerper gewerkt bij een bank, een pensioenfonds en een IT-startup. Ik weet hoe grote organisaties van binnenuit werken, waar AI-projecten stranden, en wat er nodig is om ze wél te laten landen. Mijn MSc-thesis ging over AI-bias en hate speech detectie. Die combinatie van bouwen en begrijpen is wat ik meeneem naar elk project.
+          Ik heb als IT-consultant en software tester gewerkt bij een bank, een pensioenfonds en een IT-startup. Ik weet hoe grote organisaties van binnenuit werken, waar AI-projecten stranden, en wat er nodig is om ze wél te laten landen. Mijn MSc-thesis ging over AI-bias en hate speech detectie. Die combinatie van bouwen en begrijpen is wat ik meeneem naar elk project.
         </p>
         <div className="werk-labels">
           <span className="werk-label">Bank &amp; financiële sector</span>
