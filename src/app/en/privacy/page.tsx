@@ -39,8 +39,14 @@ export default function Privacy() {
       <section>
         <h2>Who is responsible?</h2>
         <p>
-          Kimberley van Ruiven is the data controller within the meaning of the General Data Protection Regulation (GDPR). Contact: <a href="mailto:info@kimberleyvanruiven.nl">info@kimberleyvanruiven.nl</a>.
+          Kimberley van Ruiven is the data controller within the meaning of the General Data Protection Regulation (GDPR).
         </p>
+        <dl className="c2-meta">
+          <div className="c2-meta-row"><dt>Business</dt><dd>Kimberley van Ruiven</dd></div>
+          <div className="c2-meta-row"><dt>Chamber of Commerce (KvK)</dt><dd>98007033</dd></div>
+          <div className="c2-meta-row"><dt>VAT identification number</dt><dd>NL005302885B48</dd></div>
+          <div className="c2-meta-row"><dt>Email</dt><dd><a className="c2-a" href="mailto:info@kimberleyvanruiven.nl">info@kimberleyvanruiven.nl</a></dd></div>
+        </dl>
       </section>
 
       <section>
@@ -56,6 +62,23 @@ export default function Privacy() {
           <li>LinkedIn: when visiting the profile or sending messages.</li>
           <li>GitHub: when viewing code and projects through the links on this site.</li>
         </ul>
+      </section>
+
+      <section>
+        <h2>Legal basis and retention</h2>
+        <p>
+          If you get in touch by email, I process your name, your email address and whatever you write to me. The legal basis for this is the performance of a contract, or my legitimate interest in being able to answer a question. I keep those messages for as long as the conversation runs, and for at most two years afterwards, so that I can find an earlier exchange. If you become a client, the statutory retention period of seven years applies to the administration.
+        </p>
+        <p>
+          The visitor statistics contain no personal data and are kept in aggregate, so nothing in them can be traced back to you as a person.
+        </p>
+      </section>
+
+      <section>
+        <h2>Hosting and processors</h2>
+        <p>
+          This website runs on Vercel. Like any web server, Vercel records technical data in order to deliver and secure the site, including your IP address temporarily. A data processing agreement is in place with Vercel, and the transfer outside the EU is covered by the European Commission’s standard contractual clauses.
+        </p>
       </section>
 
       <section>

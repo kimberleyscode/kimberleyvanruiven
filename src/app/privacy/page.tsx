@@ -17,11 +17,21 @@ export default function Privacy() {
       anderePad="/en/privacy"
       scatter={[[2, 5.2, '74%', '10%'], [19, 3.2, '60%', '64%'], [10, 2.6, '86%', '84%']]}
     >
+      {/* Bedrijfsgegevens: verplicht op een zakelijke site (art. 3:15d BW), los van de AVG.
+          Het btw-IDENTIFICATIENUMMER staat hier (openbaar); niet het omzetbelastingnummer,
+          want dat bevat een BSN. Een geografisch adres ontbreekt nog: zodra Kimberley een
+          zakelijk vestigingsadres heeft, hoort dat hieronder. */}
       <section>
         <h2>Wie is verantwoordelijk?</h2>
         <p>
-          Kimberley van Ruiven is de verwerkingsverantwoordelijke in de zin van de Algemene Verordening Gegevensbescherming (AVG / GDPR). Contact: <a href="mailto:info@kimberleyvanruiven.nl">info@kimberleyvanruiven.nl</a>.
+          Kimberley van Ruiven is de verwerkingsverantwoordelijke in de zin van de Algemene Verordening Gegevensbescherming (AVG / GDPR).
         </p>
+        <dl className="c2-meta">
+          <div className="c2-meta-row"><dt>Onderneming</dt><dd>Kimberley van Ruiven</dd></div>
+          <div className="c2-meta-row"><dt>KvK-nummer</dt><dd>98007033</dd></div>
+          <div className="c2-meta-row"><dt>Btw-identificatienummer</dt><dd>NL005302885B48</dd></div>
+          <div className="c2-meta-row"><dt>E-mail</dt><dd><a className="c2-a" href="mailto:info@kimberleyvanruiven.nl">info@kimberleyvanruiven.nl</a></dd></div>
+        </dl>
       </section>
 
       <section>
@@ -39,6 +49,24 @@ export default function Privacy() {
         </ul>
       </section>
 
+      {/* AVG art. 13 vraagt hier expliciet om: op welke grondslag verwerk je, en hoe lang bewaar je. */}
+      <section>
+        <h2>Grondslag en bewaartermijnen</h2>
+        <p>
+          Neem je per e-mail contact op, dan verwerk ik je naam, e-mailadres en wat je me schrijft. De grondslag daarvoor is de uitvoering van een overeenkomst, of mijn gerechtvaardigd belang om op een vraag te kunnen antwoorden. Die berichten bewaar ik zolang het gesprek loopt en daarna maximaal twee jaar, zodat ik een eerder contact kan terugvinden. Word je klant, dan geldt voor de administratie de wettelijke bewaarplicht van zeven jaar.
+        </p>
+        <p>
+          De bezoekersstatistieken bevatten geen persoonsgegevens en worden geaggregeerd bewaard, zodat er niets naar jou als persoon te herleiden valt.
+        </p>
+      </section>
+
+      <section>
+        <h2>Hosting en verwerkers</h2>
+        <p>
+          Deze website draait bij Vercel. Zoals elke webserver legt Vercel technische gegevens vast om de site te kunnen leveren en te beveiligen, waaronder tijdelijk je IP-adres. Met Vercel is een verwerkersovereenkomst gesloten, en de doorgifte buiten de EU is gedekt door de standaardcontractbepalingen van de Europese Commissie.
+        </p>
+      </section>
+
       <section>
         <h2>Cookies</h2>
         <p>
@@ -53,7 +81,9 @@ export default function Privacy() {
           <li>Recht op inzage: je kunt opvragen welke gegevens van jou zijn opgeslagen.</li>
           <li>Recht op rectificatie: onjuiste gegevens laten corrigeren.</li>
           <li>Recht op verwijdering: gegevens laten wissen (&ldquo;recht op vergetelheid&rdquo;).</li>
-          <li>Recht op beperking: de verwerking (tijdelijk) laten stopzetten.</li>
+          {/* Beperking (art. 18 AVG) = de verwerking BEGRENZEN, niet stopzetten. Stopzetten
+              valt onder het recht op bezwaar en het recht op verwijdering. */}
+          <li>Recht op beperking: de verwerking van je gegevens laten begrenzen.</li>
           <li>Recht op bezwaar: bezwaar maken tegen verwerking op basis van gerechtvaardigd belang.</li>
           <li>Recht op dataportabiliteit: gegevens in een machine-leesbaar formaat opvragen.</li>
         </ul>
