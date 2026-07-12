@@ -1,0 +1,837 @@
+/* ── Concept 2: forn.dk-anker — licht, kobalt, kinetische typografie ────
+   Scoped met .c2- prefix. Palet: #FCFCFC / #000 / #00218F / #747474 */
+
+.c2-root {
+  --c2-paper: #FCFCFC;
+  --c2-ink:   #000000;
+  --c2-blue:  #00218F;
+  --c2-grey:  #747474;
+  --c2-hairline: rgba(0, 0, 0, 0.10);
+
+  background: var(--c2-paper);
+  color: var(--c2-ink);
+  min-height: 100vh;
+  font-family: var(--font-dm-sans), Helvetica, sans-serif;
+  font-size: 1rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ── Topbalk ── */
+.c2-root nav.c2-top {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 60;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.1rem 2rem;
+  background: var(--c2-paper);
+  border-bottom: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.c2-lang { display: flex; align-items: center; gap: 0.55rem; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.04em; }
+.c2-lang .is-active { color: var(--c2-blue); }
+.c2-lang .is-idle { color: var(--c2-ink); }
+.c2-lang-pill {
+  width: 44px; height: 22px;
+  border: 1.5px solid var(--c2-ink);
+  border-radius: 999px;
+  position: relative;
+  display: inline-block;
+}
+.c2-lang-pill::after {
+  content: "";
+  position: absolute; top: 2px; left: 3px;
+  width: 14px; height: 14px;
+  border: 1.5px solid var(--c2-blue);
+  border-radius: 50%;
+  background:
+    linear-gradient(var(--c2-blue), var(--c2-blue)) center/1.5px 100% no-repeat,
+    linear-gradient(var(--c2-blue), var(--c2-blue)) center/100% 1.5px no-repeat;
+}
+.c2-reach {
+  font-size: 0.85rem; font-weight: 500; letter-spacing: 0.06em;
+  color: var(--c2-ink); text-decoration: none;
+  text-transform: uppercase;
+}
+.c2-reach:hover { color: var(--c2-blue); }
+
+/* Hoekvariant B: knipperoog als thuis-link linksboven (alle pagina's behalve home) */
+.c2-hoek { display: inline-flex; align-items: center; gap: 0.65rem; }
+.c2-hoek-oog { display: block; flex-shrink: 0; animation: c2-hoek-knipper 7s ease-in-out infinite; transform-origin: center; }
+@keyframes c2-hoek-knipper { 0%, 95%, 100% { transform: scaleY(1); } 97.5% { transform: scaleY(0.1); } }
+.c2-hoek-pupil { transition: transform 0.25s ease-out; }
+.c2-hoek:hover .c2-hoek-pupil { transform: translateX(-7px); }
+@media (prefers-reduced-motion: reduce) {
+  .c2-hoek-oog { animation: none; }
+  .c2-hoek-pupil { transition: none; }
+}
+
+/* ── Display-typografie ── */
+.c2-display {
+  font-family: var(--font-c2-display), sans-serif;
+  color: var(--c2-blue);
+  text-transform: uppercase;
+  line-height: 0.92;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+/* ── Hero ── */
+.c2-hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding: 6rem 2rem 3rem;
+  position: relative;
+}
+.c2-hero-word { font-size: clamp(4rem, 12.5vw, 12rem); }
+.c2-hero-side {
+  position: absolute;
+  right: clamp(4rem, 14vw, 14rem);
+  top: 50%;
+  transform: translateY(-50%);
+  writing-mode: vertical-rl;
+  font-size: 0.85rem; font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.c2-symbol-col {
+  position: absolute;
+  right: 1.6rem; top: 50%;
+  transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 0.9rem;
+}
+.c2-symbol-col svg, .c2-symbol-field svg { display: block; }
+
+/* ── Secties ── */
+.c2-section { padding: 7rem 2rem 3rem; position: relative; }
+.c2-kinetic { margin-bottom: 3.5rem; }
+.c2-kinetic .c2-line {
+  display: block;
+  font-family: var(--font-c2-display), sans-serif;
+  color: var(--c2-blue);
+  text-transform: uppercase;
+  line-height: 0.95;
+  font-weight: 400;
+  font-size: clamp(3.4rem, 10vw, 9rem);
+  will-change: transform;
+}
+.c2-line--indent1 { padding-left: 12vw; }
+.c2-line--indent2 { padding-left: 34vw; }
+.c2-eyebrow {
+  font-size: 0.85rem; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  margin-bottom: 0.8rem;
+}
+.c2-body { max-width: 40rem; }
+.c2-body p { margin-bottom: 1rem; }
+.c2-grey { color: var(--c2-grey); }
+.c2-a { color: var(--c2-blue); text-decoration: none; }
+.c2-a:hover { opacity: 0.75; }
+
+/* ── Meta (hero-info) ── */
+.c2-meta { margin: 2rem 0 0; max-width: 40rem; }
+.c2-meta-row { display: flex; gap: 0.8rem; font-size: 0.95rem; margin-bottom: 0.15rem; }
+.c2-meta-row dt { color: var(--c2-grey); min-width: 7.5rem; }
+.c2-meta-row dd { margin: 0; font-weight: 500; }
+
+/* ── Statement-kaarten (forn: blob + tekstkaart) ── */
+.c2-cards2 {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem;
+  max-width: 62rem; margin-top: 3rem;
+}
+.c2-card {
+  border: 1px solid var(--c2-hairline);
+  border-radius: 26px;
+  background: #fff;
+  padding: 2rem;
+  min-height: 17rem;
+  display: flex; align-items: flex-end;
+}
+.c2-card--art { align-items: center; justify-content: center; }
+.c2-card p { font-size: 1.02rem; max-width: 30rem; }
+
+/* ── Redactionele lijst ── */
+.c2-list { border-top: 1px solid var(--c2-hairline); max-width: 62rem; }
+.c2-row {
+  display: grid;
+  grid-template-columns: 6.5rem 1fr auto;
+  gap: 2rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--c2-hairline);
+  align-items: baseline;
+}
+.c2-row-meta { font-size: 0.82rem; color: var(--c2-grey); }
+.c2-row-title { font-weight: 600; font-size: 1.15rem; margin-bottom: 0.2rem; }
+.c2-row-desc { color: var(--c2-grey); font-size: 0.95rem; max-width: 34rem; }
+.c2-row-link { font-size: 0.9rem; font-weight: 500; color: var(--c2-blue); text-decoration: none; white-space: nowrap; }
+.c2-row-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+/* ── Drag-carousel ── */
+.c2-drag-hint {
+  display: flex; align-items: center; justify-content: center; gap: 0.8rem;
+  font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase;
+  margin: 0 0 1.6rem;
+}
+.c2-carousel {
+  display: flex; gap: 1.4rem;
+  overflow-x: auto;
+  padding: 0.5rem 2rem 1.5rem;
+  margin: 0 -2rem;
+  cursor: grab;
+  scrollbar-width: none;
+  user-select: none;
+}
+.c2-carousel::-webkit-scrollbar { display: none; }
+.c2-carousel.is-dragging { cursor: grabbing; }
+.c2-case {
+  flex: 0 0 clamp(280px, 34vw, 420px);
+  border: 1px solid var(--c2-hairline);
+  border-radius: 26px;
+  background: #fff;
+  padding: 1.8rem;
+  display: flex; flex-direction: column; gap: 0.7rem;
+}
+.c2-case-symbol { color: var(--c2-blue); margin-bottom: 0.6rem; }
+.c2-case-meta { font-size: 0.78rem; color: var(--c2-grey); letter-spacing: 0.04em; text-transform: uppercase; }
+.c2-case-title { font-weight: 600; font-size: 1.2rem; line-height: 1.3; }
+.c2-case-desc { font-size: 0.95rem; color: var(--c2-grey); flex: 1; }
+.c2-case-link { font-size: 0.9rem; font-weight: 500; color: var(--c2-blue); text-decoration: none; }
+.c2-case-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+/* ── Scriptiekader ── */
+.c2-thesis {
+  border-top: 2px solid var(--c2-ink);
+  max-width: 40rem;
+  padding-top: 1.2rem;
+  margin-top: 3rem;
+}
+.c2-thesis-title { font-weight: 600; font-size: 1.15rem; margin-bottom: 0.4rem; }
+
+/* ── Contact & footer ── */
+.c2-cta {
+  display: inline-block;
+  border: 1.5px solid var(--c2-ink);
+  border-radius: 999px;
+  padding: 0.9rem 2rem;
+  font-size: 0.9rem; font-weight: 500;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--c2-ink); text-decoration: none;
+  margin-top: 1.6rem;
+  transition: background 0.25s, color 0.25s, border-color 0.25s;
+}
+.c2-cta:hover { background: var(--c2-blue); border-color: var(--c2-blue); color: #fff; }
+
+.c2-root footer.c2-footer {
+  background: none;
+  color: var(--c2-grey);
+  display: flex; flex-direction: row; flex-wrap: wrap;
+  gap: 0.4rem 1.8rem;
+  align-items: baseline;
+  font-size: 0.82rem;
+  padding: 2rem;
+  border-top: 1px solid var(--c2-hairline);
+}
+.c2-footer a { color: inherit; text-decoration: none; }
+.c2-footer a:hover { color: var(--c2-blue); }
+
+/* ── Symbolenveld (forn-runenveld, maar met systeem-symbolen) ── */
+.c2-symbol-field {
+  display: flex; align-items: flex-end; gap: 1.6rem;
+  padding: 4rem 2rem 2rem;
+  overflow: hidden;
+}
+.c2-symbol-stack { display: flex; flex-direction: column; gap: 1rem; }
+
+/* ── Beweging uit als de bezoeker dat vraagt ── */
+@media (prefers-reduced-motion: reduce) {
+  .c2-kinetic .c2-line { transform: none !important; }
+}
+
+@media (max-width: 800px) {
+  .c2-hero { padding: 5.5rem 1.4rem 2rem; }
+  .c2-hero-side { display: none; }
+  .c2-symbol-col { display: none; }
+  .c2-section { padding: 4.5rem 1.4rem 2rem; }
+  .c2-cards2 { grid-template-columns: 1fr; }
+  .c2-row { grid-template-columns: 1fr; gap: 0.3rem; }
+  .c2-line--indent1 { padding-left: 8vw; }
+  .c2-line--indent2 { padding-left: 20vw; }
+}
+
+/* ── Aksara Jawa-glyphs (zwevend) ── */
+.c2-glyph {
+  display: block;
+  font-family: var(--font-c2-jav), serif;
+  line-height: 1.2;
+  color: var(--c2-ink);
+  animation: c2-drift 3.5s ease-in-out infinite alternate;
+}
+.c2-symbol-stack:nth-child(even) .c2-glyph,
+.c2-symbol-col .c2-glyph:nth-child(even) { animation-name: c2-drift-b; }
+.c2-case-symbol .c2-glyph { color: var(--c2-blue); animation: none; }
+@keyframes c2-drift {
+  0%   { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 0.55; }
+  50%  { transform: translate(3px, -10px) rotate(5deg) scale(1.08); opacity: 1; }
+  100% { transform: translate(-3px, -20px) rotate(-4deg) scale(1); opacity: 0.8; }
+}
+@keyframes c2-drift-b {
+  0%   { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 0.7; }
+  50%  { transform: translate(-4px, 9px) rotate(-6deg) scale(1.12); opacity: 1; }
+  100% { transform: translate(4px, 16px) rotate(5deg) scale(0.96); opacity: 0.55; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .c2-glyph { animation: none; }
+}
+
+/* ── Hero-titel (lange zin, iets kleiner dan de sectiewoorden) ── */
+.c2-hero { flex-direction: column; align-items: flex-start; justify-content: center; }
+.c2-hero-title.c2-kinetic { margin-bottom: 0; }
+.c2-hero-title .c2-line { font-size: clamp(2.5rem, 7.2vw, 6.6rem); }
+
+/* ── Over-blok met foto ── */
+.c2-over {
+  display: grid;
+  grid-template-columns: minmax(260px, 26rem) 1fr;
+  gap: 3rem;
+  align-items: start;
+  max-width: 66rem;
+}
+.c2-photo { margin: 0; }
+.c2-photo img {
+  width: 100%; height: auto; display: block;
+  border-radius: 26px;
+  border: 1px solid var(--c2-hairline);
+  filter: grayscale(1);
+}
+@media (max-width: 800px) {
+  .c2-over { grid-template-columns: 1fr; gap: 1.8rem; }
+  .c2-hero-title .c2-line { font-size: clamp(2rem, 9vw, 4rem); }
+}
+
+/* ── Expressieve glyph-beweging: scroll-rotatie + continu draaien ── */
+.c2-glyph-rot { display: block; will-change: transform; }
+.c2-glyph--spin {
+  animation-name: c2-spin-drift;
+  animation-timing-function: linear;
+  animation-direction: normal;
+}
+@keyframes c2-spin-drift {
+  0%   { transform: translateY(0) rotate(0deg) scale(1); opacity: 0.7; }
+  50%  { transform: translateY(-12px) rotate(180deg) scale(1.12); opacity: 1; }
+  100% { transform: translateY(0) rotate(360deg) scale(1); opacity: 0.7; }
+}
+
+/* ── Aksara-strook midden op de pagina ── */
+.c2-symbol-strip {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2.6rem 3.4rem;
+  padding: 4.5rem 2rem 1rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  .c2-glyph-rot { transform: none !important; }
+}
+
+/* ── Strooi-aksara door de hele pagina (forn-stijl: groot en speels) ── */
+.c2-scatter {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  line-height: 1;
+}
+.c2-glyph-rot { transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1); }
+.c2-symbol-strip .c2-glyph-rot:nth-child(odd) { margin-top: 1.8rem; }
+.c2-case-title--verhaal { font-size: 1.05rem; font-weight: 500; line-height: 1.45; flex: 1; }
+@media (max-width: 800px) {
+  /* Strooi-aksara blijven op mobiel overal staan, net als op desktop (pc is leidend), alleen verkleind */
+  .c2-scatter { transform: scale(0.6); transform-origin: top left; }
+  /* Laag geplaatste tekens naar de onderrand van de sectie: op mobiel rekt de
+     tekst op en zouden ze er middenin vallen. De hero heeft wél ruimte en is
+     geen .c2-section, dus daar blijven ze op hun eigen plek. */
+  .c2-section > .c2-scatter--laag { top: auto !important; bottom: -1.8rem; }
+  /* Tekstpagina's hebben geen witruimte tussen kop en tekst: daar vervalt het lage teken op mobiel */
+  .c2-tekst-kop > .c2-scatter--laag { display: none; }
+}
+
+/* In kaarten staan de aksara stil: geen drift, spin of scroll-rotatie */
+.c2-case-symbol .c2-glyph,
+.c2-case-symbol .c2-glyph--spin { animation: none !important; }
+.c2-case-symbol .c2-glyph-rot { transform: none !important; transition: none; }
+
+/* ── Onderveld: schermvullend van links naar rechts, groter en sneller ── */
+.c2-symbol-field {
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 5.5rem 1.2rem 2.5rem;
+  width: 100%;
+}
+.c2-symbol-stack { gap: 1.5rem; }
+@media (max-width: 800px) {
+  .c2-symbol-field .c2-symbol-stack:nth-child(n+8) { display: none; }
+}
+
+/* ── Hero-kolom: groter, sneller en langer doorlopend naar beneden ── */
+.c2-hero .c2-symbol-col {
+  top: 10%;
+  transform: none;
+  gap: 2rem;
+  right: 2rem;
+  z-index: 0;
+}
+/* Op mobiel blijft de hero-kolom zichtbaar (compacter, minder tekens),
+   zodat de aksara ook daar meteen bovenaan aanwezig zijn */
+@media (max-width: 800px) {
+  .c2-hero .c2-symbol-col {
+    display: flex;
+    right: 0.7rem;
+    top: 7%;
+    gap: 1.3rem;
+    transform: scale(0.78);
+    transform-origin: top right;
+  }
+  .c2-hero .c2-symbol-col .c2-glyph-rot:nth-child(n+9) { display: none; }
+}
+
+/* ── Leadzin onder het statement ── */
+.c2-lead {
+  font-size: 1.3rem;
+  line-height: 1.5;
+  max-width: 34rem;
+  margin: -1.2rem 0 0;
+}
+
+/* ── Aksara als lijstmarkering (i.p.v. nummers) ── */
+.c2-row-glyph { color: var(--c2-blue); }
+.c2-row-glyph .c2-glyph-rot { transform: none !important; transition: none; }
+
+/* ── Speelse kaarten: lichte kanteling, rechtop bij hover ── */
+.c2-carousel .c2-case { transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
+.c2-carousel .c2-case:nth-child(odd) { transform: rotate(-1.4deg); }
+.c2-carousel .c2-case:nth-child(even) { transform: rotate(1.2deg); }
+.c2-carousel .c2-case:hover { transform: rotate(0deg) translateY(-8px); }
+
+/* ── Kunstkaartjes (batik-motieven) ── */
+.c2-case--kunst {
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 2.2rem 2rem 1.4rem;
+}
+.c2-case--kunst-blauw { background: var(--c2-blue); border-color: var(--c2-blue); }
+.c2-kunst-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--c2-grey);
+}
+.c2-case--kunst-blauw .c2-kunst-label { color: rgba(252, 252, 252, 0.75); }
+
+/* ── Contactregel (forn-stijl: meerdere routes) ── */
+.c2-contact-links { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1.8rem; }
+.c2-contact-link {
+  display: inline-block;
+  border: 1.5px solid var(--c2-ink);
+  border-radius: 999px;
+  padding: 0.8rem 1.7rem;
+  font-size: 0.85rem; font-weight: 500;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--c2-ink); text-decoration: none;
+  transition: background 0.25s, color 0.25s, border-color 0.25s;
+}
+.c2-contact-link:hover { background: var(--c2-blue); border-color: var(--c2-blue); color: #fff; }
+.c2-row-glyph .c2-glyph { color: var(--c2-blue); }
+
+/* ── Speelse tegels i.p.v. tabelachtige lijsten (diensten, aanpak) ── */
+.c2-tegels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3.2rem 4.5rem;
+  max-width: 68rem;
+}
+.c2-tegel { flex: 1 1 17rem; max-width: 23rem; }
+.c2-tegel:nth-child(even) { margin-top: 2.4rem; transform: rotate(0.8deg); }
+.c2-tegel:nth-child(odd) { transform: rotate(-0.8deg); }
+.c2-tegel:nth-child(3n) { margin-top: 1.1rem; }
+.c2-tegel-title { font-weight: 600; font-size: 1.25rem; line-height: 1.3; margin: 0.7rem 0 0.35rem; text-wrap: balance; }
+.c2-tegel .c2-row-link { display: inline-block; margin-top: 0.5rem; }
+
+/* ── Kaarten zachter afgerond en lichter, zoals forn ── */
+.c2-case {
+  border-radius: 40px;
+  border-color: rgba(0, 0, 0, 0.07);
+  padding: 2.2rem 2rem;
+  min-height: 20rem;
+}
+
+/* ── Contact: één knop + icoonrondjes ── */
+.c2-contact-links { align-items: center; gap: 1.1rem; }
+.c2-contact-links .c2-cta { margin-top: 0; }
+.c2-icon-btn {
+  width: 54px; height: 54px;
+  border: 1.5px solid var(--c2-ink);
+  border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--c2-ink);
+  transition: background 0.25s, color 0.25s, border-color 0.25s, transform 0.25s;
+}
+.c2-icon-btn svg { width: 23px; height: 23px; }
+.c2-icon-btn:hover { background: var(--c2-blue); border-color: var(--c2-blue); color: #fff; transform: translateY(-3px); }
+
+/* ── Kaarten zoals forn: normaal gewicht, zwart, geheel klikbaar ── */
+.c2-case-title, .c2-case-title--verhaal { font-weight: 400; }
+.c2-case-desc { color: var(--c2-ink); }
+a.c2-case--klik { text-decoration: none; color: inherit; cursor: pointer; }
+
+/* ── Dienstenkaarten in een losjes verspringend raster ── */
+.c2-kaartgrid { display: flex; flex-wrap: wrap; gap: 1.6rem; max-width: 68rem; }
+.c2-kaartgrid .c2-case { flex: 1 1 16rem; max-width: 21rem; min-height: 15rem; transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
+.c2-kaartgrid .c2-case:nth-child(odd) { transform: rotate(-1.1deg); }
+.c2-kaartgrid .c2-case:nth-child(even) { transform: rotate(1deg) translateY(0.9rem); }
+.c2-kaartgrid .c2-case:hover { transform: rotate(0deg) translateY(-8px); }
+
+/* ── Aanpak als lopende tekst ── */
+.c2-aanpak p { font-size: 1.14rem; line-height: 1.75; margin-bottom: 1.35rem; }
+
+/* ── Zwarte tekstlink (forn-stijl) ── */
+.c2-a-zwart { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+.c2-a-zwart:hover { text-decoration-thickness: 2px; }
+
+/* Hover-CTA onderaan de dienstenkaarten (forn-patroon: verschijnt bij hover) */
+.c2-case-hover {
+  margin-top: auto;
+  color: var(--c2-blue);
+  font-size: 0.95rem;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.c2-case--klik:hover .c2-case-hover { opacity: 1; transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+  .c2-case-hover { transition: none; transform: none; }
+}
+
+/* ── Dienstenkaarten schermvullend van links naar rechts ── */
+.c2-kaartgrid { max-width: none; gap: 1.8rem; }
+.c2-kaartgrid .c2-case {
+  flex: 1 1 24rem;
+  /* Sinds de samenvoeging naar 4 diensten vult de onderste rij niet meer;
+     zonder maximum rekken die kaarten zich onnatuurlijk breed uit */
+  max-width: 27rem;
+  min-height: 21rem;
+  padding: 2.6rem 2.4rem;
+}
+.c2-kaartgrid .c2-case-title { font-size: 1.5rem; margin-top: 0.4rem; }
+.c2-kaartgrid .c2-case-desc { font-size: 1.05rem; max-width: 26rem; }
+.c2-kaartgrid .c2-case--kunst svg { max-width: 15rem; }
+
+/* ── Kunststrook boven contact: bril + wolken ── */
+.c2-kunststrook {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(2rem, 7vw, 6rem);
+  padding: 6rem 2rem 1rem;
+}
+.c2-kunststrook .c2-zweef { display: block; }
+.c2-zweef--a, .c2-zweef--c { width: clamp(90px, 12vw, 170px); }
+.c2-bril { width: clamp(220px, 30vw, 430px); height: auto; display: block; }
+.c2-zweef--a { animation: c2-drift 4.2s ease-in-out infinite alternate; }
+.c2-zweef--b { animation: c2-drift-b 5.2s ease-in-out infinite alternate; }
+.c2-zweef--c { animation: c2-drift 3.6s ease-in-out 0.8s infinite alternate; }
+@media (prefers-reduced-motion: reduce) {
+  .c2-zweef--a, .c2-zweef--b, .c2-zweef--c { animation: none; }
+}
+@media (max-width: 800px) {
+  .c2-zweef--a, .c2-zweef--c { display: none; }
+}
+
+/* ── Werk-kaarten even groot als de dienstenkaarten ── */
+.c2-carousel--groot .c2-case {
+  flex: 0 0 clamp(340px, 32vw, 470px);
+  min-height: 21rem;
+  padding: 2.6rem 2.4rem;
+}
+.c2-carousel--groot .c2-case-title { font-size: 1.5rem; margin-top: 0.4rem; }
+.c2-carousel--groot .c2-case-desc { font-size: 1.05rem; }
+
+/* ── Kunststrook v2: groter, schermbreed, brillenpootjes sluiten aan op de circuitsporen ── */
+.c2-kunststrook { position: relative; padding: 7rem 0 1.5rem; gap: 0; }
+/* Trace-hoogte = brilhoogte (breedte × 150/360), zodat de lijn op y56 in beide svg's gelijk ligt */
+.c2-trace { flex: 1 1 0; height: clamp(125px, 17.5vw, 258.4px); min-width: 0; }
+.c2-trace--spiegel { transform: scaleX(-1); }
+.c2-bril { width: clamp(300px, 42vw, 620px); }
+.c2-kunststrook .c2-zweef--b { animation: none; }
+.c2-zweef--zij { position: absolute; z-index: 1; }
+.c2-zweef--zij-l { left: 15%; top: 16%; }
+.c2-zweef--zij-r { right: 15%; top: 56%; }
+.c2-cursor { animation: c2-knipper 1.1s steps(2, start) infinite; }
+@keyframes c2-knipper { to { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .c2-cursor { animation: none; } }
+.c2-oog {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: c2-knipperoog 7s ease-in-out infinite;
+}
+@keyframes c2-knipperoog {
+  0%, 91% { transform: scaleY(1); }
+  94% { transform: scaleY(0.05); }
+  97%, 100% { transform: scaleY(1); }
+}
+@media (prefers-reduced-motion: reduce) { .c2-oog { animation: none; } }
+@media (max-width: 800px) {
+  /* De zij-aksara blijven ook op mobiel zichtbaar (horen bij het kunstwerk) */
+  .c2-kunststrook { padding: 4rem 0 1rem; }
+  /* Sporen lopen door tot de schermrand: vaste breedte, rest steekt buiten beeld
+     (negatieve marge = ruimte naast de bril minus spoorbreedte), zodat de
+     lijn-uiteinden met contactpuntjes zichtbaar op de pootjes aansluiten */
+  .c2-trace {
+    flex: 0 0 auto;
+    width: 200px;
+    margin-left: calc((100vw - clamp(300px, 42vw, 620px)) / 2 - 200px);
+  }
+  .c2-trace--spiegel {
+    margin-left: 0;
+    margin-right: calc((100vw - clamp(300px, 42vw, 620px)) / 2 - 200px);
+  }
+}
+/* Verhalende titels iets kleiner dan gewone titels binnen grote kaarten */
+.c2-carousel--groot .c2-case-title--verhaal { font-size: 1.32rem; line-height: 1.4; }
+
+/* ── Tekstpagina's (privacy, zo-werk-ik-met-ai, 404) ── */
+.c2-tekst-kop { padding-bottom: 1rem; min-height: 0; }
+.c2-tekst-titel .c2-line { font-size: clamp(2.6rem, 8vw, 7rem); }
+.c2-tekst-datum { margin-top: 1.6rem; font-size: 0.92rem; }
+.c2-tekst-intro { max-width: 42rem; margin-top: 1.6rem; font-size: 1.12rem; line-height: 1.75; }
+.c2-tekst-content {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 1rem 2rem 6rem;
+  position: relative;
+}
+.c2-tekst-content h2 {
+  font-family: var(--font-c2-display), sans-serif;
+  color: var(--c2-blue);
+  font-weight: 400;
+  font-size: clamp(1.5rem, 2.6vw, 1.95rem);
+  line-height: 1.15;
+  margin: 3.2rem 0 1.1rem;
+}
+.c2-tekst-content p { margin-bottom: 1.05rem; font-size: 1.05rem; line-height: 1.75; }
+.c2-tekst-content ul { list-style: none; padding: 0; margin: 0 0 1.05rem; }
+.c2-tekst-content li { position: relative; padding-left: 1.5rem; margin-bottom: 0.5rem; font-size: 1.05rem; line-height: 1.75; }
+.c2-tekst-content li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0.68em;
+  width: 8px; height: 8px;
+  border: 1.5px solid var(--c2-blue);
+  border-radius: 50%;
+}
+.c2-tekst-content a { color: var(--c2-blue); text-decoration: none; }
+.c2-tekst-content a:hover { opacity: 0.75; }
+/* Artikelkaarten op de artikelindex: geheel klikbaar, titel normaal gewicht, tekst zwart */
+a.c2-artikel-kaart {
+  display: block;
+  color: var(--c2-ink);
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  border-radius: 40px;
+  padding: 2.4rem 2.4rem 2.2rem;
+  margin-bottom: 1.6rem;
+  transition: transform 0.35s ease, border-color 0.35s ease;
+}
+a.c2-artikel-kaart:hover { transform: translateY(-4px); border-color: rgba(0, 33, 143, 0.35); opacity: 1; }
+.c2-artikel-kaart .c2-case-hover { display: block; margin-top: 1.1rem; }
+a.c2-artikel-kaart:hover .c2-case-hover { opacity: 1; transform: translateY(0); }
+.c2-artikel-kaart .c2-artikel-meta { color: var(--c2-grey); font-size: 0.9rem; letter-spacing: 0.05em; margin-bottom: 0.7rem; }
+.c2-artikel-kaart h2 { font-family: inherit; font-weight: 400; color: var(--c2-ink); font-size: 1.45rem; line-height: 1.35; margin: 0 0 0.7rem; }
+.c2-artikel-kaart p { margin: 0; }
+@media (max-width: 800px) {
+  .c2-tekst-content { padding: 0.5rem 1.4rem 4rem; }
+}
+.c2-zweef--zij { flex: 0 0 auto; }
+@media (max-width: 800px) { .c2-zweef--zij { display: none; } }
+
+/* ── Statement-kaarten even groot als de werk-kaarten ── */
+.c2-cards2 { max-width: 68rem; gap: 1.8rem; margin-top: 3.4rem; }
+.c2-cards2 .c2-card {
+  min-height: 21rem;
+  padding: 2.6rem 2.4rem;
+  border-radius: 40px;
+  border-color: rgba(0, 0, 0, 0.07);
+}
+.c2-cards2 .c2-card p { font-size: 1.1rem; max-width: 32rem; }
+
+/* ── Aksara-strook tussen Over en Diensten ── */
+.c2-glyphstrook {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(2.5rem, 8vw, 6rem);
+  padding: 2.6rem 2rem;
+}
+.c2-glyphstrook-item { transform: rotate(-8deg); }
+.c2-glyphstrook-item--r { transform: rotate(8deg); }
+
+/* ── Statement: halve cirkel van aksara, rechte kant strak tegen de linker schermrand ── */
+.c2-statement-rij {
+  display: flex; align-items: center;
+  gap: clamp(1.6rem, 5vw, 5rem);
+  margin-top: 3.4rem;
+  margin-left: -2rem; /* heft de sectie-padding op zodat de cirkel de rand raakt */
+}
+.c2-halvecirkel {
+  position: relative; flex: none;
+  width: clamp(8rem, 15vw, 14rem);
+  height: clamp(17rem, 30vw, 28rem);
+}
+.c2-hc-item { position: absolute; transform: translate(-50%, -50%); }
+.c2-statement-rij .c2-card {
+  min-height: 21rem;
+  padding: 2.6rem 2.4rem;
+  border-radius: 40px;
+  border-color: rgba(0, 0, 0, 0.07);
+  max-width: 40rem;
+}
+.c2-statement-rij .c2-card p { font-size: 1.14rem; line-height: 1.75; max-width: 32rem; }
+/* Uitgelichte link: valt op door formaat, bewust niet vet */
+.c2-a--uitgelicht { font-size: 1.35em; }
+
+/* ── Mijn AI-manifest: stipje cirkelt om de woorden (gekozen variant H) ── */
+.c2-manifest-orbit {
+  position: relative; flex: none; align-self: center;
+  width: clamp(12rem, 16vw, 14.5rem); height: clamp(12rem, 16vw, 14.5rem);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 0.5rem;
+  text-align: center;
+  color: var(--c2-blue);
+  text-decoration: none;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.c2-manifest-orbit:hover { transform: translateY(-6px); }
+.c2-manifest-orbit svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.c2-mo-stip { animation: c2-mo-draai 26s linear infinite; transform-origin: 50% 50%; }
+.c2-manifest-orbit:hover .c2-mo-stip { animation-play-state: paused; }
+.c2-mo-tekst {
+  font-family: var(--font-c2-display);
+  font-size: 1.4rem; line-height: 1.2; letter-spacing: 0.03em;
+  text-transform: uppercase;
+  max-width: 9rem;
+}
+@keyframes c2-mo-draai { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .c2-mo-stip { animation: none; }
+  .c2-manifest-orbit, .c2-manifest-orbit:hover { transform: none; transition: none; }
+}
+
+@media (max-width: 800px) {
+  .c2-statement-rij { margin-left: -1.4rem; gap: 0.8rem; flex-wrap: wrap; }
+  /* Halve cirkel: tekens even groot als in de header (1.9 × 0.94 ≈ 2.3 × 0.78) */
+  .c2-halvecirkel { width: 9rem; height: 19.5rem; }
+  .c2-hc-item { transform: translate(-50%, -50%) scale(0.94); }
+  .c2-manifest-orbit { width: 9.5rem; height: 9.5rem; margin: 0.6rem auto 0; }
+  .c2-mo-tekst { font-size: 1.05rem; max-width: 7rem; }
+}
+
+/* ── Blauwe links zonder onderstreping; bij hover lichten ze op ── */
+.c2-a { text-decoration: none; }
+.c2-a:hover { opacity: 0.75; }
+
+/* ── Gunungan boven de bril: hoog, wiegend als een wayang-scènewissel ── */
+.c2-kunst-boven { display: flex; justify-content: center; padding: 6.5rem 2rem 0; }
+.c2-gunungan {
+  width: clamp(190px, 23vw, 310px);
+  height: auto;
+  animation: c2-zwaai 6.5s ease-in-out infinite alternate;
+  transform-origin: 50% 96%;
+}
+@keyframes c2-zwaai { from { transform: rotate(-1.7deg); } to { transform: rotate(1.7deg); } }
+@media (prefers-reduced-motion: reduce) { .c2-gunungan { animation: none; } }
+.c2-kunststrook { padding-top: 3.5rem; }
+
+/* ── Gunungan: standaard volledig zichtbaar ── */
+.c2-gunungan path, .c2-gunungan circle, .c2-gunungan ellipse {
+  stroke-dasharray: none;
+  stroke-dashoffset: 0;
+}
+
+/* Hover: wayang-schaduwpop (blad vult kobalt, lijnen worden wit) */
+.c2-gunungan { cursor: pointer; }
+.c2-gunungan .gun-vorm { fill: transparent; transition: fill 0.5s ease; }
+.c2-gunungan .gun-lijn { transition: stroke 0.5s ease; }
+.c2-gunungan:hover .gun-vorm { fill: #00218F; }
+.c2-gunungan:hover .gun-lijn { stroke: #FCFCFC; }
+.c2-gunungan:hover { animation-duration: 2.8s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .c2-gunungan path, .c2-gunungan circle, .c2-gunungan ellipse { stroke-dashoffset: 0; animation: none !important; }
+}
+/* Vleugels blijven kobalt bij hover */
+
+/* ── Klantcitaten: groot en vrijstaand, geen kaart (forn-stijl) ── */
+.c2-citaat {
+  position: relative;
+  margin: 0;
+  padding: 5rem 2rem 2.5rem;
+  max-width: 68rem;
+}
+.c2-citaat--r {
+  margin-left: auto;
+  display: flex; flex-direction: column; align-items: flex-end;
+  text-align: right;
+}
+.c2-citaat-teken { display: inline-block; margin-bottom: 1.4rem; }
+.c2-citaat-teken .c2-glyph { color: var(--c2-blue); }
+.c2-citaat blockquote {
+  margin: 0;
+  font-size: clamp(1.45rem, 3.2vw, 2.3rem);
+  line-height: 1.4;
+  color: var(--c2-ink);
+  max-width: 30ch;
+}
+.c2-citaat figcaption {
+  margin-top: 1.7rem;
+  font-size: 0.8rem;
+  color: var(--c2-grey);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ── Batik-kunstkaarten bewegen doorlopend (forn-stijl), rustig tempo ── */
+.c2-kunst-rozet { animation: c2-rozet-draai 26s linear infinite; }
+.c2-kunst-rozet--terug { animation-direction: reverse; }
+@keyframes c2-rozet-draai { to { transform: rotate(360deg); } }
+
+.c2-kunst-golf { animation: c2-golf-rol 3.4s ease-in-out infinite alternate; }
+@keyframes c2-golf-rol {
+  from { transform: translate(0, 0); }
+  to   { transform: translate(4px, -7px); }
+}
+
+.c2-kunst-ster {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: c2-ster-twinkel 2.9s ease-in-out infinite alternate;
+}
+@keyframes c2-ster-twinkel {
+  from { opacity: 0.3; transform: scale(0.75) rotate(-16deg); }
+  to   { opacity: 1; transform: scale(1.18) rotate(16deg); }
+}
+
+.c2-kunst-wolk { animation: c2-wolk-drift 5.5s ease-in-out infinite alternate; }
+@keyframes c2-wolk-drift {
+  from { transform: translate(-9px, 0); }
+  to   { transform: translate(9px, -5px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .c2-kunst-rozet, .c2-kunst-golf, .c2-kunst-ster, .c2-kunst-wolk { animation: none; }
+}
+
+/* ── Sectietitel als link (Gedachten & artikelen → artikeloverzicht) ── */
+a.c2-kinetic--link { display: block; text-decoration: none; transition: opacity 0.25s ease; }
+a.c2-kinetic--link:hover { opacity: 0.75; }

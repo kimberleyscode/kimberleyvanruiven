@@ -96,7 +96,7 @@ export default function CO2Page() {
       });
     }
 
-    function updateLegend(values: { id: string; g: number; label: string }[], total: number) {
+    function updateLegend(values: { id: string; g: number; label: string }[]) {
       const legend = document.getElementById('legend');
       if (!legend) return;
       legend.innerHTML = values.filter(v => v.g > 0).map(v => `
@@ -152,15 +152,15 @@ export default function CO2Page() {
       if (phoneEl) phoneEl.textContent = (total / 8.8).toFixed(1);
 
       updateDonut(values, total);
-      updateLegend(values, total);
+      updateLegend(values);
     }
 
     // Expose to DOM event handlers
-    (window as any).step = step;
-    (window as any).setTokens = setTokens;
-    (window as any).setPeriod = setPeriod;
-    (window as any).toggleTheme = toggleTheme;
-    (window as any).calculate = calculate;
+    window.step = step;
+    window.setTokens = setTokens;
+    window.setPeriod = setPeriod;
+    window.toggleTheme = toggleTheme;
+    window.calculate = calculate;
 
     calculate();
   }, []);
@@ -261,14 +261,14 @@ export default function CO2Page() {
       <div className="co2-wrap" ref={mainRef}>
 
         <div className="co2-topbar">
-          <Link href="/">← Spill Your Tea</Link>
+          <Link href="/">← Kimberley van Ruiven</Link>
           <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.82rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}>AI CO₂ Calculator</span>
         </div>
 
         <header className="co2-header">
-          <button className="theme-btn" onClick={() => (window as any).toggleTheme()}><i className="ph ph-moon"></i></button>
+          <button className="theme-btn" onClick={() => window.toggleTheme()}><i className="ph ph-moon"></i></button>
           <div className="header-inner">
-            <span className="slogan">Spill Your Tea: AI zonder bullshit</span>
+            <span className="slogan">AI zonder bullshit</span>
             <h1>AI CO₂ Calculator</h1>
             <p>Hoeveel CO₂ stoot jouw AI-gebruik eigenlijk uit?</p>
             <p style={{ fontStyle: 'italic', marginTop: '0.35rem', textShadow: '0 1px 8px rgba(0,0,0,0.8)' }}>(en wat je hieraan kunt doen)</p>
@@ -292,8 +292,8 @@ export default function CO2Page() {
           </div>
 
           <div className="period-toggle">
-            <button className="active" onClick={(e) => (window as any).setPeriod('day', e.currentTarget)}>Per dag</button>
-            <button onClick={(e) => (window as any).setPeriod('month', e.currentTarget)}>Per maand</button>
+            <button className="active" onClick={(e) => window.setPeriod('day', e.currentTarget)}>Per dag</button>
+            <button onClick={(e) => window.setPeriod('month', e.currentTarget)}>Per maand</button>
           </div>
 
           <div className="card">
@@ -323,17 +323,17 @@ export default function CO2Page() {
                 <div className="input-block">
                   <label>Uren per dag</label>
                   <div className="input-wrap">
-                    <button onClick={() => (window as any).step('local-hours', -0.5)}>−</button>
-                    <input type="number" id="local-hours" min="0" step={0.5} defaultValue={0} onInput={() => (window as any).calculate()} />
-                    <button onClick={() => (window as any).step('local-hours', 0.5)}>+</button>
+                    <button onClick={() => window.step('local-hours', -0.5)}>−</button>
+                    <input type="number" id="local-hours" min="0" step={0.5} defaultValue={0} onInput={() => window.calculate()} />
+                    <button onClick={() => window.step('local-hours', 0.5)}>+</button>
                   </div>
                 </div>
                 <div className="input-block">
                   <label>GPU watt</label>
                   <div className="input-wrap">
-                    <button onClick={() => (window as any).step('local-watt', -10)}>−</button>
-                    <input type="number" id="local-watt" min="0" defaultValue={200} onInput={() => (window as any).calculate()} />
-                    <button onClick={() => (window as any).step('local-watt', 10)}>+</button>
+                    <button onClick={() => window.step('local-watt', -10)}>−</button>
+                    <input type="number" id="local-watt" min="0" defaultValue={200} onInput={() => window.calculate()} />
+                    <button onClick={() => window.step('local-watt', 10)}>+</button>
                   </div>
                 </div>
               </div>
@@ -392,7 +392,7 @@ export default function CO2Page() {
 
         </main>
 
-        <footer className="co2-footer">© Kimberley van Ruiven · Spill Your Tea: AI zonder bullshit</footer>
+        <footer className="co2-footer">© Kimberley van Ruiven · Voor een mens-gerichte toekomst met technologie</footer>
       </div>
     </>
   );
@@ -417,17 +417,17 @@ function ServiceRow({ id, name, sub, defaultMsgs, greenTag }: {
         <div className="input-block">
           <label>Berichten</label>
           <div className="input-wrap">
-            <button onClick={() => (window as any).step(`${id}-msgs`, -1)}>−</button>
-            <input type="number" id={`${id}-msgs`} min={0} defaultValue={defaultMsgs} onInput={() => (window as any).calculate()} />
-            <button onClick={() => (window as any).step(`${id}-msgs`, 1)}>+</button>
+            <button onClick={() => window.step(`${id}-msgs`, -1)}>−</button>
+            <input type="number" id={`${id}-msgs`} min={0} defaultValue={defaultMsgs} onInput={() => window.calculate()} />
+            <button onClick={() => window.step(`${id}-msgs`, 1)}>+</button>
           </div>
         </div>
         <div className="input-block">
           <label>Gesprekslengte (input + output)</label>
           <div className="token-select">
-            {[['Kort',200],['Gemiddeld',800],['Lang',2000],['Uitgebreid',5000]].map(([label, val]) => (
+            {([['Kort',200],['Gemiddeld',800],['Lang',2000],['Uitgebreid',5000]] as [string, number][]).map(([label, val]) => (
               <button key={val} className={`token-btn${val === 800 ? ' active' : ''}`}
-                onClick={(e) => (window as any).setTokens(id, val, e.currentTarget)}>
+                onClick={(e) => window.setTokens(id, val, e.currentTarget)}>
                 {label}
               </button>
             ))}

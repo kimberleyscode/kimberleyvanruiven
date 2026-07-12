@@ -10,8 +10,8 @@
   --dim:       rgba(255,255,255,0.38);
   --hairline:  rgba(255,255,255,0.07);
   --shadow:    0 24px 48px rgba(0,0,0,0.7);
-  --amber:     #C8A96E;
-  --amber-dim: rgba(200,169,110,0.45);
+  --amber:     #6C8CCF; /* experiment: staalblauw i.p.v. amber #C8A96E */
+  --amber-dim: rgba(108,140,207,0.45);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -91,7 +91,7 @@ nav {
   letter-spacing: -0.02em; max-width: 14ch;
   margin-bottom: 3rem;
 }
-.hero-title em { font-style: italic; color: rgba(255,255,255,0.38); }
+.hero-title em { font-style: italic; color: var(--amber); }
 .hero-meta {
   display: flex; align-items: center; gap: 4rem;
   border-top: 1px solid var(--hairline); padding-top: 2rem;
@@ -212,12 +212,12 @@ nav {
 .service-card {
   background: var(--surface); padding: 3rem;
   border: 1px solid var(--hairline);
-  border-left: 2px solid rgba(200,169,110,0);
+  border-left: 2px solid rgba(108,140,207,0);
   transition: background 0.3s, border-color 0.3s, border-left-color 0.3s; cursor: default;
 }
 .service-card:hover {
-  background: rgba(200,169,110,0.04);
-  border-color: rgba(200,169,110,0.2);
+  background: rgba(108,140,207,0.04);
+  border-color: rgba(108,140,207,0.2);
   border-left-color: var(--amber);
 }
 .service-card:hover .service-num { color: var(--amber); }
@@ -378,9 +378,9 @@ nav {
   height: 100%; background: var(--amber);
   width: 0; transition: width 1.2s cubic-bezier(0.25,1,0.5,1);
 }
-.mini-bar-fill--light  { background: rgba(200,169,110,0.35); }
-.mini-bar-fill--danger { background: rgba(200,169,110,0.9); }
-.mini-bar-fill--green  { background: rgba(200,169,110,0.3); }
+.mini-bar-fill--light  { background: rgba(108,140,207,0.35); }
+.mini-bar-fill--danger { background: rgba(108,140,207,0.9); }
+.mini-bar-fill--green  { background: rgba(108,140,207,0.3); }
 .mini-bar-pct { font-family: var(--font-dm-sans), sans-serif; font-size: 0.65rem; color: var(--dim); }
 .stat-source { font-family: var(--font-dm-sans), sans-serif; font-size: 0.65rem; color: rgba(255,255,255,0.22); font-style: italic; }
 .stat-source a { color: var(--dim); text-decoration: underline; text-underline-offset: 2px; }
@@ -517,7 +517,7 @@ footer {
   font-size: 0.7rem; font-weight: 500;
   letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--amber);
-  border: 1px solid rgba(200,169,110,0.35);
+  border: 1px solid rgba(108,140,207,0.35);
   padding: 0.35rem 0.85rem;
 }
 
@@ -552,8 +552,46 @@ footer {
 }
 .service-badge--book {
   color: var(--amber);
-  border-color: rgba(200,169,110,0.4);
+  border-color: rgba(108,140,207,0.4);
 }
+
+/* ── Uitklapbare dienst-tegels (Voor bedrijven) ── */
+.service-tile {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-left: 2px solid rgba(108,140,207,0);
+  transition: background 0.3s, border-color 0.3s, border-left-color 0.3s;
+}
+.service-tile:hover, .service-tile.is-open {
+  background: rgba(108,140,207,0.04);
+  border-color: rgba(108,140,207,0.2);
+  border-left-color: var(--amber);
+}
+.service-tile-head {
+  display: flex; align-items: center; gap: 1.5rem;
+  width: 100%; padding: 1.9rem 2rem;
+  background: none; border: none; cursor: pointer; text-align: left;
+  color: inherit; font: inherit;
+}
+.service-tile-icon { color: var(--amber); display: flex; flex-shrink: 0; }
+.service-tile-icon svg { width: 30px; height: 30px; }
+.service-tile-text { display: flex; flex-direction: column; gap: 0.35rem; min-width: 0; flex: 1; }
+.service-tile-name {
+  font-family: var(--font-playfair), serif; font-size: 1.2rem;
+  font-weight: 600; line-height: 1.3; color: var(--ink);
+}
+.service-tile-tagline { font-size: 0.85rem; color: var(--secondary); line-height: 1.5; }
+.service-tile-chevron { color: var(--dim); flex-shrink: 0; transition: transform 0.3s, color 0.3s; }
+.service-tile-chevron svg { width: 18px; height: 18px; }
+.service-tile.is-open .service-tile-chevron { transform: rotate(180deg); color: var(--amber); }
+.service-tile-body {
+  display: grid; grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s ease;
+}
+.service-tile.is-open .service-tile-body { grid-template-rows: 1fr; }
+.service-tile-body-inner { overflow: hidden; min-height: 0; }
+.service-tile-body-pad { padding: 0 2rem 1.9rem calc(2rem + 30px + 1.5rem); }
+.service-tile-body-pad .service-link { margin-top: 1.1rem; }
 
 /* ── Portfolio ── */
 .portfolio {
@@ -573,7 +611,7 @@ footer {
   gap: 1.5rem;
   transition: background 0.25s;
 }
-.portfolio-card:hover { background: rgba(200,169,110,0.07); }
+.portfolio-card:hover { background: rgba(108,140,207,0.07); }
 .portfolio-card-section { display: flex; flex-direction: column; gap: 0.4rem; }
 .portfolio-label {
   font-family: var(--font-dm-sans), sans-serif;
@@ -584,6 +622,40 @@ footer {
 .portfolio-card p {
   font-size: 0.88rem; color: var(--secondary); line-height: 1.65;
 }
+.portfolio-featured {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 2px;
+  margin-top: 4rem;
+}
+.portfolio-featured-shot {
+  display: block;
+  background: var(--surface);
+  overflow: hidden;
+}
+.portfolio-featured-shot img {
+  display: block; width: 100%; height: 100%;
+  object-fit: cover; object-position: top;
+  transition: transform 0.5s ease;
+}
+.portfolio-featured-shot:hover img { transform: scale(1.03); }
+.portfolio-grid--two {
+  grid-template-columns: repeat(2, 1fr);
+  margin-top: 2px;
+}
+.portfolio-card-shot {
+  display: block;
+  margin: -2.5rem -2.5rem 0;
+  border-bottom: 1px solid var(--hairline);
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+}
+.portfolio-card-shot img {
+  display: block; width: 100%; height: 100%;
+  object-fit: cover; object-position: top;
+  transition: transform 0.5s ease;
+}
+.portfolio-card:hover .portfolio-card-shot img { transform: scale(1.03); }
 
 /* ── Persoonlijke alinea ── */
 .personal-statement {
@@ -632,9 +704,9 @@ footer {
   height: 100%; background: var(--amber);
   width: 0; transition: width 1.2s cubic-bezier(0.25,1,0.5,1);
 }
-.mini-bar-fill--light  { background: rgba(200,169,110,0.35); }
-.mini-bar-fill--danger { background: rgba(200,169,110,0.9); }
-.mini-bar-fill--green  { background: rgba(200,169,110,0.3); }
+.mini-bar-fill--light  { background: rgba(108,140,207,0.35); }
+.mini-bar-fill--danger { background: rgba(108,140,207,0.9); }
+.mini-bar-fill--green  { background: rgba(108,140,207,0.3); }
 .mini-bar-pct { font-family: var(--font-dm-sans), sans-serif; font-size: 0.65rem; color: var(--dim); }
 .stat-source { font-family: var(--font-dm-sans), sans-serif; font-size: 0.65rem; color: rgba(255,255,255,0.22); font-style: italic; }
 .stat-source a { color: var(--dim); text-decoration: underline; text-underline-offset: 2px; }
@@ -663,7 +735,7 @@ footer {
     overflow: hidden;
   }
 
-  /* parallax-bg: steekt 250px uit boven en onder — ruimte voor volle beweging zonder randen */
+  /* parallax-bg: steekt 250px uit boven en onder: ruimte voor volle beweging zonder randen */
   .parallax-bg {
     position: absolute;
     top: -250px; bottom: -250px; left: 0; right: 0;
@@ -756,9 +828,157 @@ footer {
   .footer-top { flex-direction: column; gap: 0.5rem; text-align: center; }
   .werkervaring { padding: 4rem 1.5rem; }
   .service-group-grid, .service-group-grid--three { grid-template-columns: minmax(0, 1fr); }
-  .portfolio-grid { grid-template-columns: minmax(0, 1fr); }
+  .service-tile-head { padding: 1.5rem 1.25rem; gap: 1rem; }
+  .service-tile-icon svg { width: 26px; height: 26px; }
+  .service-tile-body-pad { padding: 0 1.25rem 1.5rem 1.25rem; }
+  .portfolio-grid, .portfolio-grid--two { grid-template-columns: minmax(0, 1fr); }
+  .portfolio-featured { grid-template-columns: minmax(0, 1fr); }
+  .portfolio-featured-shot { aspect-ratio: 16 / 10; }
   .personal-statement { padding: 4rem 1.5rem; }
   .hero-cta-group { flex-direction: column; gap: 0.75rem; }
   .hero-identity { margin-bottom: 1.5rem; }
   .hero-soul { display: none; }
 }
+
+/* ── Portfolio: resultaat-regel ── */
+.portfolio-result {
+  margin-top: auto;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--hairline);
+}
+.portfolio-label--result { color: var(--amber); }
+.portfolio-result p { color: var(--ink); }
+
+/* ── Testimonials ── */
+.testimonials {
+  padding: 7rem 3rem;
+  border-bottom: 1px solid var(--hairline);
+}
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+  margin-top: 4rem;
+}
+.testimonial-card {
+  background: var(--surface);
+  padding: 2.75rem 2.5rem;
+  margin: 0;
+  display: flex; flex-direction: column;
+  gap: 1.75rem;
+  border-top: 2px solid var(--amber-dim);
+  transition: background 0.25s, border-color 0.25s;
+}
+.testimonial-card:hover { background: rgba(108,140,207,0.07); border-top-color: var(--amber); }
+.testimonial-quote {
+  margin: 0;
+  font-family: var(--font-playfair), serif;
+  font-size: clamp(1.05rem, 1.8vw, 1.3rem);
+  line-height: 1.65;
+  color: var(--ink);
+}
+.testimonial-who {
+  display: flex; flex-direction: column; gap: 0.2rem;
+  padding-left: 1rem;
+  border-left: 2px solid var(--amber);
+}
+.testimonial-name {
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 0.85rem; font-weight: 500;
+  color: var(--ink);
+}
+.testimonial-role {
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 0.75rem; letter-spacing: 0.06em;
+  color: var(--dim);
+}
+
+/* ── CTA: alternatief naast agenda-link ── */
+.cta-alt {
+  margin-top: 2.25rem;
+  font-size: 0.92rem;
+  color: var(--secondary);
+  max-width: 44ch;
+  margin-left: auto; margin-right: auto;
+  line-height: 1.7;
+  position: relative; z-index: 1;
+}
+.cta-alt a {
+  color: var(--amber);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s;
+}
+.cta-alt a:hover { color: var(--ink); }
+
+@media (max-width: 768px) {
+  .testimonials { padding: 4rem 1.5rem; }
+  .testimonial-grid { grid-template-columns: minmax(0, 1fr); margin-top: 2.5rem; }
+}
+
+/* ── Tekstpagina's: privacy, zo-werk-ik-met-ai, artikelen ─────────────── */
+.privacy-page { min-height: 100vh; padding: 9.5rem 3rem 6rem; }
+.privacy-content { max-width: 44rem; margin: 0 auto; }
+.privacy-header { margin-bottom: 3.5rem; }
+.privacy-page .section-label {
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 0.75rem; font-weight: 500;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--amber);
+}
+.privacy-page .section-heading {
+  font-family: var(--font-playfair), Georgia, serif;
+  font-size: clamp(2rem, 5vw, 2.9rem);
+  font-weight: 600; line-height: 1.15;
+  margin: 1rem 0 1.4rem;
+  text-wrap: balance;
+}
+.privacy-intro { color: var(--secondary); font-size: 1.05rem; }
+.privacy-section { margin-bottom: 3rem; }
+.privacy-section h2 {
+  font-family: var(--font-playfair), Georgia, serif;
+  font-size: 1.4rem; font-weight: 600;
+  margin-bottom: 0.9rem;
+  text-wrap: balance;
+}
+.privacy-section p { color: var(--secondary); margin-bottom: 0.9rem; }
+.privacy-section ul { margin: 0 0 0.9rem 1.25rem; color: var(--secondary); }
+.privacy-section li { margin-bottom: 0.55rem; }
+.privacy-section a { color: var(--amber); text-decoration-color: var(--amber-dim); }
+.privacy-section a:hover { text-decoration-thickness: 2px; }
+.privacy-section strong { color: var(--ink); font-weight: 500; }
+.privacy-intro a { color: var(--amber); }
+@media (max-width: 640px) {
+  .privacy-page { padding: 7.5rem 1.4rem 4rem; }
+}
+
+/* ── Scriptieblok in Over-sectie ──────────────────────────────────────── */
+.thesis-block {
+  margin: 2rem 0 0.5rem;
+  padding: 1.6rem 1.8rem;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-left: 2px solid var(--amber);
+}
+.thesis-label {
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 0.7rem; font-weight: 500;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 0.6rem;
+}
+.thesis-title {
+  font-family: var(--font-playfair), Georgia, serif;
+  font-size: 1.3rem; font-weight: 600;
+  margin-bottom: 0.6rem;
+  text-wrap: balance;
+}
+.thesis-body { color: var(--secondary); margin-bottom: 0.9rem; }
+.thesis-links {
+  display: flex; flex-wrap: wrap; gap: 0.4rem 1.6rem;
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 0.8rem; letter-spacing: 0.04em;
+}
+.thesis-soon { color: var(--dim); font-style: italic; }
+.thesis-links a { color: var(--amber); text-decoration: none; }
+.thesis-links a:hover { text-decoration: underline; }

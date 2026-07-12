@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Nectar</title>
+  <!-- De demo wordt geserveerd op /nectar (zonder slash), dus relatieve paden hebben een base nodig. -->
+  <base href="/nectar/">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f7f7f5">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#161614">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Nectar">
+  <link rel="apple-touch-icon" href="cyclus-icon-192.png?v=2">
+  <!-- Alles lokaal: geen verzoeken naar CDN's, fonts of beeldbanken -->
+  <script src="d3.v7.min.js"></script>
+  <link href="fonts-lokaal.css" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --ink:   #1b1b19;
+      --paper: #f7f7f5;
+      --g100:  #efefec;
+      --g150:  #e7e7e3;
+      --g300:  #d0d0cc;
+      --g500:  #9b9b96;
+      --g700:  #5a5a58;
+      --rose:  #9e4444;
+      --sage:  #7a9e8a;
+    }
+    /* Donkere modus: via systeemvoorkeur (zolang er geen handmatige keuze is)
+       én via de schakelaar (data-thema op <html>). Tokens staan daarom twee keer. */
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-thema="licht"]) {
+        --ink:   #ecece9;
+        --paper: #161614;
+        --g100:  #242421;
+        --g150:  #2b2b28;
+        --g300:  #3d3d39;
+        --g500:  #8a8a85;
+        --g700:  #c2c2bc;
+        --rose:  #b25a5a;
+        --sage:  #7fa890;
+      }
+      :root:not([data-thema="licht"]) .scrim { background: rgba(22,22,20,.6); }
+      :root:not([data-thema="licht"]) .dpick-scrim { background: rgba(22,22,20,.72); }
+      :root:not([data-thema="licht"]) .dpick-modal { box-shadow: 0 12px 48px rgba(0,0,0,.4); }
+      :root:not([data-thema="licht"]) .tab-plus { box-shadow: 0 4px 16px rgba(0,0,0,.4); }
+      :root:not([data-thema="licht"]) .sb-brand img,
+      :root:not([data-thema="licht"]) .wordmark img { filter: invert(1) hue-rotate(180deg); }
+      :root:not([data-thema="licht"]) .phase-art-bg img { filter: invert(1); mix-blend-mode: screen; }
+    }
+    :root[data-thema="donker"] {
+      --ink:   #ecece9;
+      --paper: #161614;
+      --g100:  #242421;
+      --g150:  #2b2b28;
+      --g300:  #3d3d39;
+      --g500:  #8a8a85;
+      --g700:  #c2c2bc;
+      --rose:  #b25a5a;
+      --sage:  #7fa890;
+    }
+    :root[data-thema="donker"] .scrim { background: rgba(22,22,20,.6); }
+    :root[data-thema="donker"] .dpick-scrim { background: rgba(22,22,20,.72); }
+    :root[data-thema="donker"] .dpick-modal { box-shadow: 0 12px 48px rgba(0,0,0,.4); }
+    :root[data-thema="donker"] .tab-plus { box-shadow: 0 4px 16px rgba(0,0,0,.4); }
+    :root[data-thema="donker"] .sb-brand img,
+    :root[data-thema="donker"] .wordmark img { filter: invert(1) hue-rotate(180deg); }
+    :root[data-thema="donker"] .phase-art-bg img { filter: invert(1); mix-blend-mode: screen; }
+
+    /* Themaschakelaar */
+    .thema-btn { background: none; border: none; cursor: pointer; color: var(--g500); padding: 4px; display: flex; align-items: center; transition: color .14s; }
+    .thema-btn:hover { color: var(--ink); }
+    .thema-btn svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 1.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .head-tools { display: flex; align-items: center; gap: 14px; }
+    html, body { height: 100%; overflow: hidden; }
+    body { font-family: 'Noto Sans JP', system-ui, sans-serif; font-weight: 300; background: var(--paper); color: var(--ink); font-size: 14px; }
+
+    /* ── SHELL ── */
+    .shell { display: flex; flex-direction: column; height: 100dvh; width: 100%; }
+    @media (min-width: 768px) { .shell { flex-direction: row; } }
+
+    /* ── SIDEBAR (desktop only) ── */
+    .sidebar { display: none; }
+    @media (min-width: 768px) {
+      .sidebar {
+        display: flex; flex-direction: column;
+        width: 220px; flex-shrink: 0;
+        border-right: 1px solid var(--g100);
+        padding: 52px 0 32px;
+        height: 100dvh;
+        background: var(--paper);
+      }
+    }
+    .sb-brand { display: flex; align-items: center; gap: 10px; padding: 0 28px 44px; }
+    .sb-brand img { width: 36px; height: 36px; object-fit: contain; flex-shrink: 0; }
+    .sb-brand span { font-family: 'Noto Serif JP', serif; font-weight: 200; font-size: 13px; letter-spacing: 0.42em; color: var(--g500); text-transform: uppercase; }
+    .sb-nav { flex: 1; display: flex; flex-direction: column; gap: 2px; padding: 0 12px; }
+    .sb-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border: none; background: none; border-radius: 10px; cursor: pointer; font-family: 'Noto Sans JP', sans-serif; font-size: 14px; font-weight: 300; color: var(--g500); letter-spacing: 0.03em; transition: background .14s, color .14s; width: 100%; }
+    .sb-item:hover { background: var(--g100); color: var(--ink); }
+    .sb-item.active { background: var(--ink); color: var(--paper); }
+    .sb-item svg { width: 17px; height: 17px; stroke: currentColor; stroke-width: 1.5; fill: none; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+    .sb-item.active svg { stroke-width: 2; }
+    .sb-plus { margin: 20px 12px 0; padding: 13px 16px; background: none; border: 1px solid var(--g300); border-radius: 10px; cursor: pointer; font-family: 'Noto Sans JP', sans-serif; font-size: 14px; font-weight: 300; letter-spacing: 0.06em; color: var(--ink); display: flex; align-items: center; gap: 10px; transition: background .14s, border-color .14s; }
+    .sb-plus:hover { background: var(--g100); border-color: var(--ink); }
+    .sb-plus svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; flex-shrink: 0; }
+
+    /* ── MAIN ── */
+    .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+
+    /* ── VIEWS ── */
+    .view { flex: 1; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; display: flex; flex-direction: column; }
+    .view.hidden { display: none; }
+    .view-head { display: flex; align-items: center; justify-content: space-between; padding: max(52px, calc(env(safe-area-inset-top) + 16px)) 24px 16px; flex-shrink: 0; }
+    @media (min-width: 768px) { .view-head { padding: 44px 48px 12px; } }
+    .wordmark { display: flex; align-items: center; gap: 8px; font-family: 'Noto Serif JP', serif; font-weight: 200; font-size: 13px; letter-spacing: 0.45em; color: var(--g500); text-transform: uppercase; }
+    .wordmark img { width: 32px; height: 32px; object-fit: contain; flex-shrink: 0; }
+    @media (min-width: 768px) { .wordmark { display: none; } }
+    .head-right { font-size: 13px; color: var(--g500); letter-spacing: 0.08em; }
+
+    /* ── TAB BAR (mobile only) ── */
+    .tabbar { flex-shrink: 0; height: 68px; display: flex; align-items: center; justify-content: space-around; border-top: 1px solid var(--g100); background: var(--paper); padding-bottom: env(safe-area-inset-bottom); }
+    @media (min-width: 768px) { .tabbar { display: none; } }
+    .tab { flex: 1; background: none; border: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px; font-family: 'Noto Sans JP', sans-serif; font-size: 12px; font-weight: 300; color: var(--g500); letter-spacing: 0.03em; padding: 0; transition: color .14s; }
+    .tab.active { color: var(--ink); }
+    .tab svg { width: 22px; height: 22px; stroke: currentColor; stroke-width: 1.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .tab.active svg { stroke-width: 2; }
+    .tab-plus { flex: 0 0 52px; width: 52px; height: 52px; border-radius: 50%; background: var(--ink); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; margin-top: -10px; box-shadow: 0 4px 16px rgba(27,27,25,.22); transition: transform .14s; }
+    .tab-plus:hover { transform: scale(1.06); }
+    .tab-plus svg { stroke: var(--paper); width: 20px; height: 20px; stroke-width: 2; fill: none; stroke-linecap: round; }
+
+    /* ── CYCLUS VIEW ── */
+    .cyclus-body { display: flex; flex-direction: column; flex: 1; }
+    @media (min-width: 768px) { .cyclus-body { flex-direction: row; overflow: hidden; } }
+
+    .cyclus-left { display: flex; flex-direction: column; align-items: center; padding: 8px 0 0; }
+    @media (min-width: 768px) {
+      .cyclus-left { width: 380px; flex-shrink: 0; border-right: 1px solid var(--g100); padding: 32px 40px; justify-content: center; align-items: flex-start; }
+    }
+
+    .cyclus-right { flex: 1; padding: 0 0 24px; position: relative; overflow: hidden; }
+    @media (min-width: 768px) { .cyclus-right { padding: 40px 280px 48px 48px; overflow-y: auto; } }
+
+    /* Kolibrie — rechterrand van de rechterkolom, puur decoratief */
+    .phase-art-bg {
+      position: absolute; pointer-events: none;
+      right: 0; top: 50%; transform: translateY(-50%);
+      width: 58%; height: 90%;
+      display: none;
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 28%);
+      mask-image: linear-gradient(to right, transparent 0%, black 28%);
+    }
+    .phase-art-bg { z-index: 0; }
+    .phase-art-bg img {
+      width: 100%; height: 100%;
+      object-fit: contain; object-position: right center;
+      opacity: 0.28;
+      mix-blend-mode: multiply; /* witte jpg-achtergrond valt weg tegen het papier */
+    }
+    @media (min-width: 768px) { .phase-art-bg { display: block; } }
+    /* Inhoud altijd bóven de decoratie */
+    .cyclus-right .ring-pred, .cyclus-right .fertile-wrap, .cyclus-right .phase-stats { position: relative; z-index: 1; }
+
+    /* Mobiel: geen illustratie */
+    .phase-art-mobile-el { display: none !important; }
+
+    /* Ring */
+    .ring-wrap { position: relative; width: 280px; height: 280px; margin: 0 auto; flex-shrink: 0; }
+    @media (min-width: 768px) { .ring-wrap { width: 300px; height: 300px; margin: 0; } }
+    #ring-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .ring-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none; }
+    .ring-lbl { font-size: 11px; letter-spacing: 0.22em; color: var(--g500); text-transform: uppercase; margin-bottom: 2px; }
+    .ring-big { font-family: 'Noto Serif JP', serif; font-weight: 200; font-size: 60px; line-height: 1; color: var(--ink); }
+    .ring-sub { font-size: 12px; color: var(--g500); letter-spacing: 0.1em; margin-top: 5px; }
+    .ring-phase { font-size: 11px; letter-spacing: 0.16em; color: var(--g500); text-transform: uppercase; margin-top: 7px; }
+
+    /* Phase chips below ring on desktop */
+    .phase-chips { display: none; }
+    @media (min-width: 768px) {
+      .phase-chips { display: flex; flex-wrap: wrap; gap: 7px; padding-top: 28px; }
+    }
+    .phase-chip { padding: 5px 14px; border-radius: 99px; font-size: 10px; letter-spacing: 0.05em; border: 1px solid var(--g100); color: var(--g500); }
+    .phase-chip.active { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+
+    /* Prediction text */
+    .ring-pred { padding: 16px 28px 8px; text-align: center; }
+    @media (min-width: 768px) { .ring-pred { padding: 0 0 16px; text-align: left; } }
+    .ring-pred p { font-family: 'Noto Serif JP', serif; font-weight: 200; font-size: 17px; line-height: 1.85; color: var(--g700); }
+    .ring-pred em { font-style: normal; color: var(--ink); font-weight: 300; }
+
+    /* No data */
+    .no-data-wrap { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 32px; text-align: center; flex: 1; }
+    .no-data-ring { width: 200px; height: 200px; margin: 0 auto 28px; opacity: 0.45; }
+    .no-data-txt { font-size: 15px; color: var(--g500); line-height: 1.9; letter-spacing: 0.04em; }
+
+    /* Fertile window card */
+    .fertile-wrap { padding: 8px 24px 24px; }
+    @media (min-width: 768px) { .fertile-wrap { padding: 0 0 0; } }
+    .fertile-card { border: 1px solid var(--g100); border-radius: 16px; padding: 18px 20px; transition: border-color .2s, background .2s; }
+    .fertile-card.fertile-active { border-color: #8aaf8c; background: rgba(122,158,138,.08); }
+    .fertile-lbl { font-size: 11px; letter-spacing: 0.22em; color: var(--g500); text-transform: uppercase; margin-bottom: 10px; }
+    .fertile-dates { font-family: 'Noto Serif JP', serif; font-weight: 200; font-size: 22px; color: var(--ink); margin-bottom: 5px; }
+    .fertile-sub { font-size: 12px; color: var(--g500); letter-spacing: 0.04em; }
+    .fertile-badge { display: inline-block; margin-top: 10px; padding: 4px 12px; background: #7a9e8a; border-radius: 99px; font-size: 11px; letter-spacing: 0.12em; color: #fff; text-transform: uppercase; }
+    .fertile-disc { font-size: 11px; color: var(--g500); margin-top: 10px; line-height: 1.6; }
+
+    /* Mini stat cards: op mobiel 2×2 onder de ring, op desktop rechts */
+    .phase-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 24px 8px; }
+    @media (min-width: 768px) {
+      .phase-stats { padding: 20px 0 0; }
+    }
+    .psc { border: 1px solid var(--g100); border-radius: 14px; padding: 16px 18px; }
+    .psc-lbl { font-size: 11px; letter-spacing: 0.18em; color: var(--g500); text-transform: uppercase; margin-bottom: 8px; }
+    .psc-val { font-family: 'Noto Serif JP', serif; font-weight: 200; font-size: 30px; line-height: 1; }
+    .psc-unit { font-size: 13px; color: var(--g700); margin-left: 3px; font-family: 'Noto Sans JP', sans-serif; }
+    .psc-sub { font-size: 12px; color: var(--g500); margin-top: 5px; letter-spacing: 0.02em; }
+
+    /* ── KALENDER VIEW ── */
+    .multi-cal { padding-bottom: 32px; }
+    @media (min-width: 900px) { .multi-cal { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 48px; padding: 8px 48px 48px; } }
+    @media (min-width: 1200px) { .multi-cal { grid-template-columns: repeat(3, 1fr); } }
+    .month-block { margin-bottom: 4px; }
+    .month-block-title { font-family: 'Noto Serif JP', serif; font-weight: 200; font-size: 13px; letter-spacing: 0.08em; text-align: center; padding: 18px 0 10px; }
+    .month-block-title b { font-weight: 300; }
+    .month-block-title span { color: var(--g500); }
+    .mcal-grid { display: grid; grid-template-columns: repeat(7, 1fr); }
+    .mcal-hd { text-align: center; font-size: 11px; letter-spacing: 0.12em; color: var(--g500); padding-bottom: 8px; text-transform: uppercase; }
+    .mcal-day { position: relative; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+    .mcal-day.empty { cursor: default; }
+    .mcal-num { font-size: 14px; font-weight: 300; color: var(--ink); position: relative; z-index: 2; line-height: 1; display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; }
+    .period-bg, .pred-bg { position: absolute; top: 4px; bottom: 4px; left: 0; right: 0; z-index: 1; }
+    .period-bg { background: var(--rose); }
+    .pred-bg   { background: var(--g300); }
+    .period-start .period-bg, .pred-start .pred-bg { left: 20%; border-radius: 99px 0 0 99px; }
+    .period-end   .period-bg, .pred-end   .pred-bg { right: 20%; border-radius: 0 99px 99px 0; }
+    .period-only  .period-bg, .pred-only  .pred-bg { left: 15%; right: 15%; border-radius: 99px; }
+    .period-start .mcal-num, .period-mid .mcal-num, .period-end .mcal-num, .period-only .mcal-num { color: var(--paper); }
+    .is-today-k .mcal-num { border: 1.5px solid var(--ink); border-radius: 50%; }
+    .period-start.is-today-k .mcal-num, .period-mid.is-today-k .mcal-num,
+    .period-end.is-today-k   .mcal-num, .period-only.is-today-k .mcal-num { border-color: var(--paper); }
+    /* Vruchtbaar venster (huidige cyclus) + markers voor spotting en gelogde info */
+    .fertile-k .mcal-num { box-shadow: inset 0 0 0 1px rgba(122,158,138,.7); border-radius: 50%; }
+    .day-dot { position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; border-radius: 50%; background: var(--g500); z-index: 2; }
+    .day-dot--spot { background: var(--rose); }
+
+    /* ── ANALYSE VIEW ── */
+    .analyse-inner { padding-bottom: 40px; }
+    @media (min-width: 768px) { .analyse-inner { padding: 0 48px 56px; } }
+    .an-title { font-family: 'Noto Serif JP', serif; font-weight: 200; font-size: 26px; padding: 4px 24px 4px; line-height: 1.3; }
+    @media (min-width: 768px) { .an-title { padding: 4px 0; font-size: 30px; } }
+    .an-sub { font-size: 13px; color: var(--g500); padding: 0 24px 20px; letter-spacing: 0.03em; line-height: 1.6; }
+    @media (min-width: 768px) { .an-sub { padding: 0 0 20px; } }
+    .an-group { font-family: 'Noto Serif JP', serif; font-weight: 200; font-size: 18px; padding: 18px 24px 12px; border-top: 1px solid var(--g100); }
+    @media (min-width: 768px) { .an-group { padding: 22px 0 12px; } }
+    .stat-grid { display: flex; flex-direction: column; }
+    @media (min-width: 900px) { .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; } }
+    .stat-card { margin: 0 16px 10px; border: 1px solid var(--g100); border-radius: 14px; padding: 18px 20px; display: flex; align-items: center; gap: 20px; }
+    @media (min-width: 768px) { .stat-card { margin: 0; } }
+    .stat-ring { flex-shrink: 0; }
+    .stat-info { flex: 1; }
+    .stat-lbl { font-size: 13px; color: var(--g500); letter-spacing: 0.04em; margin-bottom: 4px; }
+    .stat-val { font-family: 'Noto Serif JP', serif; font-weight: 200; font-size: 32px; line-height: 1; }
+    .stat-val span { font-size: 14px; font-weight: 300; color: var(--g700); font-family: 'Noto Sans JP', sans-serif; margin-left: 2px; }
+    .stat-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; color: var(--g700); margin-top: 6px; letter-spacing: 0.03em; }
+    .bdot { width: 7px; height: 7px; border-radius: 50%; }
+    .bdot-ok { background: #6a9b6a; }
+    .bdot-warn { background: #c4843a; }
+    .no-an { padding: 48px 32px; text-align: center; font-size: 13px; color: var(--g500); line-height: 1.9; }
+
+    /* Patronen per fase */
+    .pat-row { margin: 0 16px 10px; border: 1px solid var(--g100); border-radius: 14px; padding: 15px 18px; }
+    @media (min-width: 768px) { .pat-row { margin: 0 0 10px; } }
+    .pat-fase { font-size: 11px; letter-spacing: 0.18em; color: var(--g500); text-transform: uppercase; margin-bottom: 7px; }
+    .pat-items { font-size: 13.5px; line-height: 1.8; letter-spacing: 0.02em; }
+    .pat-items span { color: var(--g500); }
+
+    /* Gegevens: export en import */
+    .data-sec { margin: 0 16px 10px; border: 1px solid var(--g100); border-radius: 14px; padding: 18px 20px; }
+    @media (min-width: 768px) { .data-sec { margin: 0; } }
+    .data-note { font-size: 12.5px; color: var(--g500); line-height: 1.8; margin-bottom: 14px; letter-spacing: 0.02em; }
+    .data-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+    .data-btn { padding: 11px 20px; background: none; border: 1px solid var(--g300); border-radius: 99px; cursor: pointer; font-family: 'Noto Sans JP', sans-serif; font-size: 12.5px; font-weight: 300; letter-spacing: 0.06em; color: var(--ink); transition: border-color .14s, background .14s; }
+    .data-btn:hover { border-color: var(--ink); background: var(--g100); }
+
+    /* Lege staat: knop om te beginnen */
+    .nd-btn { margin-top: 24px; padding: 12px 24px; background: none; border: 1px solid var(--g300); border-radius: 99px; cursor: pointer; font-family: 'Noto Sans JP', sans-serif; font-size: 13px; font-weight: 300; letter-spacing: 0.06em; color: var(--ink); transition: border-color .14s, background .14s; }
+    .nd-btn:hover { border-color: var(--ink); background: var(--g100); }
+    .nd-btn--licht { margin-top: 10px; border-color: transparent; color: var(--g500); }
+    .nd-btn--licht:hover { border-color: var(--g300); background: none; color: var(--ink); }
+
+    /* Eigen bevestigingsmodal (i.p.v. browser-confirm) */
+    .cf-msg { font-size: 13.5px; color: var(--g700); line-height: 1.8; margin: -12px 0 26px; letter-spacing: 0.02em; }
+
+    /* Trend chart */
+    .trend-wrap { margin: 8px 16px 10px; border: 1px solid var(--g100); border-radius: 14px; padding: 18px 20px 14px; }
+    @media (min-width: 768px) { .trend-wrap { margin: 12px 0 0; } }
+    .trend-lbl { font-size: 11px; letter-spacing: 0.22em; color: var(--g500); text-transform: uppercase; margin-bottom: 14px; }
+    #trend-svg { width: 100%; display: block; overflow: visible; }
+
+    /* ── SCRIM ── */
+    .scrim { display: none; position: fixed; inset: 0; z-index: 40; background: rgba(247,247,245,.6); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
+    .scrim.show { display: block; }
+
+    /* ── DAY PANEL ── */
+    .panel { position: fixed; z-index: 50; background: var(--paper); top: 0; right: 0; bottom: 0; width: 460px; border-left: 1px solid var(--g100); transform: translateX(100%); transition: transform .32s cubic-bezier(.22,0,.12,1); display: flex; flex-direction: column; }
+    .panel.open { transform: translateX(0); }
+    @media (max-width: 740px) {
+      .panel { top: auto; right: 0; left: 0; bottom: 0; width: 100%; height: 90vh; border-left: none; border-top: 1px solid var(--g100); border-radius: 20px 20px 0 0; transform: translateY(100%); }
+      .panel.open { transform: translateY(0); }
+      .drag-handle { display: block; }
+    }
+    .drag-handle { display: none; width: 40px; height: 4px; background: var(--g300); border-radius: 2px; margin: 14px auto 0; flex-shrink: 0; }
+    .panel-inner { flex: 1; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; padding: 28px 32px 24px; }
+    .panel-footer { flex-shrink: 0; padding: 12px 24px; padding-bottom: max(16px, calc(env(safe-area-inset-bottom) + 12px)); border-top: 1px solid var(--g100); background: var(--paper); }
+    .save-btn { width: 100%; padding: 15px; background: var(--ink); color: var(--paper); border: none; border-radius: 12px; font-family: 'Noto Sans JP', sans-serif; font-size: 12px; font-weight: 300; letter-spacing: 0.14em; cursor: pointer; transition: opacity .14s; }
+    .save-btn:hover { opacity: .82; }
+    .panel-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px; }
+    .p-date { font-family: 'Noto Serif JP', serif; font-weight: 200; font-size: 38px; line-height: 1; }
+    .p-weekday { font-size: 10px; letter-spacing: 0.26em; color: var(--g500); text-transform: uppercase; margin-top: 6px; }
+    .x-btn { background: none; border: none; cursor: pointer; color: var(--g500); font-size: 15px; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border-radius: 50%; transition: color .14s, background .14s; }
+    .x-btn:hover { color: var(--ink); background: var(--g100); }
+    .sec { margin-bottom: 32px; }
+    .sec-lbl { font-size: 11px; font-weight: 300; letter-spacing: 0.28em; color: var(--g500); text-transform: uppercase; margin-bottom: 13px; }
+    .bleed-row { display: flex; align-items: center; gap: 4px; }
+    .bc-btn { background: none; border: none; cursor: pointer; padding: 8px; display: flex; }
+    .bc { width: 17px; height: 17px; border-radius: 50%; border: 1px solid var(--ink); transition: background .12s; }
+    .bc.on { background: var(--ink); }
+    .bc-lbl { font-size: 14px; color: var(--g500); margin-left: 8px; letter-spacing: .03em; min-width: 52px; }
+    .swatches { display: flex; gap: 10px; flex-wrap: wrap; }
+    .sw-btn { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 0; }
+    .sw { width: 30px; height: 30px; border-radius: 50%; border: 2px solid transparent; outline: 2px solid transparent; outline-offset: 2px; transition: transform .13s, outline-color .13s; }
+    .sw-btn:hover .sw { transform: scale(1.1); }
+    .sw-btn.active .sw { outline-color: var(--ink); }
+    .sw-nm { font-size: 8px; color: var(--g500); text-align: center; line-height: 1.3; max-width: 38px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 7px; }
+    .chip { background: none; border: 1px solid var(--g300); border-radius: 99px; padding: 7px 16px; font-size: 13px; font-family: 'Noto Sans JP', sans-serif; font-weight: 300; color: var(--ink); cursor: pointer; letter-spacing: .02em; transition: background .13s, border-color .13s, color .13s; }
+    .chip:hover { border-color: var(--ink); }
+    .chip.on { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+    .notes { width: 100%; min-height: 76px; background: none; border: none; border-bottom: 1px solid var(--g100); resize: none; font-family: 'Noto Sans JP', sans-serif; font-size: 16px; font-weight: 300; color: var(--ink); outline: none; padding: 6px 0 12px; line-height: 1.85; }
+    .notes::placeholder { color: var(--g300); }
+    .notes:focus { border-bottom-color: var(--g500); }
+    .hr { height: 1px; background: var(--g100); margin: 0 0 32px; }
+
+    /* ── DELETE BUTTONS ── */
+    #panel-actions { margin-top: 10px; display: flex; flex-direction: column; gap: 8px; }
+    .del-day-btn { width: 100%; padding: 13px; background: none; border: 1px solid var(--g300); border-radius: 12px; font-family: 'Noto Sans JP', sans-serif; font-size: 13px; font-weight: 300; letter-spacing: 0.08em; color: var(--g700); cursor: pointer; transition: border-color .14s, color .14s; }
+    .del-day-btn:hover { border-color: var(--ink); color: var(--ink); }
+    .del-period-btn { width: 100%; padding: 11px; background: none; border: none; font-family: 'Noto Sans JP', sans-serif; font-size: 12px; font-weight: 300; letter-spacing: 0.04em; color: var(--rose); cursor: pointer; opacity: 0.85; transition: opacity .14s; }
+    .del-period-btn:hover { opacity: 1; }
+
+    /* ── DATE PICKER ── */
+    .dpick-scrim { display: none; position: fixed; inset: 0; z-index: 60; background: rgba(247,247,245,.72); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); align-items: center; justify-content: center; }
+    .dpick-scrim.show { display: flex; }
+    .dpick-modal { background: var(--paper); border: 1px solid var(--g100); border-radius: 22px; padding: 40px 32px 28px; width: 300px; text-align: center; box-shadow: 0 12px 48px rgba(27,27,25,.1); }
+    .dpick-title { font-family: 'Noto Serif JP', serif; font-weight: 200; font-size: 22px; margin-bottom: 28px; letter-spacing: 0.02em; }
+    .dpick-input { width: 100%; border: none; border-bottom: 1px solid var(--g300); background: none; padding: 10px 0 12px; font-family: 'Noto Sans JP', sans-serif; font-size: 15px; color: var(--ink); text-align: center; outline: none; margin-bottom: 28px; -webkit-appearance: none; appearance: none; }
+    .dpick-input:focus { border-bottom-color: var(--ink); }
+    .dpick-go { display: block; width: 100%; padding: 15px; background: var(--ink); color: var(--paper); border: none; border-radius: 12px; font-family: 'Noto Sans JP', sans-serif; font-size: 12px; font-weight: 300; letter-spacing: 0.14em; cursor: pointer; margin-bottom: 10px; transition: opacity .14s; }
+    .dpick-go:hover { opacity: .82; }
+    .dpick-cancel { display: block; width: 100%; padding: 10px; background: none; color: var(--g500); border: none; font-size: 11px; cursor: pointer; letter-spacing: .06em; font-family: 'Noto Sans JP', sans-serif; }
+  </style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- SIDEBAR (desktop) -->
+  <aside class="sidebar">
+    <div class="sb-brand"><img src="cyclus-icon-512.png?v=2" alt="Nectar"><span>nectar</span></div>
+    <nav class="sb-nav" id="sb-nav">
+      <button class="sb-item active" data-view="cyclus">
+        <svg viewBox="0 0 22 22"><circle cx="11" cy="11" r="7.5"/><circle cx="11" cy="3.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+        Cyclus
+      </button>
+      <button class="sb-item" data-view="kalender">
+        <svg viewBox="0 0 22 22"><rect x="3" y="5" width="16" height="14" rx="2"/><line x1="3" y1="9" x2="19" y2="9"/><line x1="7" y1="3" x2="7" y2="7"/><line x1="15" y1="3" x2="15" y2="7"/></svg>
+        Kalender
+      </button>
+      <button class="sb-item" data-view="analyse">
+        <svg viewBox="0 0 22 22"><rect x="2" y="13" width="5" height="7" rx="1"/><rect x="8.5" y="9" width="5" height="11" rx="1"/><rect x="15" y="5" width="5" height="15" rx="1"/></svg>
+        Analyse
+      </button>
+    </nav>
+    <button class="sb-plus" id="sb-plus">
+      <svg viewBox="0 0 20 20"><line x1="10" y1="3" x2="10" y2="17"/><line x1="3" y1="10" x2="17" y2="10"/></svg>
+      Dag bijhouden
+    </button>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- VIEW: CYCLUS -->
+    <div id="v-cyclus" class="view">
+      <div class="view-head">
+        <span class="wordmark"><img src="cyclus-icon-512.png?v=2" alt="">nectar</span>
+        <div class="head-tools"><span class="head-right" id="today-lbl"></span><button class="thema-btn" aria-label="Wissel tussen licht en donker"></button></div>
+      </div>
+      <div id="cyclus-content" style="display:flex;flex-direction:column;flex:1;"></div>
+    </div>
+
+    <!-- VIEW: KALENDER -->
+    <div id="v-kalender" class="view hidden">
+      <div class="view-head"><span class="wordmark"><img src="cyclus-icon-512.png?v=2" alt="">nectar</span><button class="thema-btn" aria-label="Wissel tussen licht en donker"></button></div>
+      <div class="multi-cal" id="multi-cal"></div>
+    </div>
+
+    <!-- VIEW: ANALYSE -->
+    <div id="v-analyse" class="view hidden">
+      <div class="view-head"><span class="wordmark"><img src="cyclus-icon-512.png?v=2" alt="">nectar</span><button class="thema-btn" aria-label="Wissel tussen licht en donker"></button></div>
+      <div class="analyse-inner" id="analyse-inner"></div>
+    </div>
+
+  </div>
+
+  <!-- TAB BAR (mobile) -->
+  <nav class="tabbar">
+    <button class="tab active" data-view="cyclus">
+      <svg viewBox="0 0 22 22"><circle cx="11" cy="11" r="7.5"/><circle cx="11" cy="3.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+      <span>Cyclus</span>
+    </button>
+    <button class="tab" data-view="kalender">
+      <svg viewBox="0 0 22 22"><rect x="3" y="5" width="16" height="14" rx="2"/><line x1="3" y1="9" x2="19" y2="9"/><line x1="7" y1="3" x2="7" y2="7"/><line x1="15" y1="3" x2="15" y2="7"/></svg>
+      <span>Kalender</span>
+    </button>
+    <button class="tab-plus" id="tab-plus" aria-label="Bijhouden">
+      <svg viewBox="0 0 20 20"><line x1="10" y1="3" x2="10" y2="17"/><line x1="3" y1="10" x2="17" y2="10"/></svg>
+    </button>
+    <button class="tab" data-view="analyse">
+      <svg viewBox="0 0 22 22"><rect x="2" y="13" width="5" height="7" rx="1"/><rect x="8.5" y="9" width="5" height="11" rx="1"/><rect x="15" y="5" width="5" height="15" rx="1"/></svg>
+      <span>Analyse</span>
+    </button>
+  </nav>
+</div>
+
+<!-- DAY PANEL -->
+<div class="scrim" id="scrim"></div>
+<div class="panel" id="panel" role="dialog" aria-modal="true">
+  <div class="drag-handle"></div>
+  <div class="panel-inner">
+    <div class="panel-head">
+      <div>
+        <div class="p-date" id="p-date"></div>
+        <div class="p-weekday" id="p-weekday"></div>
+      </div>
+      <button class="x-btn" id="btn-close">&#10005;</button>
+    </div>
+    <div class="sec">
+      <div class="sec-lbl">Bloeding</div>
+      <div class="bleed-row" id="bleed-row"></div>
+    </div>
+    <div class="sec" id="sec-color">
+      <div class="sec-lbl">Bloedkleur</div>
+      <div class="swatches" id="swatches"></div>
+    </div>
+    <div class="hr"></div>
+    <div class="sec">
+      <div class="sec-lbl">Stemming</div>
+      <div class="chips" id="mood-chips"></div>
+    </div>
+    <div class="sec">
+      <div class="sec-lbl">Symptomen</div>
+      <div class="chips" id="sym-chips"></div>
+    </div>
+    <div class="hr"></div>
+    <div class="sec">
+      <div class="sec-lbl">Notities</div>
+      <textarea class="notes" id="notes-ta" placeholder="vrije notities..."></textarea>
+    </div>
+  </div>
+  <div class="panel-footer">
+    <button class="save-btn" id="btn-save">Opslaan</button>
+    <div id="panel-actions"></div>
+  </div>
+</div>
+
+<!-- DATE PICKER -->
+<div class="dpick-scrim" id="dpick-scrim">
+  <div class="dpick-modal">
+    <div class="dpick-title">Welke datum?</div>
+    <input type="date" id="dpick-input" class="dpick-input">
+    <button class="dpick-go" id="dpick-go">Ga verder</button>
+    <button class="dpick-cancel" id="dpick-cancel">Annuleren</button>
+  </div>
+</div>
+
+<!-- BEVESTIGING (eigen modal i.p.v. browser-confirm) -->
+<div class="dpick-scrim" id="cf-scrim">
+  <div class="dpick-modal">
+    <div class="dpick-title">Weet je het zeker?</div>
+    <div class="cf-msg" id="cf-msg"></div>
+    <button class="dpick-go" id="cf-ok">Ja, doorgaan</button>
+    <button class="dpick-cancel" id="cf-cancel">Annuleren</button>
+  </div>
+</div>
+<input type="file" id="import-file" accept="application/json,.json" style="display:none">
+
+<script>
+'use strict';
+
+const STORE_KEY    = 'cyclus-v1';
+const MONTHS       = ['januari','februari','maart','april','mei','juni','juli','augustus','september','oktober','november','december'];
+const WD_SHORT     = ['Ma','Di','Wo','Do','Vr','Za','Zo'];
+const WD_LONG      = ['maandag','dinsdag','woensdag','donderdag','vrijdag','zaterdag','zondag'];
+const BLEED_LBL    = ['geen','spotting','licht','matig','zwaar'];
+const MOODS        = ['Blij','Rustig','Energiek','Humeurig','Prikkelbaar','Verdrietig','Angstig','Moe'];
+const SYMPTOMS     = ['Krampen','Hoofdpijn','Rugpijn','Gevoelige borsten','Opgeblazen','Misselijkheid','Slecht slapen','Cravings'];
+const BLOOD_COLORS = [
+  {id:'lichtroze',  name:'licht\nroze',  hex:'#d4acac'},
+  {id:'roze',       name:'roze',         hex:'#b87878'},
+  {id:'felrood',    name:'fel\nrood',    hex:'#9e4444'},
+  {id:'roodbruin',  name:'rood/\nbruin', hex:'#7a3838'},
+  {id:'bruin',      name:'bruin',        hex:'#684040'},
+  {id:'donkerbruin',name:'donker\nbruin',hex:'#3c2424'},
+];
+
+const PHASE_NAMES = { menstruatie:'menstruatie', folliculair:'folliculaire fase', vruchtbaar:'vruchtbaar venster', luteaal:'luteale fase' };
+
+/* Vanaf welke intensiteit een dag als menstruatie telt: spotting (1) telt niet mee,
+   anders vervuilt tussentijdse spotting de cyclusdetectie en de voorspelling. */
+const PERIOD_MIN_BLEED = 2;
+
+/* Site-demo: dit is de publieke voorbeeldversie op kimberleyvanruiven.nl.
+   Demo staat hier altijd aan: voorbeelddata in het geheugen, er wordt níets opgeslagen. */
+const DEMO = true;
+
+let store       = DEMO ? buildDemoData() : JSON.parse(localStorage.getItem(STORE_KEY)||'{}');
+let activeKey   = null;
+let draft       = null;
+let currentView = 'cyclus';
+
+const persist   = () => { if (DEMO) return; localStorage.setItem(STORE_KEY, JSON.stringify(store)); };
+const getEntry  = k  => ({bleed:0,color:null,moods:[],symptoms:[],notes:'',...(store[k]||{})});
+const saveEntry = (k,e) => { store[k]=e; persist(); };
+
+/* Leest een CSS-token uit, zodat D3-tekeningen meekleuren met de donkere modus */
+const css = (naam) => getComputedStyle(document.documentElement).getPropertyValue(naam).trim();
+
+/* ── DATE UTILS ── */
+function todayKey() { return fmtDate(new Date()); }
+function fmtDate(d) {
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function parseKey(k) { const [y,m,d]=k.split('-').map(Number); return new Date(y,m-1,d); }
+function dateDiff(a,b) { return Math.round((parseKey(b)-parseKey(a))/86400000); }
+function addDays(date,n) { const d=new Date(date); d.setDate(d.getDate()+n); return d; }
+function avg(arr) { return arr.reduce((a,b)=>a+b,0)/arr.length; }
+function median(arr) {
+  const s=[...arr].sort((a,b)=>a-b);
+  const m=Math.floor(s.length/2);
+  return s.length%2 ? s[m] : (s[m-1]+s[m])/2;
+}
+
+/* ── DEMO-DATA (voorbeeld, alleen bij ?demo) ── */
+function buildDemoData() {
+  const d = {};
+  const leeg = { bleed:0, color:null, moods:[], symptoms:[], notes:'' };
+  const put = (offset, entry) => { d[fmtDate(addDays(new Date(), offset))] = { ...leeg, ...entry }; };
+  /* Vier menstruaties: cycluslengtes 28, 29, 28; de laatste begon 16 dagen geleden. */
+  const KLEUREN = ['felrood','felrood','roodbruin','bruin','donkerbruin'];
+  [
+    { start: -101, bleeds: [2,3,3,2] },
+    { start: -73,  bleeds: [2,4,3,2,1] },
+    { start: -44,  bleeds: [3,3,2,2] },
+    { start: -16,  bleeds: [2,3,3,2,1] },
+  ].forEach(p => p.bleeds.forEach((b,i) => put(p.start+i, {
+    bleed: b,
+    color: KLEUREN[i] || null,
+    moods: i===0 ? ['Moe','Humeurig'] : i===1 ? ['Moe'] : [],
+    symptoms: i<2 ? ['Krampen','Rugpijn'] : i===2 ? ['Krampen'] : [],
+    notes: i===0 ? 'Warme kruik hielp goed.' : '',
+  })));
+  /* Luteale klachten in de dagen vóór elke menstruatie */
+  [-76,-75,-47,-46,-19,-18].forEach(o => put(o, { moods:['Prikkelbaar'], symptoms:['Hoofdpijn','Gevoelige borsten'] }));
+  /* Energieke folliculaire dagen */
+  [-95,-66,-38,-9].forEach(o => put(o, { moods:['Energiek','Blij'], notes: o===-9 ? 'Lekker gesport.' : '' }));
+  /* Losse spotting midden in een cyclus: telt niet als menstruatie */
+  put(-30, { bleed:1, color:'lichtroze', notes:'Beetje spotting, verder niks.' });
+  return d;
+}
+
+/* ── PERIOD DETECTION ── */
+function detectPeriods() {
+  const days = Object.keys(store).filter(k=>(store[k]?.bleed||0)>=PERIOD_MIN_BLEED).sort();
+  if (!days.length) return [];
+  const periods = [];
+  let group = [days[0]];
+  for (let i=1;i<days.length;i++) {
+    if (dateDiff(days[i-1],days[i])<=4) group.push(days[i]);
+    else { periods.push(buildPeriod(group)); group=[days[i]]; }
+  }
+  periods.push(buildPeriod(group));
+  return periods;
+}
+function buildPeriod(days) {
+  return { start:days[0], end:days[days.length-1], days,
+    duration: dateDiff(days[0],days[days.length-1])+1,
+    avgBleed: avg(days.map(d=>store[d]?.bleed||0)) };
+}
+function computeStats() {
+  const periods = detectPeriods();
+  if (periods.length < 2) return {periods, enough:false};
+  const cl = [];
+  for (let i=1;i<periods.length;i++) cl.push(dateDiff(periods[i-1].start,periods[i].start));
+  /* Mediaan i.p.v. gemiddelde: één uitschieter (bijv. een vergeten maand) trekt de voorspelling dan niet scheef */
+  const avgCycle    = Math.round(median(cl));
+  const variation   = Math.max(...cl)-Math.min(...cl);
+  const avgDuration = Math.round(avg(periods.map(p=>p.duration)));
+  const last        = periods[periods.length-1];
+  const nextStart   = addDays(parseKey(last.start), avgCycle);
+  const nextEnd     = addDays(nextStart, avgDuration-1);
+  const today       = new Date(); today.setHours(0,0,0,0);
+  /* Niet meer vastklemmen op avgCycle: wie over tijd is, ziet dat dan ook */
+  const cycleDay    = Math.max(1, Math.floor((today-parseKey(last.start))/86400000)+1);
+  const overdue     = Math.max(0, cycleDay - avgCycle);
+
+  const ovulationDay    = avgCycle - 14;
+  const fertileStartDay = Math.max(1, ovulationDay - 5);
+  const fertileEndDay   = Math.min(avgCycle, ovulationDay + 1);
+  const lastStart       = parseKey(last.start);
+  const fertileStartDate = addDays(lastStart, fertileStartDay - 1);
+  const fertileEndDate   = addDays(lastStart, fertileEndDay - 1);
+  const ovulationDate    = addDays(lastStart, ovulationDay - 1);
+  const inFertileWindow  = cycleDay >= fertileStartDay && cycleDay <= fertileEndDay;
+
+  let currentPhase;
+  if (cycleDay <= avgDuration) currentPhase = 'menstruatie';
+  else if (cycleDay < fertileStartDay) currentPhase = 'folliculair';
+  else if (cycleDay <= fertileEndDay) currentPhase = 'vruchtbaar';
+  else currentPhase = 'luteaal';
+
+  return { periods, enough:true, cl, avgCycle, variation, avgDuration,
+    last, nextStart, nextEnd, cycleDay, overdue, isMenstruating: last.days.includes(todayKey()),
+    ovulationDay, fertileStartDay, fertileEndDay,
+    fertileStartDate, fertileEndDate, ovulationDate,
+    inFertileWindow, currentPhase };
+}
+
+/* ── PHASE ILLUSTRATIONS ── */
+const PHASE_COLORS = {
+  menstruatie: '#9e4444',
+  folliculair: '#6b8e78',
+  vruchtbaar:  '#4a8c72',
+  luteaal:     '#8c7040',
+};
+
+function phaseArtSVG(phase, size) {
+  const c = PHASE_COLORS[phase] || '#9b9b96';
+  const arts = {
+    menstruatie: `<svg width="${size}" height="${size}" viewBox="0 0 120 160" xmlns="http://www.w3.org/2000/svg">
+      <path d="M75 10 C95 25 105 55 100 85 C95 115 78 138 55 148 C45 143 38 132 37 118 C52 110 63 96 65 78 C67 58 58 38 44 24 C53 13 64 7 75 10Z" fill="${c}"/>
+      <ellipse cx="80" cy="158" rx="6" ry="9" fill="${c}"/>
+      <ellipse cx="95" cy="151" rx="4" ry="6" fill="${c}" opacity="0.6"/>
+      <ellipse cx="65" cy="161" rx="3" ry="5" fill="${c}" opacity="0.4"/>
+    </svg>`,
+    folliculair: `<svg width="${size}" height="${size}" viewBox="0 0 100 160" xmlns="http://www.w3.org/2000/svg">
+      <rect x="48" y="58" width="4" height="96" rx="2" fill="${c}"/>
+      <path d="M50 132 C32 118 18 100 22 78 C36 90 48 112 50 132Z" fill="${c}" opacity="0.9"/>
+      <path d="M50 107 C68 93 84 74 79 52 C65 64 51 87 50 107Z" fill="${c}" opacity="0.75"/>
+      <path d="M50 118 C36 105 24 90 26 70 C39 80 49 102 50 118Z" fill="${c}" opacity="0.55"/>
+      <ellipse cx="50" cy="37" rx="14" ry="22" fill="${c}"/>
+    </svg>`,
+    vruchtbaar: `<svg width="${size}" height="${size}" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+      <g transform="translate(70,70)">
+        <ellipse cx="0" cy="-36" rx="12" ry="24" fill="${c}" opacity="0.75"/>
+        <ellipse cx="0" cy="-36" rx="12" ry="24" transform="rotate(72)" fill="${c}" opacity="0.75"/>
+        <ellipse cx="0" cy="-36" rx="12" ry="24" transform="rotate(144)" fill="${c}" opacity="0.75"/>
+        <ellipse cx="0" cy="-36" rx="12" ry="24" transform="rotate(216)" fill="${c}" opacity="0.75"/>
+        <ellipse cx="0" cy="-36" rx="12" ry="24" transform="rotate(288)" fill="${c}" opacity="0.75"/>
+        <circle r="17" fill="${c}"/>
+      </g>
+    </svg>`,
+    luteaal: `<svg width="${size}" height="${size}" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="80" cy="80" r="68" fill="none" stroke="${c}" stroke-width="2" opacity="0.5"/>
+      <circle cx="80" cy="80" r="48" fill="none" stroke="${c}" stroke-width="1.5" opacity="0.35"/>
+      <circle cx="80" cy="80" r="22" fill="${c}"/>
+      <g stroke="${c}" stroke-width="3" opacity="0.55" stroke-linecap="round">
+        <line x1="80" y1="26" x2="80" y2="13"/><line x1="117" y1="43" x2="126" y2="34"/>
+        <line x1="134" y1="80" x2="147" y2="80"/><line x1="117" y1="117" x2="126" y2="126"/>
+        <line x1="80" y1="134" x2="80" y2="147"/><line x1="43" y1="117" x2="34" y2="126"/>
+        <line x1="26" y1="80" x2="13" y2="80"/><line x1="43" y1="43" x2="34" y2="34"/>
+      </g>
+    </svg>`
+  };
+  return arts[phase] || arts.luteaal;
+}
+
+/* ── CALENDAR HELPERS ── */
+function buildBleedSet() { return new Set(Object.keys(store).filter(k=>(store[k]?.bleed||0)>=PERIOD_MIN_BLEED)); }
+function buildSpotSet()  { return new Set(Object.keys(store).filter(k=>(store[k]?.bleed||0)===1)); }
+function buildInfoSet()  {
+  return new Set(Object.keys(store).filter(k=>{
+    const e=store[k]||{};
+    return (e.moods&&e.moods.length) || (e.symptoms&&e.symptoms.length) || (e.notes&&e.notes.trim());
+  }));
+}
+function buildFertileSet(stats) {
+  const s=new Set();
+  if (!stats.enough) return s;
+  let d=new Date(stats.fertileStartDate);
+  while (d<=stats.fertileEndDate) { s.add(fmtDate(d)); d=addDays(d,1); }
+  return s;
+}
+function stripType(key, set, excludeSet) {
+  if (!set.has(key)) return null;
+  if (excludeSet && excludeSet.has(key)) return null;
+  const prev=fmtDate(addDays(parseKey(key),-1)), next=fmtDate(addDays(parseKey(key),1));
+  const hp = set.has(prev) && (!excludeSet||!excludeSet.has(prev));
+  const hn = set.has(next) && (!excludeSet||!excludeSet.has(next));
+  return hp&&hn?'mid':hp?'end':hn?'start':'only';
+}
+function buildPredSet(stats) {
+  const s=new Set();
+  if (!stats.enough) return s;
+  let d=new Date(stats.nextStart);
+  for(let i=0;i<stats.avgDuration;i++) { s.add(fmtDate(d)); d=addDays(d,1); }
+  return s;
+}
+
+/* ── TAB NAVIGATION ── */
+document.querySelectorAll('.tab[data-view]').forEach(btn=>{
+  btn.addEventListener('click', ()=>switchView(btn.dataset.view));
+});
+document.getElementById('tab-plus').addEventListener('click', showDatePicker);
+document.querySelectorAll('#sb-nav .sb-item[data-view]').forEach(btn=>{
+  btn.addEventListener('click', ()=>switchView(btn.dataset.view));
+});
+document.getElementById('sb-plus').addEventListener('click', showDatePicker);
+
+function switchView(name) {
+  ['cyclus','kalender','analyse'].forEach(v=>{
+    document.getElementById('v-'+v).classList.toggle('hidden', v!==name);
+    const mBtn=document.querySelector(`.tab[data-view="${v}"]`);
+    if(mBtn) mBtn.classList.toggle('active', v===name);
+    const dBtn=document.querySelector(`#sb-nav .sb-item[data-view="${v}"]`);
+    if(dBtn) dBtn.classList.toggle('active', v===name);
+  });
+  currentView=name;
+  if(name==='cyclus')   renderCyclus();
+  if(name==='kalender') renderKalender();
+  if(name==='analyse')  renderAnalyse();
+}
+
+/* ── CYCLUS VIEW ── */
+function renderCyclus() {
+  const stats = computeStats();
+  const el = document.getElementById('cyclus-content');
+  el.innerHTML='';
+
+  if (!stats.enough) {
+    el.innerHTML=`<div class="no-data-wrap">
+      <div class="no-data-ring">${phaseArtSVG('luteaal', 120)}</div>
+      <p class="no-data-txt">Voeg bloedingsdata toe aan<br>minimaal 2 menstruaties om<br>je cyclus te zien.</p>
+      <button class="nd-btn" id="nd-add">Vorige menstruatie toevoegen</button>
+      <button class="nd-btn nd-btn--licht" id="nd-demo">Bekijk een voorbeeld</button>
+    </div>`;
+    document.getElementById('nd-add').addEventListener('click', showDatePicker);
+    document.getElementById('nd-demo').addEventListener('click', ()=>{ location.search='?demo'; });
+    return;
+  }
+
+  const body = document.createElement('div');
+  body.className = 'cyclus-body';
+
+  /* LEFT: ring */
+  const left = document.createElement('div');
+  left.className = 'cyclus-left';
+
+  const wrap = document.createElement('div');
+  wrap.className = 'ring-wrap';
+  wrap.innerHTML = `<svg id="ring-svg"></svg>
+    <div class="ring-center">
+      <div class="ring-lbl">dag</div>
+      <div class="ring-big">${stats.cycleDay}</div>
+      <div class="ring-sub">van je cyclus</div>
+      <div class="ring-phase" style="color:${stats.overdue>0?'var(--g500)':PHASE_COLORS[stats.currentPhase]}">${stats.overdue>0?'over tijd':PHASE_NAMES[stats.currentPhase]}</div>
+    </div>`;
+  left.appendChild(wrap);
+
+  const pc = document.createElement('div');
+  pc.className = 'phase-chips';
+  ['menstruatie','folliculair','vruchtbaar','luteaal'].forEach(p=>{
+    const chip = document.createElement('div');
+    chip.className = 'phase-chip' + (p === stats.currentPhase ? ' active' : '');
+    chip.textContent = PHASE_NAMES[p];
+    if (p === stats.currentPhase) { chip.style.background = PHASE_COLORS[p]; chip.style.borderColor = PHASE_COLORS[p]; }
+    pc.appendChild(chip);
+  });
+  left.appendChild(pc);
+  body.appendChild(left);
+
+  /* RIGHT: info */
+  const right = document.createElement('div');
+  right.className = 'cyclus-right';
+
+  /* Desktop: decoratieve achtergrond rechts */
+  const BIRD_URL = 'kolibrie.jpg';
+  const artBg = document.createElement('div');
+  artBg.className = 'phase-art-bg';
+  const artBgImg = document.createElement('img');
+  artBgImg.src = BIRD_URL;
+  artBgImg.alt = '';
+  artBg.appendChild(artBgImg);
+  right.appendChild(artBg);
+
+  const pred = document.createElement('div');
+  pred.className = 'ring-pred';
+  if (stats.isMenstruating) {
+    pred.innerHTML = `<p>Je menstrueert momenteel<br><em>Dag ${stats.cycleDay} · cyclus ${stats.avgCycle} dagen</em></p>`;
+  } else if (stats.overdue > 0) {
+    pred.innerHTML = `<p>Je bent <em>${stats.overdue} ${stats.overdue===1?'dag':'dagen'}</em> over tijd<br><em>cyclusdag ${stats.cycleDay}</em> · gemiddeld ${stats.avgCycle} dagen</p>`;
+  } else {
+    const ds = `${stats.nextStart.getDate()} ${MONTHS[stats.nextStart.getMonth()]}`;
+    const today0 = new Date(); today0.setHours(0,0,0,0);
+    const daysUntil = Math.max(0, Math.round((stats.nextStart - today0) / 86400000));
+    pred.innerHTML = `<p>Volgende menstruatie verwacht<br>op <em>${ds}</em> · over <em>${daysUntil} dagen</em></p>`;
+  }
+  right.appendChild(pred);
+
+  const fsd=stats.fertileStartDate, fed=stats.fertileEndDate, ovd=stats.ovulationDate;
+  const fertileLabel = fsd.getMonth()===fed.getMonth()
+    ? `${fsd.getDate()} t/m ${fed.getDate()} ${MONTHS[fed.getMonth()]}`
+    : `${fsd.getDate()} ${MONTHS[fsd.getMonth()]} t/m ${fed.getDate()} ${MONTHS[fed.getMonth()]}`;
+
+  const fw = document.createElement('div');
+  fw.className = 'fertile-wrap';
+  fw.innerHTML = `<div class="fertile-card${stats.inFertileWindow?' fertile-active':''}">
+    <div class="fertile-lbl">Vruchtbare dagen</div>
+    <div class="fertile-dates">${fertileLabel}</div>
+    <div class="fertile-sub">Ovulatie verwacht rond ${ovd.getDate()} ${MONTHS[ovd.getMonth()]}</div>
+    ${stats.inFertileWindow?'<div class="fertile-badge">nu actief</div>':''}
+    <div class="fertile-disc">Schatting op basis van je gemiddelde cyclus. Niet geschikt als anticonceptie.</div>
+  </div>`;
+  right.appendChild(fw);
+
+  const today0 = new Date(); today0.setHours(0,0,0,0);
+  const daysUntilNext = Math.max(0, Math.round((stats.nextStart - today0) / 86400000));
+  const ps = document.createElement('div');
+  ps.className = 'phase-stats';
+  ps.innerHTML = `
+    <div class="psc">
+      <div class="psc-lbl">Cycluslengte</div>
+      <div class="psc-val">${stats.avgCycle}<span class="psc-unit">dagen</span></div>
+      <div class="psc-sub">gemiddelde van ${stats.cl.length} cycli</div>
+    </div>
+    <div class="psc">
+      <div class="psc-lbl">Volgende periode</div>
+      <div class="psc-val">${stats.overdue>0?stats.overdue:daysUntilNext}<span class="psc-unit">dagen</span></div>
+      <div class="psc-sub">${stats.overdue>0?'over tijd':`${stats.nextStart.getDate()} ${MONTHS[stats.nextStart.getMonth()]}`}</div>
+    </div>
+    <div class="psc">
+      <div class="psc-lbl">Menstruatieduur</div>
+      <div class="psc-val">${stats.avgDuration}<span class="psc-unit">dagen</span></div>
+      <div class="psc-sub">gemiddeld</div>
+    </div>
+    <div class="psc">
+      <div class="psc-lbl">Variatie</div>
+      <div class="psc-val">${stats.variation}<span class="psc-unit">dagen</span></div>
+      <div class="psc-sub">${stats.variation<=7?'stabiele cyclus':'wisselende cyclus'}</div>
+    </div>`;
+  right.appendChild(ps);
+
+  body.appendChild(right);
+  el.appendChild(body);
+  drawCycleRing(stats);
+}
+
+function drawCycleRing(stats) {
+  const sz=280,cx=140,cy=140,r=108,sw=16,PI2=Math.PI*2,S=-Math.PI/2;
+  const dotR=r-sw/2;
+  const svg=d3.select('#ring-svg').attr('viewBox',`0 0 ${sz} ${sz}`).attr('style','touch-action:none');
+  svg.attr('width','100%').attr('height','100%');
+  svg.selectAll('*').remove();
+  const g=svg.append('g').attr('transform',`translate(${cx},${cy})`);
+  const mkArc=(a0,a1,cr)=>d3.arc().innerRadius(r-sw).outerRadius(r).startAngle(a0).endAngle(a1).cornerRadius(cr)();
+
+  /* D3 arc: hoek 0 = 12 uur, kloksgewijs. Dot gebruikt Math.cos/sin: hoek -π/2 = 12 uur.
+     Verschil = +π/2. Door S=-π/2 toe te voegen en dan +π/2 te corrigeren vervalt S. */
+  g.append('path').attr('d',mkArc(0,PI2,0)).attr('fill',css('--g100'));
+  const fStart=(stats.fertileStartDay/stats.avgCycle)*PI2;
+  const fEnd=(stats.fertileEndDay/stats.avgCycle)*PI2;
+  /* Luteale deel een tint donkerder dan het folliculaire: subtiel tweetonig */
+  g.append('path').attr('d',mkArc(fEnd,PI2,0)).attr('fill',css('--g150'));
+  g.append('path').attr('d',mkArc(fStart,fEnd,5)).attr('fill',css('--sage')).attr('opacity','0.55');
+  const pEnd=(stats.avgDuration/stats.avgCycle)*PI2;
+  g.append('path').attr('d',mkArc(0,pEnd,7)).attr('fill',css('--rose'));
+
+  /* Dagstreepjes rond de ring */
+  for(let d=1; d<=stats.avgCycle; d++){
+    const a=S+(d/stats.avgCycle)*PI2;
+    g.append('line')
+      .attr('x1',(r+3)*Math.cos(a)).attr('y1',(r+3)*Math.sin(a))
+      .attr('x2',(r+7)*Math.cos(a)).attr('y2',(r+7)*Math.sin(a))
+      .attr('stroke',css('--g300')).attr('stroke-width',1);
+  }
+
+  /* Stipjes binnen de ring: dagen van deze cyclus met stemming, symptomen of notities */
+  const ringInfo=buildInfoSet();
+  for(let d=1; d<=Math.min(stats.cycleDay, stats.avgCycle); d++){
+    const key=fmtDate(addDays(parseKey(stats.last.start), d-1));
+    if(!ringInfo.has(key)) continue;
+    const a=S+(d/stats.avgCycle)*PI2;
+    g.append('circle')
+      .attr('cx',(r-sw-8)*Math.cos(a)).attr('cy',(r-sw-8)*Math.sin(a))
+      .attr('r',2).attr('fill',css('--g500'));
+  }
+
+  /* ── Sleepbaar bolletje ── */
+  const dagNu=Math.min(stats.cycleDay, stats.avgCycle); // bij over tijd blijft het bolletje op het einde staan
+  const angle=S+(dagNu/stats.avgCycle)*PI2;
+  const ox=dotR*Math.cos(angle), oy=dotR*Math.sin(angle);
+
+  const dotG=g.append('g').style('cursor','grab');
+  dotG.append('circle').attr('cx',ox).attr('cy',oy).attr('r',20).attr('fill','transparent'); // groot raakoppervlak
+  const dotOut=dotG.append('circle').attr('cx',ox).attr('cy',oy).attr('r',9).attr('fill',css('--ink'));
+  const dotIn =dotG.append('circle').attr('cx',ox).attr('cy',oy).attr('r',4).attr('fill',css('--paper'));
+
+  /* Floating tooltip bij het bolletje */
+  const tip=g.append('g').attr('class','dot-tip').style('opacity',0).style('pointer-events','none');
+  const tipBg=tip.append('rect').attr('rx',7).attr('fill',css('--ink'));
+  const tipTxt=tip.append('text').attr('fill',css('--paper')).attr('font-size','10').attr('font-family','Noto Sans JP, sans-serif').attr('font-weight','300').attr('letter-spacing','0.05em');
+  const tipDate=tipTxt.append('tspan').attr('x',0).attr('dy',0);
+  const tipPhase=tipTxt.append('tspan').attr('x',0).attr('dy','14');
+
+  /* Helper: hoek → cyclus-dag (1-based) */
+  function dayFromXY(x,y) {
+    let a=Math.atan2(y,x)-S;
+    if(a<0) a+=PI2;
+    if(a>=PI2) a-=PI2;
+    return Math.max(1,Math.min(stats.avgCycle, Math.round(a/PI2*stats.avgCycle)||1));
+  }
+
+  /* Helper: dag → fase */
+  function phaseOfDay(d) {
+    if(d<=stats.avgDuration)      return 'menstruatie';
+    if(d<stats.fertileStartDay)   return 'folliculair';
+    if(d<=stats.fertileEndDay)    return 'vruchtbaar';
+    return 'luteaal';
+  }
+
+  /* Pas ring-center tekst aan */
+  function updateCenter(day, dragging) {
+    const bigEl=document.querySelector('.ring-big');
+    const subEl=document.querySelector('.ring-sub');
+    const phEl =document.querySelector('.ring-phase');
+    if(!bigEl||!subEl||!phEl) return;
+    bigEl.textContent=day;
+    phEl.textContent=(!dragging && stats.overdue>0) ? 'over tijd' : PHASE_NAMES[phaseOfDay(day)];
+    if(dragging) {
+      const d=addDays(parseKey(stats.last.start), day-1);
+      subEl.textContent=`${d.getDate()} ${MONTHS[d.getMonth()]}`;
+      subEl.style.cssText='color:var(--ink);font-size:13px;letter-spacing:0.06em;margin-top:5px;';
+    } else {
+      subEl.textContent='van je cyclus';
+      subEl.style.cssText='';
+    }
+  }
+
+  /* Native pointer events — bypast D3 coördinaatlogica volledig */
+  function dayFromPointer(e) {
+    const rect=document.getElementById('ring-svg').getBoundingClientRect();
+    let ang=Math.atan2(e.clientY-(rect.top+rect.height/2), e.clientX-(rect.left+rect.width/2))-S;
+    if(ang<0) ang+=PI2; if(ang>=PI2) ang-=PI2;
+    return Math.max(1,Math.min(stats.avgCycle,Math.round(ang/PI2*stats.avgCycle)||1));
+  }
+
+  function applyDay(day) {
+    const a=S+(day/stats.avgCycle)*PI2;
+    const nx=dotR*Math.cos(a), ny=dotR*Math.sin(a);
+    dotG.selectAll('circle').attr('cx',nx).attr('cy',ny);
+    dotOut.attr('fill',css('--ink'));
+    updateCenter(day,true);
+    const dd=addDays(parseKey(stats.last.start),day-1);
+    tipDate.text(`${dd.getDate()} ${MONTHS[dd.getMonth()]}`);
+    tipPhase.text(PHASE_NAMES[phaseOfDay(day)]);
+    const bb=tipTxt.node().getBBox(), pad=8;
+    tipBg.attr('x',bb.x-pad).attr('y',bb.y-pad/2).attr('width',bb.width+pad*2).attr('height',bb.height+pad);
+    tip.attr('transform',`translate(${nx-(bb.width/2)},${ny+(ny>=0?20:-bb.height-20)})`).style('opacity',1);
+  }
+
+  const dotEl=dotG.node();
+  dotEl.style.cursor='grab';
+  dotEl.addEventListener('pointerdown', function(e) {
+    e.preventDefault();
+    this.setPointerCapture(e.pointerId);
+    dotOut.attr('r',11);
+    dotEl.style.cursor='grabbing';
+    applyDay(dayFromPointer(e));
+  }, {passive:false});
+  dotEl.addEventListener('pointermove', function(e) {
+    if(!this.hasPointerCapture(e.pointerId)) return;
+    e.preventDefault();
+    applyDay(dayFromPointer(e));
+  }, {passive:false});
+  function onDragEnd(e) {
+    if(!dotEl.hasPointerCapture(e.pointerId)) return;
+    dotEl.releasePointerCapture(e.pointerId);
+    dotOut.attr('r',9).attr('fill',css('--ink'));
+    dotEl.style.cursor='grab';
+    dotG.selectAll('circle').attr('cx',ox).attr('cy',oy);
+    updateCenter(stats.cycleDay,false);
+    tip.style('opacity',0);
+  }
+  dotEl.addEventListener('pointerup', onDragEnd);
+  dotEl.addEventListener('pointercancel', onDragEnd);
+}
+
+/* ── KALENDER VIEW ── */
+function renderKalender() {
+  const container=document.getElementById('multi-cal');
+  container.innerHTML='';
+  const stats=computeStats();
+  const bleedSet=buildBleedSet();
+  const predSet=buildPredSet(stats);
+  const spotSet=buildSpotSet();
+  const infoSet=buildInfoSet();
+  const fertileSet=buildFertileSet(stats);
+  const today=todayKey(), now=new Date();
+  let scrollTarget=null;
+  for (let off=-5;off<=2;off++) {
+    const date=new Date(now.getFullYear(),now.getMonth()+off,1);
+    const y=date.getFullYear(),m=date.getMonth();
+    const block=renderMonthBlock(y,m,bleedSet,predSet,today,spotSet,infoSet,fertileSet);
+    if(off===0) block.dataset.current='1';
+    container.appendChild(block);
+    if(off===0) scrollTarget=block;
+  }
+  if(scrollTarget) setTimeout(()=>scrollTarget.scrollIntoView({block:'start'}),50);
+}
+
+function renderMonthBlock(y,m,bleedSet,predSet,today,spotSet,infoSet,fertileSet) {
+  const block=document.createElement('div');
+  block.className='month-block';
+  const title=document.createElement('div');
+  title.className='month-block-title';
+  title.innerHTML=`<b>${MONTHS[m]}</b> <span>${y}</span>`;
+  block.appendChild(title);
+  const grid=document.createElement('div');
+  grid.className='mcal-grid';
+  WD_SHORT.forEach(d=>{ const h=document.createElement('div'); h.className='mcal-hd'; h.textContent=d; grid.appendChild(h); });
+  const firstDow=new Date(y,m,1).getDay();
+  const offset=firstDow===0?6:firstDow-1;
+  const days=new Date(y,m+1,0).getDate();
+  for(let i=0;i<offset;i++) { const el=document.createElement('div'); el.className='mcal-day empty'; grid.appendChild(el); }
+  for(let d=1;d<=days;d++) {
+    const key=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const cell=document.createElement('div');
+    cell.className='mcal-day';
+    const bt=stripType(key,bleedSet,null);
+    const pt=stripType(key,predSet,bleedSet);
+    if(bt) {
+      cell.classList.add(`period-${bt}`);
+      const bg=document.createElement('div'); bg.className='period-bg'; cell.appendChild(bg);
+    } else if(pt) {
+      cell.classList.add(`pred-${pt}`);
+      const bg=document.createElement('div'); bg.className='pred-bg'; cell.appendChild(bg);
+    }
+    if(!bt && fertileSet && fertileSet.has(key)) cell.classList.add('fertile-k');
+    if(key===today) cell.classList.add('is-today-k');
+    const num=document.createElement('div'); num.className='mcal-num'; num.textContent=d; cell.appendChild(num);
+    /* Markers: roze stipje = spotting, grijs stipje = dag met stemming/symptomen/notities */
+    if(!bt && spotSet && spotSet.has(key)) {
+      const dot=document.createElement('div'); dot.className='day-dot day-dot--spot'; cell.appendChild(dot);
+    } else if(!bt && infoSet && infoSet.has(key)) {
+      const dot=document.createElement('div'); dot.className='day-dot'; cell.appendChild(dot);
+    }
+    cell.addEventListener('click',()=>openPanel(key));
+    grid.appendChild(cell);
+  }
+  block.appendChild(grid);
+  return block;
+}
+
+/* ── PATRONEN: stemmingen/symptomen per fase ── */
+function fasePatronen(stats) {
+  const res={ menstruatie:{}, folliculair:{}, vruchtbaar:{}, luteaal:{} };
+  const starts=stats.periods.map(p=>p.start);
+  Object.keys(store).forEach(k=>{
+    const e=store[k]||{};
+    const items=[...(e.moods||[]),...(e.symptoms||[])];
+    if(!items.length) return;
+    let fase=null;
+    if(stats.periods.some(p=>p.days.includes(k))) fase='menstruatie';
+    else {
+      let s=null;
+      for(const st of starts) if(st<=k) s=st;
+      if(!s) return;
+      const dag=dateDiff(s,k)+1;
+      if(dag<=stats.avgCycle+7) {
+        if(dag<stats.fertileStartDay) fase='folliculair';
+        else if(dag<=stats.fertileEndDay) fase='vruchtbaar';
+        else fase='luteaal';
+      }
+    }
+    if(fase) items.forEach(n=>{ res[fase][n]=(res[fase][n]||0)+1; });
+  });
+  return res;
+}
+
+/* ── GEGEVENS: export en import ── */
+function mkDataSection() {
+  const sec=document.createElement('div');
+  sec.className='data-sec';
+  sec.innerHTML=`<p class="data-note">Alles wat je bijhoudt staat alleen op dit apparaat. Maak af en toe een back-up, dan ben je niets kwijt als je browserdata wist of van apparaat wisselt.</p>
+    <div class="data-btns">
+      <button class="data-btn" id="btn-export">Bewaar back-up</button>
+      <button class="data-btn" id="btn-import">Zet back-up terug</button>
+    </div>`;
+  sec.querySelector('#btn-export').addEventListener('click', exportData);
+  sec.querySelector('#btn-import').addEventListener('click', ()=>document.getElementById('import-file').click());
+  return sec;
+}
+function exportData() {
+  const blob=new Blob([JSON.stringify(store,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`nectar-backup-${todayKey()}.json`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+function importData(file) {
+  file.text().then(t=>{
+    let data=null;
+    try { data=JSON.parse(t); } catch { /* geen json */ }
+    if (!data || typeof data!=='object' || Array.isArray(data)) {
+      askConfirm('Dit bestand is geen geldige Nectar-back-up.', null, 'Oké');
+      return;
+    }
+    const n=Object.keys(data).length;
+    askConfirm(`Back-up met ${n} ${n===1?'dag':'dagen'} gevonden. Je huidige gegevens op dit apparaat worden vervangen.`, ()=>{
+      store=data;
+      persist();
+      switchView(currentView);
+    }, 'Zet terug');
+  });
+}
+
+/* ── ANALYSE VIEW ── */
+function renderAnalyse() {
+  const el=document.getElementById('analyse-inner');
+  el.innerHTML='';
+  const stats=computeStats();
+  if(!stats.enough) {
+    el.innerHTML=`<div class="no-an">Voeg data toe aan<br>minimaal 2 menstruaties om<br>je analyse te zien.</div>`;
+    const grpD=document.createElement('div'); grpD.className='an-group'; grpD.textContent='Gegevens'; el.appendChild(grpD);
+    el.appendChild(mkDataSection());
+    return;
+  }
+  const n=stats.periods.length;
+  el.innerHTML=`<div class="an-title">Statistieken van<br>je cyclus</div>
+    <div class="an-sub">Gebaseerd op je laatste ${n} ${n===1?'cyclus':'cycli'}.</div>`;
+
+  if (stats.cl.length >= 2) {
+    const tw=document.createElement('div'); tw.className='trend-wrap';
+    tw.innerHTML=`<div class="trend-lbl">Cycluslengtes</div><svg id="trend-svg" height="96"></svg>`;
+    el.appendChild(tw);
+  }
+
+  const cyclOk=stats.avgCycle>=21&&stats.avgCycle<=35;
+  const varOk=stats.variation<=7;
+  const durOk=stats.avgDuration>=3&&stats.avgDuration<=7;
+
+  const g1=document.createElement('div'); g1.className='stat-grid';
+  g1.appendChild(mkCard('rc','Cyclusduur',stats.avgCycle,'dagen',cyclOk?'Typisch':'Atypisch',cyclOk));
+  g1.appendChild(mkCard('rv','Variatie in cyclus',stats.variation,'dagen',varOk?'Typisch':'Atypisch',varOk));
+  el.appendChild(g1);
+
+  const grp=document.createElement('div'); grp.className='an-group'; grp.textContent='Menstrueren'; el.appendChild(grp);
+
+  const g2=document.createElement('div'); g2.className='stat-grid';
+  g2.appendChild(mkCard('rd','Gemiddelde menstruatieduur',stats.avgDuration,'dagen',durOk?'Typisch':'Atypisch',durOk));
+  el.appendChild(g2);
+
+  /* Patronen: wat je per fase het vaakst bijhoudt */
+  const pat=fasePatronen(stats);
+  const FASE_VOLGORDE=['menstruatie','folliculair','vruchtbaar','luteaal'];
+  if (FASE_VOLGORDE.some(f=>Object.keys(pat[f]).length)) {
+    const grpP=document.createElement('div'); grpP.className='an-group'; grpP.textContent='Patronen'; el.appendChild(grpP);
+    FASE_VOLGORDE.forEach(f=>{
+      const items=Object.entries(pat[f]).sort((a,b)=>b[1]-a[1]).slice(0,5);
+      if(!items.length) return;
+      const row=document.createElement('div');
+      row.className='pat-row';
+      row.innerHTML=`<div class="pat-fase">${PHASE_NAMES[f]}</div>
+        <div class="pat-items">${items.map(([naam,n])=>`${naam} <span>×${n}</span>`).join(' · ')}</div>`;
+      el.appendChild(row);
+    });
+  }
+
+  const grpD=document.createElement('div'); grpD.className='an-group'; grpD.textContent='Gegevens'; el.appendChild(grpD);
+  el.appendChild(mkDataSection());
+
+  setTimeout(()=>{
+    drawStatRing('rc',stats.avgCycle,42,css('--ink'));
+    drawStatRing('rv',stats.variation,14,css('--g500'));
+    drawStatRing('rd',stats.avgDuration,10,css('--rose'));
+    if(stats.cl.length>=2) drawTrend(stats.cl);
+  },0);
+}
+
+function mkCard(ringId,label,val,unit,badge,ok) {
+  const card=document.createElement('div');
+  card.className='stat-card';
+  card.innerHTML=`<div class="stat-ring"><svg id="${ringId}" width="72" height="72"></svg></div>
+    <div class="stat-info">
+      <div class="stat-lbl">${label}</div>
+      <div class="stat-val">${val}<span>${unit}</span></div>
+      <div class="stat-badge"><div class="bdot ${ok?'bdot-ok':'bdot-warn'}"></div>${badge}</div>
+    </div>`;
+  return card;
+}
+
+function drawStatRing(id,value,max,color) {
+  const sz=72,r=28,sw=7,cx=36,cy=36;
+  const svg=d3.select(`#${id}`).attr('viewBox',`0 0 ${sz} ${sz}`);
+  svg.selectAll('*').remove();
+  const g=svg.append('g').attr('transform',`translate(${cx},${cy})`);
+  const mkA=(a0,a1,cr)=>d3.arc().innerRadius(r-sw).outerRadius(r).startAngle(a0).endAngle(a1).cornerRadius(cr)();
+  g.append('path').attr('d',mkA(0,Math.PI*2,0)).attr('fill',css('--g100'));
+  const ratio=Math.min(value/max,1);
+  if(ratio>0) g.append('path').attr('d',mkA(-Math.PI/2,-Math.PI/2+ratio*Math.PI*2,3)).attr('fill',color);
+}
+
+function drawTrend(cl) {
+  const el=document.getElementById('trend-svg');
+  if(!el) return;
+  const w=el.parentElement.clientWidth-40||280;
+  const h=96, pl=10, pr=34, pt=10, pb=22;
+  const svg=d3.select('#trend-svg').attr('viewBox',`0 0 ${w} ${h}`).attr('width',w);
+  svg.selectAll('*').remove();
+  const x=d3.scaleLinear().domain([0,cl.length-1]).range([pl,w-pr]);
+  const mn=Math.min(...cl)-4, mx=Math.max(...cl)+4;
+  const y=d3.scaleLinear().domain([mn,mx]).range([h-pb,pt]);
+  const area=d3.area().x((_,i)=>x(i)).y0(h-pb).y1(d=>y(d)).curve(d3.curveCatmullRom.alpha(0.5));
+  svg.append('path').datum(cl).attr('d',area).attr('fill',css('--ink')).attr('opacity',0.05);
+  const line=d3.line().x((_,i)=>x(i)).y(d=>y(d)).curve(d3.curveCatmullRom.alpha(0.5));
+  svg.append('path').datum(cl).attr('d',line).attr('fill','none').attr('stroke',css('--ink')).attr('stroke-width',1.5).attr('opacity',0.35);
+  cl.forEach((v,i)=>{
+    svg.append('circle').attr('cx',x(i)).attr('cy',y(v)).attr('r',4).attr('fill',css('--ink'));
+    svg.append('text').attr('x',x(i)).attr('y',h-4).attr('font-size',10.5).attr('fill',css('--g500')).attr('text-anchor','middle').attr('font-family','Noto Sans JP').text(`${v}`);
+  });
+}
+
+/* ── DATE PICKER ── */
+function showDatePicker() {
+  document.getElementById('dpick-input').value = todayKey();
+  document.getElementById('dpick-scrim').classList.add('show');
+}
+function hideDatePicker() { document.getElementById('dpick-scrim').classList.remove('show'); }
+document.getElementById('dpick-go').addEventListener('click', ()=>{
+  const val = document.getElementById('dpick-input').value;
+  hideDatePicker();
+  if (val) openPanel(val);
+});
+document.getElementById('dpick-cancel').addEventListener('click', hideDatePicker);
+document.getElementById('dpick-scrim').addEventListener('click', e=>{
+  if (e.target === document.getElementById('dpick-scrim')) hideDatePicker();
+});
+
+/* ── BEVESTIGINGSMODAL ── */
+let cfCallback=null;
+function askConfirm(msg, cb, okLabel) {
+  document.getElementById('cf-msg').textContent=msg;
+  const ok=document.getElementById('cf-ok');
+  ok.textContent=okLabel||'Ja, doorgaan';
+  document.getElementById('cf-cancel').style.display=cb?'block':'none';
+  cfCallback=cb;
+  document.getElementById('cf-scrim').classList.add('show');
+}
+function hideConfirm() { document.getElementById('cf-scrim').classList.remove('show'); cfCallback=null; }
+document.getElementById('cf-ok').addEventListener('click', ()=>{ const cb=cfCallback; hideConfirm(); if(cb) cb(); });
+document.getElementById('cf-cancel').addEventListener('click', hideConfirm);
+document.getElementById('cf-scrim').addEventListener('click', e=>{
+  if (e.target === document.getElementById('cf-scrim')) hideConfirm();
+});
+document.getElementById('import-file').addEventListener('change', e=>{
+  const f=e.target.files[0];
+  e.target.value='';
+  if (f) importData(f);
+});
+
+/* ── DAY PANEL ── */
+function openPanel(key) {
+  activeKey = key;
+  const e = getEntry(key);
+  draft = { ...e, moods: [...e.moods], symptoms: [...e.symptoms] };
+  const [y,m,d]=key.split('-').map(Number);
+  const wdI=(new Date(y,m-1,d).getDay()+6)%7;
+  document.getElementById('p-date').textContent=`${d} ${MONTHS[m-1]}`;
+  document.getElementById('p-weekday').textContent=WD_LONG[wdI];
+  fillPanel(key);
+  document.getElementById('panel').classList.add('open');
+  document.getElementById('scrim').classList.add('show');
+}
+function closePanel() {
+  draft = null; activeKey = null;
+  document.getElementById('panel').classList.remove('open');
+  document.getElementById('scrim').classList.remove('show');
+  if(currentView==='cyclus')   renderCyclus();
+  if(currentView==='kalender') renderKalender();
+  if(currentView==='analyse')  renderAnalyse();
+}
+function saveDraft() {
+  if (!activeKey || !draft) return;
+  saveEntry(activeKey, draft);
+  closePanel();
+}
+function deleteDay(key) {
+  delete store[key];
+  persist();
+  closePanel();
+}
+function deletePeriod(days) {
+  days.forEach(k => delete store[k]);
+  persist();
+  closePanel();
+}
+function fillPanel(key) {
+  const e = draft;
+  const br=document.getElementById('bleed-row'); br.innerHTML='';
+  for(let i=1;i<=4;i++) {
+    const btn=document.createElement('button'); btn.className='bc-btn';
+    const c=document.createElement('div'); c.className='bc'+(e.bleed>=i?' on':'');
+    btn.appendChild(c);
+    btn.addEventListener('click',()=>{ draft.bleed=draft.bleed===i?i-1:i; fillPanel(key); });
+    br.appendChild(btn);
+  }
+  const lbl=document.createElement('span'); lbl.className='bc-lbl'; lbl.textContent=BLEED_LBL[e.bleed]; br.appendChild(lbl);
+  const sc=document.getElementById('sec-color');
+  sc.style.opacity=e.bleed>0?'1':'0.3'; sc.style.pointerEvents=e.bleed>0?'auto':'none';
+  const sw=document.getElementById('swatches'); sw.innerHTML='';
+  BLOOD_COLORS.forEach(c=>{
+    const btn=document.createElement('button'); btn.className='sw-btn'+(e.color===c.id?' active':'');
+    const dot=document.createElement('div'); dot.className='sw'; dot.style.background=c.hex;
+    const nm=document.createElement('span'); nm.className='sw-nm'; nm.textContent=c.name.replace('\n',' ');
+    btn.appendChild(dot); btn.appendChild(nm);
+    btn.addEventListener('click',()=>{
+      draft.color = draft.color===c.id ? null : c.id;
+      document.querySelectorAll('#swatches .sw-btn').forEach(b=>b.classList.remove('active'));
+      if(draft.color) btn.classList.add('active');
+    });
+    sw.appendChild(btn);
+  });
+  const mc=document.getElementById('mood-chips'); mc.innerHTML='';
+  MOODS.forEach(mood=>{
+    const btn=document.createElement('button'); btn.className='chip'+(e.moods.includes(mood)?' on':''); btn.textContent=mood;
+    btn.addEventListener('click',()=>{ const i=draft.moods.indexOf(mood); if(i>=0)draft.moods.splice(i,1);else draft.moods.push(mood); btn.classList.toggle('on'); });
+    mc.appendChild(btn);
+  });
+  const syc=document.getElementById('sym-chips'); syc.innerHTML='';
+  SYMPTOMS.forEach(s=>{
+    const btn=document.createElement('button'); btn.className='chip'+(e.symptoms.includes(s)?' on':''); btn.textContent=s;
+    btn.addEventListener('click',()=>{ const i=draft.symptoms.indexOf(s); if(i>=0)draft.symptoms.splice(i,1);else draft.symptoms.push(s); btn.classList.toggle('on'); });
+    syc.appendChild(btn);
+  });
+  const ta=document.getElementById('notes-ta'); ta.value=e.notes||'';
+  ta.oninput=()=>{ draft.notes=ta.value; };
+
+  // Delete buttons
+  const actions=document.getElementById('panel-actions');
+  actions.innerHTML='';
+
+  // Verwijder dag
+  if (store[key]) {
+    const btnDel=document.createElement('button');
+    btnDel.className='del-day-btn';
+    btnDel.textContent='Verwijder dag';
+    btnDel.addEventListener('click',()=>deleteDay(key));
+    actions.appendChild(btnDel);
+  }
+
+  // Verwijder hele menstruatie
+  const periods=detectPeriods();
+  const myPeriod=periods.find(p=>p.days.includes(key));
+  if (myPeriod) {
+    const s=parseKey(myPeriod.start), en=parseKey(myPeriod.end);
+    const rangeLabel = myPeriod.start===myPeriod.end
+      ? `${s.getDate()} ${MONTHS[s.getMonth()]}`
+      : `${s.getDate()}–${en.getDate()} ${MONTHS[en.getMonth()]}`;
+    const btnPer=document.createElement('button');
+    btnPer.className='del-period-btn';
+    btnPer.textContent=`Verwijder menstruatie ${rangeLabel}`;
+    btnPer.addEventListener('click',()=>{
+      askConfirm(`Weet je zeker dat je de menstruatie van ${rangeLabel} wil verwijderen?`, ()=>deletePeriod(myPeriod.days), 'Verwijderen');
+    });
+    actions.appendChild(btnPer);
+  }
+}
+
+/* ── THEMA (licht/donker) ── */
+const THEMA_KEY='nectar-thema';
+const MAAN_SVG='<svg viewBox="0 0 22 22"><path d="M18 13.5A7.5 7.5 0 0 1 8.5 4 7.5 7.5 0 1 0 18 13.5Z"/></svg>';
+const ZON_SVG='<svg viewBox="0 0 22 22"><circle cx="11" cy="11" r="4.2"/><line x1="11" y1="2.5" x2="11" y2="5"/><line x1="11" y1="17" x2="11" y2="19.5"/><line x1="2.5" y1="11" x2="5" y2="11"/><line x1="17" y1="11" x2="19.5" y2="11"/><line x1="5" y1="5" x2="6.8" y2="6.8"/><line x1="15.2" y1="15.2" x2="17" y2="17"/><line x1="5" y1="17" x2="6.8" y2="15.2"/><line x1="15.2" y1="6.8" x2="17" y2="5"/></svg>';
+function huidigThema() {
+  const bewaard=localStorage.getItem(THEMA_KEY);
+  if (bewaard==='licht'||bewaard==='donker') return bewaard;
+  return matchMedia('(prefers-color-scheme: dark)').matches ? 'donker' : 'licht';
+}
+function pasThemaToe(t) {
+  document.documentElement.setAttribute('data-thema', t);
+  document.querySelectorAll('.thema-btn').forEach(b=>{ b.innerHTML = t==='donker' ? ZON_SVG : MAAN_SVG; });
+}
+function wisselThema() {
+  const nieuw = huidigThema()==='donker' ? 'licht' : 'donker';
+  localStorage.setItem(THEMA_KEY, nieuw);
+  pasThemaToe(nieuw);
+  switchView(currentView); // D3-tekeningen opnieuw in de nieuwe kleuren
+}
+document.querySelectorAll('.thema-btn').forEach(b=>b.addEventListener('click', wisselThema));
+pasThemaToe(huidigThema());
+
+/* ── INIT ── */
+document.getElementById('btn-close').addEventListener('click', closePanel);
+document.getElementById('btn-save').addEventListener('click', saveDraft);
+document.getElementById('scrim').addEventListener('click', closePanel);
+const now=new Date();
+document.getElementById('today-lbl').textContent=`${now.getDate()} ${MONTHS[now.getMonth()]}`+(DEMO?' · voorbeeld':'');
+renderCyclus();
+</script>
+</body>
+</html>

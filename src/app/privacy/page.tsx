@@ -1,117 +1,82 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { C2Tekstpagina } from '../concept-2/gedeeld';
 
 export const metadata: Metadata = {
-  title: "Privacybeleid · Spill Your Tea",
-  description: "Hoe Spill Your Tea omgaat met jouw persoonsgegevens, cookies en AI-transparantie.",
+  alternates: { canonical: '/privacy' },
+  title: "Privacybeleid · Kimberley van Ruiven",
+  description: "Hoe kimberleyvanruiven.nl omgaat met jouw persoonsgegevens, cookies en AI-transparantie.",
 };
 
 export default function Privacy() {
   return (
-    <main className="privacy-page">
+    <C2Tekstpagina
+      label="Juridisch"
+      regels={['Privacy', 'beleid']}
+      bijgewerkt="juli 2026"
+      scatter={[[2, 5.2, '74%', '10%'], [19, 3.2, '60%', '64%'], [10, 2.6, '86%', '84%']]}
+    >
+      <section>
+        <h2>Wie is verantwoordelijk?</h2>
+        <p>
+          Kimberley van Ruiven is de verwerkingsverantwoordelijke in de zin van de Algemene Verordening Gegevensbescherming (AVG / GDPR). Contact: <a href="mailto:info@kimberleyvanruiven.nl">info@kimberleyvanruiven.nl</a>.
+        </p>
+      </section>
 
-      <nav className="nav">
-        <Link href="/" className="nav-logo">Spill Your Tea</Link>
-        <div className="nav-links">
-          <Link href="/#over" className="nav-link">Over</Link>
-          <Link href="/#aanbod" className="nav-link">Aanbod</Link>
-          <Link href="/#contact" className="nav-link">Contact</Link>
-        </div>
-      </nav>
+      <section>
+        <h2>Welke gegevens worden verwerkt?</h2>
+        <p>
+          Deze website verzamelt geen persoonsgegevens via formulieren of tracking. Voor bezoekersstatistieken gebruikt de site Vercel Web Analytics: een privacyvriendelijke meting zonder cookies, waarbij geen persoonsgegevens worden opgeslagen en bezoekers niet individueel herkenbaar zijn. Een cookiebanner is daarom niet nodig.
+        </p>
+        <p>
+          Wanneer je via deze website contact opneemt (per e-mail of via een afspraaklink) of gebruik maakt van externe diensten, gelden de privacyvoorwaarden van die diensten:
+        </p>
+        <ul>
+          <li>Google Calendar: voor het boeken van een kennismaking. Google verwerkt gegevens conform het eigen privacybeleid.</li>
+          <li>LinkedIn: bij het bezoeken van het profiel of het sturen van berichten.</li>
+          <li>GitHub: bij het bekijken van code en projecten via de links op deze site.</li>
+        </ul>
+      </section>
 
-      <div className="privacy-content">
+      <section>
+        <h2>Cookies</h2>
+        <p>
+          Deze website plaatst zelf geen tracking- of analytische cookies; ook de bezoekersstatistieken werken volledig zonder cookies. Externe partijen (zoals hierboven genoemd) kunnen wel cookies plaatsen wanneer je hun diensten bezoekt. Dat valt buiten de verantwoordelijkheid van Kimberley van Ruiven.
+        </p>
+      </section>
 
-        <header className="privacy-header">
-          <span className="section-label">Juridisch</span>
-          <h1 className="section-heading">Privacybeleid</h1>
-          <p className="privacy-intro">
-            Laatst bijgewerkt: juni 2026
-          </p>
-        </header>
+      <section>
+        <h2>Jouw rechten onder de AVG</h2>
+        <p>Op grond van de AVG heb je de volgende rechten:</p>
+        <ul>
+          <li>Recht op inzage: je kunt opvragen welke gegevens van jou zijn opgeslagen.</li>
+          <li>Recht op rectificatie: onjuiste gegevens laten corrigeren.</li>
+          <li>Recht op verwijdering: gegevens laten wissen (&ldquo;recht op vergetelheid&rdquo;).</li>
+          <li>Recht op beperking: de verwerking (tijdelijk) laten stopzetten.</li>
+          <li>Recht op bezwaar: bezwaar maken tegen verwerking op basis van gerechtvaardigd belang.</li>
+          <li>Recht op dataportabiliteit: gegevens in een machine-leesbaar formaat opvragen.</li>
+        </ul>
+        <p>
+          Voor vragen of het uitoefenen van je rechten: <a href="mailto:info@kimberleyvanruiven.nl">info@kimberleyvanruiven.nl</a>. Je hebt ook het recht een klacht in te dienen bij de <a href="https://www.autoriteitpersoonsgegevens.nl" target="_blank" rel="noopener noreferrer">Autoriteit Persoonsgegevens</a>.
+        </p>
+      </section>
 
-        <section className="privacy-section">
-          <h2>1. Wie is verantwoordelijk?</h2>
-          <p>
-            Kimberley van Ruiven, handelend onder de naam <strong>Spill Your Tea</strong>, is de verwerkingsverantwoordelijke in de zin van de Algemene Verordening Gegevensbescherming (AVG / GDPR).
-          </p>
-          <p>
-            Contact: <a href="mailto:info@kimberleyvanruiven.nl">info@kimberleyvanruiven.nl</a>
-          </p>
-        </section>
+      <section>
+        <h2>AI-transparantie en de EU AI Act</h2>
+        <p>
+          In lijn met de EU AI Act en vanuit mijn eigen waarden rondom ethische technologie ben ik transparant over het gebruik van AI-tools. Deze website is mede ontwikkeld met behulp van AI (onder andere voor ontwerp, tekst en code); de inhoud is door mij, Kimberley van Ruiven, gecontroleerd, beoordeeld en goedgekeurd. Bij het verlenen van adviesdiensten gebruik ik AI als ondersteunend hulpmiddel: conclusies en aanbevelingen zijn altijd mensenwerk en vallen onder mijn professionele verantwoordelijkheid. Er worden geen geautomatiseerde beslissingen genomen over jou als persoon via deze website.
+        </p>
+        <p>
+          Hoe ik precies met AI werk, welke tools ik gebruik en wanneer ik AI bewust laat liggen, lees je op <Link href="/zo-werk-ik-met-ai">zo werk ik met AI</Link>.
+        </p>
+      </section>
 
-        <section className="privacy-section">
-          <h2>2. Welke gegevens worden verwerkt?</h2>
-          <p>
-            Deze website verzamelt zelf <strong>geen persoonsgegevens</strong> via formulieren of tracking. Er is geen eigen analytics of cookiebanner nodig.
-          </p>
-          <p>
-            Wanneer je via deze website contact opneemt (per e-mail of via een afspraaklink) of gebruik maakt van externe diensten, gelden de privacyvoorwaarden van die diensten:
-          </p>
-          <ul>
-            <li><strong>Google Calendar</strong> — voor het boeken van sessies. Google verwerkt gegevens conform hun eigen privacybeleid.</li>
-            <li><strong>Instagram / Meta</strong> — bij het bezoeken van het profiel of het sturen van berichten.</li>
-            <li><strong>LinkedIn</strong> — bij het bezoeken van het profiel of sturen van berichten.</li>
-          </ul>
-        </section>
-
-        <section className="privacy-section">
-          <h2>3. Cookies</h2>
-          <p>
-            Deze website gebruikt <strong>geen tracking- of analytische cookies</strong> van eigen systemen. Externe partijen (zoals hierboven genoemd) kunnen wel cookies plaatsen wanneer je hun diensten bezoekt. Dit valt buiten de verantwoordelijkheid van Spill Your Tea.
-          </p>
-        </section>
-
-        <section className="privacy-section">
-          <h2>4. Jouw rechten (AVG)</h2>
-          <p>Op grond van de AVG heb je de volgende rechten:</p>
-          <ul>
-            <li><strong>Recht op inzage</strong> — je kunt opvragen welke gegevens van jou zijn opgeslagen.</li>
-            <li><strong>Recht op rectificatie</strong> — onjuiste gegevens laten corrigeren.</li>
-            <li><strong>Recht op verwijdering</strong> — gegevens laten wissen ("recht op vergetelheid").</li>
-            <li><strong>Recht op beperking</strong> — de verwerking (tijdelijk) laten stopzetten.</li>
-            <li><strong>Recht op bezwaar</strong> — bezwaar maken tegen verwerking op basis van gerechtvaardigd belang.</li>
-            <li><strong>Recht op dataportabiliteit</strong> — gegevens in een machine-leesbaar formaat opvragen.</li>
-          </ul>
-          <p>
-            Voor vragen of het uitoefenen van je rechten: <a href="mailto:info@kimberleyvanruiven.nl">info@kimberleyvanruiven.nl</a>. Je hebt ook het recht een klacht in te dienen bij de <a href="https://www.autoriteitpersoonsgegevens.nl" target="_blank" rel="noopener noreferrer">Autoriteit Persoonsgegevens</a>.
-          </p>
-        </section>
-
-        <section className="privacy-section">
-          <h2>5. AI-transparantie (EU AI Act)</h2>
-          <p>
-            In lijn met de EU AI Act en vanuit mijn eigen waarden rondom ethische technologie, ben ik transparant over het gebruik van AI-tools:
-          </p>
-          <ul>
-            <li>Deze website is <strong>mede ontwikkeld met behulp van AI-tools</strong> (o.a. voor ontwerp, tekst en code).</li>
-            <li>De inhoud is door mij, Kimberley van Ruiven, gecontroleerd, beoordeeld en goedgekeurd.</li>
-            <li>Bij het verlenen van adviesdiensten maak ik gebruik van AI-tools als <strong>ondersteunend hulpmiddel</strong>. Conclusies en aanbevelingen zijn altijd mensenwerk en vallen onder mijn professionele verantwoordelijkheid.</li>
-            <li>Er worden <strong>geen geautomatiseerde beslissingen</strong> genomen over jou als persoon via deze website.</li>
-          </ul>
-          <p>
-            Heb je vragen over het gebruik van AI in mijn werk? Ik ga er graag over in gesprek — dat is precies waar Spill Your Tea voor is.
-          </p>
-        </section>
-
-        <section className="privacy-section">
-          <h2>6. Wijzigingen</h2>
-          <p>
-            Dit privacybeleid kan worden aangepast bij wijzigingen in de dienstverlening of wetgeving. De meest actuele versie staat altijd op deze pagina.
-          </p>
-        </section>
-
-        <div className="privacy-back">
-          <Link href="/" className="btn-primary">← Terug naar de website</Link>
-        </div>
-
-      </div>
-
-      <footer className="footer">
-        <span>© 2026 Kimberley van Ruiven</span>
-        <span className="footer-brand">Spill Your Tea</span>
-        <span className="footer-ai">Deze website is ontwikkeld met AI-ondersteuning.</span>
-      </footer>
-
-    </main>
+      <section>
+        <h2>Wijzigingen</h2>
+        <p>
+          Dit privacybeleid kan worden aangepast bij wijzigingen in de dienstverlening of wetgeving. De meest actuele versie staat altijd op deze pagina.
+        </p>
+      </section>
+    </C2Tekstpagina>
   );
 }
