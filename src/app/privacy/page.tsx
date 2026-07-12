@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { C2Tekstpagina } from '../gedeeld';
 
 export const metadata: Metadata = {
-  alternates: { canonical: '/privacy' },
+  alternates: { canonical: '/privacy', languages: { 'nl-NL': '/privacy', 'en': '/en/privacy' } },
   title: "Privacybeleid · Kimberley van Ruiven",
   description: "Hoe kimberleyvanruiven.nl omgaat met jouw persoonsgegevens, cookies en AI-transparantie.",
 };
@@ -14,6 +14,7 @@ export default function Privacy() {
       label="Juridisch"
       regels={['Privacy', 'beleid']}
       bijgewerkt="juli 2026"
+      anderePad="/en/privacy"
       scatter={[[2, 5.2, '74%', '10%'], [19, 3.2, '60%', '64%'], [10, 2.6, '86%', '84%']]}
     >
       <section>

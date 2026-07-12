@@ -3,7 +3,10 @@ import Link from 'next/link';
 import { C2Tekstpagina } from '../../gedeeld';
 
 export const metadata: Metadata = {
-  alternates: { canonical: '/artikelen/machine-learning-of-generatieve-ai' },
+  alternates: {
+    canonical: '/artikelen/machine-learning-of-generatieve-ai',
+    languages: { 'nl-NL': '/artikelen/machine-learning-of-generatieve-ai', 'en': '/en/articles/machine-learning-or-generative-ai' },
+  },
   title: "Machine learning of generatieve AI: het verschil bepaalt je risico · Kimberley van Ruiven",
   description: "Machine learning voorspelt, generatieve AI maakt. Wie het verschil kent, weet welke vragen je aan een AI-tool moet stellen en welk risico je loopt.",
 };
@@ -13,6 +16,7 @@ export default function MLvsGenAIArtikel() {
     <C2Tekstpagina
       label="Machine learning · juli 2026"
       regels={['Twee soorten AI,', 'twee risico’s']}
+      anderePad="/en/articles/machine-learning-or-generative-ai"
       scatter={[[13, 5, '74%', '10%'], [9, 3.2, '86%', '60%']]}
       intro={
         <p>

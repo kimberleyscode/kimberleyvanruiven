@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { C2Tekstpagina } from '../gedeeld';
 
 export const metadata: Metadata = {
-  alternates: { canonical: '/manifest' },
+  alternates: { canonical: '/manifest', languages: { 'nl-NL': '/manifest', 'en': '/en/manifesto' } },
   title: "Mijn AI-manifest · Kimberley van Ruiven",
   description: "De uitgangspunten achter al mijn werk: AI die laat zien wat het is, met de mens aan het stuur, gekozen op de juiste prikkels.",
 };
@@ -13,6 +13,7 @@ export default function Manifest() {
     <C2Tekstpagina
       label="Manifest"
       regels={['Waar ik', 'voor sta']}
+      anderePad="/en/manifesto"
       scatter={[[8, 5.4, '72%', '8%'], [14, 3.2, '86%', '56%'], [3, 2.6, '60%', '80%']]}
       intro={
         <p>

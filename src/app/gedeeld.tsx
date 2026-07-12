@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import Link from 'next/link';
 import { Righteous, Noto_Sans_Javanese } from 'next/font/google';
 import './concept2.css';
+import type { Locale } from '../content/types';
 
 const display = Righteous({ weight: '400', subsets: ['latin'], variable: '--font-c2-display' });
 const javanese = Noto_Sans_Javanese({ weight: '400', subsets: ['javanese'], variable: '--font-c2-jav' });
@@ -13,16 +14,71 @@ export const fontVars = `${display.variable} ${javanese.variable}`;
 /* De twintig basisletters van de hanacaraka (aksara Jawa) */
 export const AKSARA = ['ꦲ', 'ꦤ', 'ꦕ', 'ꦫ', 'ꦏ', 'ꦢ', 'ꦠ', 'ꦱ', 'ꦮ', 'ꦭ', 'ꦥ', 'ꦝ', 'ꦗ', 'ꦪ', 'ꦚ', 'ꦩ', 'ꦒ', 'ꦧ', 'ꦛ', 'ꦔ'];
 
-/* Dé homepage van de nieuwe site. Nu nog /concept-2; bij livegang deze ene regel
-   op '/' zetten en alle interne links binnen het concept-2-universum wijzen meteen goed. */
+/* De homepage per taal: Nederlands staat op de wortel, Engels onder /en. */
 export const HOME = '/';
+export const thuis = (locale: Locale) => (locale === 'en' ? '/en' : '/');
+
+/* Teksten van de schil (topbalk, footer) en de paden van de footerlinks per taal. */
+export const SCHIL = {
+  nl: {
+    contact: 'Neem contact op',
+    bijgewerkt: 'Laatst bijgewerkt:',
+    missie: 'Gebouwd mét AI, met een mens aan het stuur.',
+    links: [
+      { href: '/zo-werk-ik-met-ai', tekst: 'Zo werk ik met AI' },
+      { href: '/manifest', tekst: 'AI-manifest' },
+      { href: '/privacy', tekst: 'Privacybeleid' },
+    ],
+    home: 'Home',
+  },
+  en: {
+    contact: 'Get in touch',
+    bijgewerkt: 'Last updated:',
+    missie: 'Built with AI, with a human at the wheel.',
+    links: [
+      { href: '/en/how-i-work-with-ai', tekst: 'How I work with AI' },
+      { href: '/en/manifesto', tekst: 'AI manifesto' },
+      { href: '/en/privacy', tekst: 'Privacy policy' },
+    ],
+    home: 'Home',
+  },
+} as const;
+
+/* <html lang> staat in de root-layout vast op 'nl' en kan daar niet per route wisselen
+   zonder de hele app onder een [lang]-segment te hangen, wat alle Nederlandse URL's zou
+   breken. Op Engelse pagina's zetten we het attribuut daarom hier. */
+export function useHtmlTaal(locale: Locale) {
+  useEffect(() => {
+    const vorig = document.documentElement.lang;
+    document.documentElement.lang = locale;
+    return () => { document.documentElement.lang = vorig; };
+  }, [locale]);
+}
+
+/* De taalwissel uit de topbalk. Toont niets als de pagina maar in één taal bestaat
+   (quiz, CO₂-calculator, Nectar-demo blijven bewust Nederlands). */
+export function TaalWissel({ locale, anderePad }: { locale: Locale; anderePad?: string | null }) {
+  if (!anderePad) return null;
+  return (
+    <Link
+      className="c2-lang"
+      href={anderePad}
+      hrefLang={locale === 'nl' ? 'en' : 'nl'}
+      aria-label={locale === 'nl' ? 'Switch to English' : 'Bekijk deze pagina in het Nederlands'}
+    >
+      <span className={locale === 'nl' ? 'is-active' : 'is-idle'}>NL</span>
+      <span className={`c2-lang-pill${locale === 'en' ? ' c2-lang-pill--en' : ''}`} aria-hidden="true" />
+      <span className={locale === 'en' ? 'is-active' : 'is-idle'}>EN</span>
+    </Link>
+  );
+}
 
 /* Hoekvariant B (gekozen 11 juli): het knipperoog uit het bril-kunstwerk als
    thuis-link linksboven, op alle pagina's behalve de homepage zelf.
    Bij hover kijkt de pupil naar links, richting huis. */
-export function HoekThuis() {
+export function HoekThuis({ locale = 'nl' }: { locale?: Locale }) {
   return (
-    <Link className="c2-reach c2-hoek" href={HOME}>
+    <Link className="c2-reach c2-hoek" href={thuis(locale)}>
       <svg className="c2-hoek-oog" width="26" height="16.12" viewBox="0 0 56 34" fill="none" stroke="#00218F" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M2 17 Q28 -1 54 17 Q28 35 2 17 Z" />
         <g clipPath="url(#c2-hoek-oogvorm)">
@@ -105,22 +161,31 @@ export function useKinetiek() {
   }, []);
 }
 
-/* Schil voor tekstpagina's (privacy, zo-werk-ik-met-ai, 404) in dezelfde stijl als concept-2 */
-export function C2Tekstpagina({ label, regels, bijgewerkt, intro, scatter, children }: {
+/* Schil voor tekstpagina's (privacy, zo-werk-ik-met-ai, artikelen, diensten, 404).
+   `anderePad` = dezelfde pagina in de andere taal; laat je die weg, dan verschijnt er
+   geen taalwissel (bewust zo voor de 404 en voor pagina's die maar één taal hebben). */
+export function C2Tekstpagina({ label, regels, bijgewerkt, intro, scatter, children, locale = 'nl', anderePad }: {
   label: string;
   regels: string[];
   bijgewerkt?: string;
   intro?: React.ReactNode;
   scatter?: Array<[number, number, string, string]>;
   children: React.ReactNode;
+  locale?: Locale;
+  anderePad?: string | null;
 }) {
   useLichteAchtergrond();
   useKinetiek();
+  useHtmlTaal(locale);
+  const s = SCHIL[locale];
   return (
-    <div className={`c2-root ${fontVars}`}>
+    <div className={`c2-root ${fontVars}`} lang={locale}>
       <nav className="c2-top">
-        <HoekThuis />
-        <a className="c2-reach" href="mailto:info@kimberleyvanruiven.nl">Neem contact op</a>
+        <HoekThuis locale={locale} />
+        <span className="c2-top-rechts">
+          <TaalWissel locale={locale} anderePad={anderePad} />
+          <a className="c2-reach" href="mailto:info@kimberleyvanruiven.nl">{s.contact}</a>
+        </span>
       </nav>
 
       <header className="c2-section c2-tekst-kop">
@@ -137,7 +202,7 @@ export function C2Tekstpagina({ label, regels, bijgewerkt, intro, scatter, child
             </span>
           ))}
         </h1>
-        {bijgewerkt && <p className="c2-grey c2-tekst-datum">Laatst bijgewerkt: {bijgewerkt}</p>}
+        {bijgewerkt && <p className="c2-grey c2-tekst-datum">{s.bijgewerkt} {bijgewerkt}</p>}
         {intro && <div className="c2-tekst-intro">{intro}</div>}
       </header>
 
@@ -145,11 +210,9 @@ export function C2Tekstpagina({ label, regels, bijgewerkt, intro, scatter, child
 
       <footer className="c2-footer">
         <span>© 2026 Kimberley van Ruiven</span>
-        <Link href="/zo-werk-ik-met-ai">Zo werk ik met AI</Link>
-        <Link href="/manifest">AI-manifest</Link>
-        <Link href="/privacy">Privacybeleid</Link>
-        <Link href={HOME}>Home</Link>
-        <span>Gebouwd mét AI, met een mens aan het stuur.</span>
+        {s.links.map((l) => <Link key={l.href} href={l.href}>{l.tekst}</Link>)}
+        <Link href={thuis(locale)}>{s.home}</Link>
+        <span>{s.missie}</span>
       </footer>
     </div>
   );

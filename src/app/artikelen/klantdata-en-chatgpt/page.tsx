@@ -3,7 +3,10 @@ import Link from 'next/link';
 import { C2Tekstpagina } from '../../gedeeld';
 
 export const metadata: Metadata = {
-  alternates: { canonical: '/artikelen/klantdata-en-chatgpt' },
+  alternates: {
+    canonical: '/artikelen/klantdata-en-chatgpt',
+    languages: { 'nl-NL': '/artikelen/klantdata-en-chatgpt', 'en': '/en/articles/client-data-and-chatgpt' },
+  },
   title: "Welke klantdata deel je wel en niet met ChatGPT? · Kimberley van Ruiven",
   description: "Drie vuistregels voor veilig AI-gebruik met klantgegevens: wat kan er in een prompt, wat nooit, en welke instellingen je vandaag moet aanzetten.",
 };
@@ -13,6 +16,7 @@ export default function KlantdataArtikel() {
     <C2Tekstpagina
       label="Privacy · juli 2026"
       regels={['Klantdata', 'en ChatGPT']}
+      anderePad="/en/articles/client-data-and-chatgpt"
       scatter={[[11, 5, '76%', '10%'], [2, 3.2, '88%', '58%']]}
       intro={
         <p>

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { C2Tekstpagina } from '../gedeeld';
 
 export const metadata: Metadata = {
-  alternates: { canonical: '/zo-werk-ik-met-ai' },
+  alternates: { canonical: '/zo-werk-ik-met-ai', languages: { 'nl-NL': '/zo-werk-ik-met-ai', 'en': '/en/how-i-work-with-ai' } },
   title: "Zo werk ik met AI · Kimberley van Ruiven",
   description: "Volledige transparantie over hoe ik AI inzet: welke tools, wat er met jouw gegevens gebeurt, en wanneer ik AI juist niet gebruik.",
 };
@@ -14,6 +14,7 @@ export default function ZoWerkIkMetAI() {
       label="Transparantie"
       regels={['Zo werk ik', 'met AI']}
       bijgewerkt="juli 2026"
+      anderePad="/en/how-i-work-with-ai"
       scatter={[[8, 5.4, '70%', '8%'], [14, 3.4, '84%', '58%'], [3, 2.6, '58%', '78%']]}
       intro={
         <p>

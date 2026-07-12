@@ -15,10 +15,10 @@ export const metadata: Metadata = {
     canonical: '/en',
     languages: { 'nl-NL': '/', 'en': '/en' },
   },
-  title: 'Kimberley van Ruiven · Ethical AI advisor for SMEs',
+  title: 'Kimberley van Ruiven · Ethical AI adviser for SMEs',
   description: 'Wondering what a human-centred future with technology would mean for your organisation? I would be glad to think it through with you.',
   openGraph: {
-    title: 'Kimberley van Ruiven · Ethical AI advisor for SMEs',
+    title: 'Kimberley van Ruiven · Ethical AI adviser for SMEs',
     description: 'Wondering what a human-centred future with technology would mean for your organisation? I would be glad to think it through with you.',
     locale: 'en_GB',
     images: [{ url: '/opengraph-image.jpg', width: 1200, height: 630, alt: 'For organisations that choose a human-centred future with technology · Kimberley van Ruiven' }],

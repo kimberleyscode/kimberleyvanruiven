@@ -3,7 +3,10 @@ import Link from 'next/link';
 import { C2Tekstpagina } from '../../gedeeld';
 
 export const metadata: Metadata = {
-  alternates: { canonical: '/artikelen/volwassen-worden-in-ai-ethiek' },
+  alternates: {
+    canonical: '/artikelen/volwassen-worden-in-ai-ethiek',
+    languages: { 'nl-NL': '/artikelen/volwassen-worden-in-ai-ethiek', 'en': '/en/articles/growing-up-in-ai-ethics' },
+  },
   title: "Volwassen worden in AI-ethiek · Kimberley van Ruiven",
   description: "Tussen AI-principes en praktijk zit een gat. Het AI-ethiek volwassenheidsmodel van de Erasmus Universiteit maakt zichtbaar waar je staat, langs zes dimensies.",
 };
@@ -13,6 +16,7 @@ export default function VolwassenheidArtikel() {
     <C2Tekstpagina
       label="AI-ethiek · juli 2026"
       regels={['Volwassen in', 'AI-ethiek']}
+      anderePad="/en/articles/growing-up-in-ai-ethics"
       scatter={[[15, 5, '74%', '10%'], [6, 3.2, '86%', '60%']]}
       intro={
         <p>

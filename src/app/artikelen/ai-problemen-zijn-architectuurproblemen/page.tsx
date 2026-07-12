@@ -3,7 +3,10 @@ import Link from 'next/link';
 import { C2Tekstpagina } from '../../gedeeld';
 
 export const metadata: Metadata = {
-  alternates: { canonical: '/artikelen/ai-problemen-zijn-architectuurproblemen' },
+  alternates: {
+    canonical: '/artikelen/ai-problemen-zijn-architectuurproblemen',
+    languages: { 'nl-NL': '/artikelen/ai-problemen-zijn-architectuurproblemen', 'en': '/en/articles/ai-problems-are-architecture-problems' },
+  },
   title: "Waarom de meeste AI-problemen architectuurproblemen zijn · Kimberley van Ruiven",
   description: "Als een AI-project teleurstelt, krijgt het model de schuld. Meestal zit het probleem eromheen: in de data, de aansluiting op je systemen en wie er meekijkt.",
 };
@@ -13,6 +16,7 @@ export default function ArchitectuurArtikel() {
     <C2Tekstpagina
       label="Systems architecture · juli 2026"
       regels={['Architectuur', 'eerst']}
+      anderePad="/en/articles/ai-problems-are-architecture-problems"
       scatter={[[9, 5, '74%', '10%'], [2, 3.2, '86%', '60%']]}
       intro={
         <p>

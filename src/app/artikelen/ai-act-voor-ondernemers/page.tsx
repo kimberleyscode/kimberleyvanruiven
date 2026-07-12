@@ -3,7 +3,10 @@ import Link from 'next/link';
 import { C2Tekstpagina } from '../../gedeeld';
 
 export const metadata: Metadata = {
-  alternates: { canonical: '/artikelen/ai-act-voor-ondernemers' },
+  alternates: {
+    canonical: '/artikelen/ai-act-voor-ondernemers',
+    languages: { 'nl-NL': '/artikelen/ai-act-voor-ondernemers', 'en': '/en/articles/the-ai-act-for-smes' },
+  },
   title: "Wat de EU AI Act van jou als ondernemer vraagt · Kimberley van Ruiven",
   description: "De EU AI Act in gewone taal: wat je als mkb'er of zzp'er wel en niet hoeft te regelen, inclusief de AI-geletterdheidsplicht van artikel 4.",
 };
@@ -13,6 +16,7 @@ export default function AIActArtikel() {
     <C2Tekstpagina
       label="EU AI Act · juli 2026"
       regels={['Wat de AI Act', 'van je vraagt']}
+      anderePad="/en/articles/the-ai-act-for-smes"
       scatter={[[16, 5, '74%', '10%'], [7, 3.2, '86%', '60%']]}
       intro={
         <p>

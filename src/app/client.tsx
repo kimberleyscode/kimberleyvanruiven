@@ -3,9 +3,10 @@
 import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import './concept2.css';
-import { Glyph, Scatter, useKinetiek, useLichteAchtergrond, fontVars } from './gedeeld';
+import { Glyph, Scatter, useKinetiek, useLichteAchtergrond, useHtmlTaal, SCHIL, fontVars } from './gedeeld';
 import { DIENSTEN } from './diensten/diensten';
 import { HOME_INHOUD } from '../content/home';
+import { DIENST_SLUGS } from '../content/paden';
 import type { Alinea, KinRegel, Locale } from '../content/types';
 
 const CAL_LINK = "https://calendar.app.google/douZqiDQ7p39Xf6u7";
@@ -117,18 +118,15 @@ export default function Concept2Client({ locale = 'nl' }: { locale?: Locale }) {
   const CASES = t.werk.kaarten;
   const GEDACHTEN = t.gedachten.kaarten;
 
+  /* Interne paden verschillen per taal (zie content/paden.ts). Quiz, CO₂-calculator en de
+     Nectar-demo blijven Nederlands en staan daarom in het woordenboek zelf. */
+  const paden = locale === 'en'
+    ? { manifest: '/en/manifesto', artikelen: '/en/articles', dienst: (s: string) => `/en/services/${DIENST_SLUGS[s]}` }
+    : { manifest: '/manifest', artikelen: '/artikelen', dienst: (s: string) => `/diensten/${s}` };
+
   useLichteAchtergrond();
   useKinetiek();
-
-  /* De root-layout zet <html lang="nl"> en kan dat niet per route veranderen zonder de
-     hele app onder een [lang]-segment te hangen, wat alle Nederlandse URL's zou breken.
-     De wortel-div draagt daarom lang={locale} (daar luisteren schermlezers naar) en hier
-     zetten we het ook op <html>, zodat de browser en crawlers de juiste taal zien. */
-  useEffect(() => {
-    const vorig = document.documentElement.lang;
-    document.documentElement.lang = locale;
-    return () => { document.documentElement.lang = vorig; };
-  }, [locale]);
+  useHtmlTaal(locale);
 
   /* Drag-carousels */
   useEffect(() => {
@@ -244,7 +242,7 @@ export default function Concept2Client({ locale = 'nl' }: { locale?: Locale }) {
           </div>
           {/* Mijn AI-manifest (gekozen variant H): stipje cirkelt om de woorden in het titel-font,
               rechts van het aksara-teken naast de kaart; klikbaar naar /manifest */}
-          <Link href="/manifest" className="c2-manifest-orbit" aria-label={t.statement.orbitLabel}>
+          <Link href={paden.manifest} className="c2-manifest-orbit" aria-label={t.statement.orbitLabel}>
             <svg viewBox="0 0 120 120" aria-hidden="true">
               <circle cx="60" cy="60" r="45" fill="none" stroke="rgba(0, 33, 143, 0.22)" strokeWidth="1" />
               <g className="c2-mo-stip"><circle cx="60" cy="15" r="3.4" fill="var(--c2-blue)" /></g>
@@ -291,11 +289,9 @@ export default function Concept2Client({ locale = 'nl' }: { locale?: Locale }) {
         </div>
         <div className="c2-kaartgrid">
           {DIENSTEN.flatMap((dienst, i) => {
-            /* De detailpagina's bestaan nog alleen in het Nederlands; zodra de Engelse
-               versies er zijn wordt dit /en/services/<slug>. */
             const d = locale === 'en' ? dienst.en : dienst;
             const kaart = (
-              <Link className="c2-case c2-case--klik" key={dienst.slug} href={`/diensten/${dienst.slug}`} title={t.diensten.leesMeerOver.replace('{naam}', d.naam)}>
+              <Link className="c2-case c2-case--klik" key={dienst.slug} href={paden.dienst(dienst.slug)} title={t.diensten.leesMeerOver.replace('{naam}', d.naam)}>
                 <span className="c2-case-symbol"><Glyph t={[1, 4, 7, 13, 16, 9, 2][i % 7]} size={2.9} /></span>
                 <h3 className="c2-case-title">{d.naam}</h3>
                 <p className="c2-case-desc">{d.desc}</p>
@@ -372,7 +368,7 @@ export default function Concept2Client({ locale = 'nl' }: { locale?: Locale }) {
       {/* Gedachten & artikelen (verhalend, forn-stories-stijl) */}
       <section className="c2-section">
         <Scatter items={[[18, 4.5, '82%', '8%']]} />
-        <Link className="c2-kinetic c2-kinetic--link" href="/artikelen" aria-label={t.gedachten.label}>
+        <Link className="c2-kinetic c2-kinetic--link" href={paden.artikelen} aria-label={t.gedachten.label}>
           <Kinetisch regels={t.gedachten.titel} />
         </Link>
         <p className="c2-drag-hint" aria-hidden="true"><span>←</span> {t.werk.sleepHint} <span>→</span></p>
@@ -522,9 +518,7 @@ export default function Concept2Client({ locale = 'nl' }: { locale?: Locale }) {
 
       <footer className="c2-footer">
         <span>© 2026 Kimberley van Ruiven</span>
-        <Link href="/zo-werk-ik-met-ai">{t.footer.zoWerkIk}</Link>
-        <Link href="/manifest">{t.footer.manifest}</Link>
-        <Link href="/privacy">{t.footer.privacy}</Link>
+        {SCHIL[locale].links.map((l) => <Link key={l.href} href={l.href}>{l.tekst}</Link>)}
         <span>{t.footer.missie}</span>
       </footer>
     </div>

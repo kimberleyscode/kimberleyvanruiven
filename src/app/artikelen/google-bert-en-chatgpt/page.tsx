@@ -3,7 +3,10 @@ import Link from 'next/link';
 import { C2Tekstpagina } from '../../gedeeld';
 
 export const metadata: Metadata = {
-  alternates: { canonical: '/artikelen/google-bert-en-chatgpt' },
+  alternates: {
+    canonical: '/artikelen/google-bert-en-chatgpt',
+    languages: { 'nl-NL': '/artikelen/google-bert-en-chatgpt', 'en': '/en/articles/google-bert-and-chatgpt' },
+  },
   title: "Het taalmodel dat je al jaren gebruikt zonder het te weten · Kimberley van Ruiven",
   description: "Google BERT begrijpt taal al sinds 2019, ChatGPT en Claude schrijven zelf. Wat NLP-modellen en generatieve taalmodellen delen, en wanneer klein de betere keuze is.",
 };
@@ -13,6 +16,7 @@ export default function BertEnChatGPTArtikel() {
     <C2Tekstpagina
       label="NLP · juli 2026"
       regels={['Het taalmodel dat je', 'al jaren gebruikt']}
+      anderePad="/en/articles/google-bert-and-chatgpt"
       scatter={[[8, 5, '74%', '10%'], [2, 3.2, '86%', '60%']]}
       intro={
         <p>

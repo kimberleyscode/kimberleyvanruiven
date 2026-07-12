@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { C2Tekstpagina } from '../gedeeld';
 
 export const metadata: Metadata = {
-  alternates: { canonical: '/artikelen' },
+  alternates: { canonical: '/artikelen', languages: { 'nl-NL': '/artikelen', 'en': '/en/articles' } },
   title: "Artikelen over ethische AI · Kimberley van Ruiven",
   description: "Praktische artikelen over verantwoord AI-gebruik voor ondernemers: de EU AI Act, klantdata en AI-geletterdheid, zonder jargon.",
 };
@@ -96,6 +96,7 @@ export default function Artikelen() {
     <C2Tekstpagina
       label="Kennis"
       regels={['Arti', 'kelen']}
+      anderePad="/en/articles"
       scatter={[[4, 5.4, '70%', '8%'], [18, 3.2, '86%', '56%'], [9, 2.6, '60%', '80%']]}
       intro={
         <p>
