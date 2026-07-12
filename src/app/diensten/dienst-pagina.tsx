@@ -34,12 +34,12 @@ const TEKST = {
     watJeKrijgt: 'What you get',
     hoeHetWerkt: 'How it works',
     ethisch: 'The ethical side',
-    ietsVoorJou: 'Something for you?',
+    ietsVoorJou: 'Is this for you?',
     manifestZin: (link: React.ReactNode) => <>These principles are set out in {link} as well.</>,
     manifestLink: 'my AI manifesto',
     manifestHref: '/en/manifesto',
     afsluiter: (agenda: React.ReactNode, mail: React.ReactNode) => (
-      <>Tell me what you have in mind and we will see together whether this fits. {agenda} or email {mail}.</>
+      <>Tell me what you have in mind and we’ll work out together whether it’s a fit. {agenda} or email {mail}.</>
     ),
     agenda: 'Book an intro call',
     placeholders: {

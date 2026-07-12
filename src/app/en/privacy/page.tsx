@@ -32,7 +32,7 @@ export default function Privacy() {
       <section>
         <h2>About this translation</h2>
         <p>
-          This is an English rendering of the Dutch privacy policy, offered for convenience. In case of any difference in meaning, the <Link href="/privacy">Dutch version</Link> is the one that applies.
+          This is an English translation of the Dutch privacy policy, offered for convenience. In case of any difference in meaning, the <Link href="/privacy">Dutch version</Link> is the one that applies.
         </p>
       </section>
 
@@ -46,7 +46,7 @@ export default function Privacy() {
       <section>
         <h2>Which data is processed?</h2>
         <p>
-          This website collects no personal data through forms or tracking. For visitor statistics the site uses Vercel Web Analytics: a privacy-friendly measurement without cookies, storing no personal data and leaving visitors individually unidentifiable. A cookie banner is therefore not needed.
+          This website collects no personal data through forms or tracking. For visitor statistics the site uses Vercel Web Analytics: a privacy-friendly form of measurement that uses no cookies, stores no personal data and cannot identify individual visitors. A cookie banner is therefore not needed.
         </p>
         <p>
           When you get in touch through this website (by email or through a scheduling link) or use external services, the privacy terms of those services apply:
@@ -72,7 +72,8 @@ export default function Privacy() {
           <li>Right of access: you can request which data about you is stored.</li>
           <li>Right to rectification: having incorrect data corrected.</li>
           <li>Right to erasure: having data deleted (the &ldquo;right to be forgotten&rdquo;).</li>
-          <li>Right to restriction: having the processing stopped, temporarily or otherwise.</li>
+          {/* Beperking (art. 18 AVG) betekent dat de verwerking wordt BEGRENSD, niet gestopt. */}
+          <li>Right to restriction: having the processing of your data limited.</li>
           <li>Right to object: objecting to processing based on legitimate interest.</li>
           <li>Right to data portability: requesting your data in a machine-readable format.</li>
         </ul>
@@ -84,7 +85,7 @@ export default function Privacy() {
       <section>
         <h2>AI transparency and the EU AI Act</h2>
         <p>
-          In line with the EU AI Act, and from my own values around ethical technology, I am open about the use of AI tools. This website was developed partly with the help of AI (among other things for design, text and code); the content has been checked, reviewed and approved by me, Kimberley van Ruiven. In advisory work I use AI as a supporting aid: conclusions and recommendations are always human work and fall under my professional responsibility. No automated decisions are made about you as a person through this website.
+          In line with the EU AI Act, and because of my own values around ethical technology, I am open about the use of AI tools. This website was developed partly with the help of AI (for design, text and code, among other things); the content has been checked, reviewed and approved by me, Kimberley van Ruiven. In advisory work I use AI as a support: conclusions and recommendations are always human work and fall under my professional responsibility. This website makes no automated decisions about you.
         </p>
         <p>
           Exactly how I work with AI, which tools I use and when I deliberately leave AI alone is set out in <Link href="/en/how-i-work-with-ai">how I work with AI</Link>.

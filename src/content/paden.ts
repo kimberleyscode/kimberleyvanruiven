@@ -20,11 +20,14 @@ export const ARTIKEL_SLUGS: Record<string, string> = {
   'volwassen-worden-in-ai-ethiek': 'growing-up-in-ai-ethics',
 };
 
+/* De Engelse slugs wijken bewust af van de Nederlandse namen: "quickscan" is Nederlands
+   bedrijfsjargon en leest voor een Engelstalige als een typefout, en "outsourced" heeft
+   een goedkope bijklank. Nederlandse namen en URL's blijven ongewijzigd. */
 export const DIENST_SLUGS: Record<string, string> = {
-  'ai-act-quickscan': 'ai-act-quickscan',
+  'ai-act-quickscan': 'ai-act-readiness-scan',
   'ai-beleid-en-training': 'ai-policy-and-training',
   'ai-oplossingen-op-maat': 'tailored-ai-solutions',
-  'extern-ai-aanspreekpunt': 'outsourced-ai-lead',
+  'extern-ai-aanspreekpunt': 'ai-point-of-contact',
 };
 
 /* Vaste pagina's, Nederlands pad -> Engels pad */

@@ -172,7 +172,7 @@ const EN: HomeInhoud = {
 
   hero: {
     /* Voluit, niet "SMEs": de CSS zet de eyebrow in kapitalen en dan wordt dat "SMES". */
-    eyebrow: 'Kimberley van Ruiven · Ethical AI adviser for small and mid-sized businesses · Rotterdam',
+    eyebrow: 'Kimberley van Ruiven · Ethical AI adviser for small and medium-sized businesses · Rotterdam',
     titel: [
       { tekst: 'A human-centred', speed: -0.5 },
       { tekst: 'future with', speed: 0.5 },
@@ -187,33 +187,33 @@ const EN: HomeInhoud = {
       { tekst: 'you can', speed: 0.5 },
       { tekst: 'stand behind', speed: -0.4 },
     ],
-    kaart: 'The shape AI takes is a choice. Yours too. I have studied AI bias academically and I build AI systems. My focus is AI that fits the organisation it serves: I am here for small and medium-sized businesses that choose a human-centred future with technology.',
+    kaart: 'The shape AI takes is a choice. Yours too. I researched AI bias at university, and I build AI systems. My focus is AI that makes sense for your organisation: I work with small and medium-sized businesses that want a human-centred future with technology.',
     orbit: 'My AI manifesto',
     orbitLabel: 'Read my AI manifesto',
   },
 
   over: {
     titel: [{ tekst: 'About', speed: -0.5 }],
-    eyebrow: 'A technical eye, through a human lens',
+    eyebrow: 'A technical mind, a human lens',
     fotoAlt: 'Portrait of Kimberley van Ruiven',
     alineas: [
-      ['I am Kimberley, a former IT consultant specialising in ethical AI and AI bias. I help small and medium-sized organisations adopt AI responsibly: from policy and training to systems I build myself. I build systems that should not need me, and I think through the questions others only ask once something has gone wrong.'],
-      ['AI does not stand still, and neither do the rules: the AI Act rolls out through 2027, and every new tool in your organisation calls for a fresh judgement. That is why I stay available as a point of contact once a project ends.'],
+      ['I’m Kimberley, a former IT consultant specialising in ethical AI and AI bias. I help small and medium-sized businesses adopt AI responsibly: from policy and training to systems I build myself. I build systems that shouldn’t need me, and I think through the questions others only ask once something has gone wrong.'],
+      ['AI doesn’t stand still, and neither do the rules: the AI Act rolls out through 2027, and every new tool in your organisation means weighing things up again. That’s why I stay available as a point of contact once a project ends.'],
       [
-        'I believe technology and humanity can go together, and that female perspectives are indispensable in how we build and use AI. Hence the Indonesian aksara and batik patterns moving through this site: a tribute to the Javanese roots my mother passed on to me. Curious how I work with AI myself? I set it out in full in ',
+        'I believe technology and humanity can go hand in hand, and that female perspectives are essential to how we build and use AI. Hence the Indonesian aksara and batik patterns moving through this site: a tribute to the Javanese roots my mother passed on to me. Curious how I work with AI myself? I set it out in full in ',
         { href: '/en/how-i-work-with-ai', tekst: 'how I work with AI', uitgelicht: true },
         '.',
       ],
       [
         'My master’s research was on AI bias in hate speech detection: how algorithms meant to recognise online hate can turn out to be biased themselves. That research still shapes how I look at every AI system; ',
         { href: 'https://github.com/kimberleyscode/Master-Thesis-HateSpeech-Twitter', tekst: 'see the research on GitHub', extern: true },
-        '. That scientific grounding has stayed with me: for AI ethics inside organisations I work with the maturity model from Erasmus University, and my view of humane technology is shaped by the thinking of the Center for Humane Technology.',
+        '. That academic grounding has stayed with me: for AI ethics inside organisations I work with the maturity model from Erasmus University, and my view of humane technology is shaped by the thinking of the Center for Humane Technology.',
       ],
     ],
     meta: [
       { dt: 'Background', dd: 'MSc Information Studies · banking, pension fund, IT startup' },
       { dt: 'Research', dd: 'AI bias in hate speech detection' },
-      { dt: 'Compass', dd: 'Center for Humane Technology · AI ethics maturity model (Erasmus)' },
+      { dt: 'Grounded in', dd: 'Center for Humane Technology · AI ethics maturity model (Erasmus)' },
       { dt: 'Tools', dd: 'Linux (Ubuntu) · TypeScript · React · Next.js · Tailwind · D3 · Jupyter Notebook · Vercel · Claude Code · Codex · Cursor · VS Code · Git' },
     ],
   },
@@ -232,14 +232,14 @@ const EN: HomeInhoud = {
     titel: [{ tekst: 'Work', speed: -0.55 }],
     sleepHint: 'drag',
     kaarten: [
-      { sym: 6, meta: 'Interactive tool · Next.js', titel: 'Quiz: are you using AI, or is AI using you?', desc: 'Five minutes of play, and a clear view of how consciously you use AI.', href: '/quiz', linktekst: 'Take the quiz →', extern: false },
-      { sym: 5, meta: 'Web tool · Next.js · Claude API', titel: 'AI CO₂ calculator', desc: 'The climate impact of your AI use in one minute, with greener alternatives. Built on scientific sources.', href: '/co2', linktekst: 'Open the calculator →', extern: false },
-      { sym: 0, meta: 'PWA · D3 · offline-first', titel: 'Nectar, a privacy-friendly cycle tracker', desc: 'All data stays on your own device: no account, no server, and still real insight.', href: '/nectar', linktekst: 'See the demo →', extern: true },
-      { sym: 1, meta: 'LLM integration · GDPR · Claude', titel: 'GDPR-compliant AI chatbot', desc: 'Members get answers around the clock without extra staff, and privacy is contractually secured through an AI addendum.', href: null, linktekst: null, extern: false },
+      { sym: 6, meta: 'Interactive tool · Next.js', titel: 'Quiz: are you using AI, or is AI using you?', desc: 'Five minutes of play, and a clear view of how much thought you actually give your AI use.', href: '/quiz', linktekst: 'Take the quiz →', extern: false },
+      { sym: 5, meta: 'Web tool · Next.js · Claude API', titel: 'AI CO₂ calculator', desc: 'The climate impact of your AI use in one minute, with greener alternatives. Based on published research.', href: '/co2', linktekst: 'Open the calculator →', extern: false },
+      { sym: 0, meta: 'PWA · D3 · offline-first', titel: 'Nectar, a privacy-friendly cycle tracker', desc: 'All your data stays on your own device: no account, no server, and still real insight.', href: '/nectar', linktekst: 'See the demo →', extern: true },
+      { sym: 1, meta: 'LLM integration · GDPR · Claude', titel: 'GDPR-compliant AI chatbot', desc: 'Members get answers around the clock without extra staff, and privacy is covered in the contract through an AI addendum.', href: null, linktekst: null, extern: false },
       { sym: 3, meta: 'Prompt design · Whisper · Claude', titel: 'AI persona for content', desc: 'A writing assistant trained on brand documents and voice notes: content that sounds like the client’s own voice.', href: null, linktekst: null, extern: false },
-      { sym: 4, meta: 'WordPress · security · SEO', titel: 'Site rescued after malware', desc: 'Over 100 suspicious files cleared out, plugins cleaned up, the site secured and its SEO restored.', href: null, linktekst: null, extern: false },
-      { sym: 2, meta: 'Systems design · Notion', titel: 'Client portal system', desc: 'Clients follow ongoing projects in a structured way, with data kept strictly separate per portal.', href: null, linktekst: null, extern: false },
-      { sym: 7, meta: 'Systems design · Notion · rollups', titel: 'Course environment', desc: 'Lessons, students and progress in one place, without the cost of a learning platform.', href: null, linktekst: null, extern: false },
+      { sym: 4, meta: 'WordPress · security · SEO', titel: 'Site rescued after malware', desc: 'Over 100 suspicious files cleared out, plugins cleaned up, the site secured and its SEO improved.', href: null, linktekst: null, extern: false },
+      { sym: 2, meta: 'Systems design · Notion', titel: 'Client portal system', desc: 'Clients can follow live projects at a glance, with data kept strictly separate per portal.', href: null, linktekst: null, extern: false },
+      { sym: 7, meta: 'Systems design · Notion · rollups', titel: 'Course platform', desc: 'Lessons, students and progress in one place, without the cost of a learning platform.', href: null, linktekst: null, extern: false },
     ],
   },
 
@@ -250,10 +250,10 @@ const EN: HomeInhoud = {
       { tekst: 'roach', speed: -0.45 },
     ],
     alineas: [
-      'We start with the question behind the question. Sometimes the answer is AI, sometimes it is a better process; either way you get an honest answer.',
-      'Then I think ahead about what could go wrong. With me, data, privacy, bias and accountability come at the start, not as a footnote at the end.',
+      'We start with the question behind the question. Sometimes the answer is AI, sometimes it’s a better process; either way you get an honest answer.',
+      'Then I think ahead about what could go wrong. Data, privacy, bias and accountability come first with me, not as a footnote at the end.',
       'Then I build what you need: something your organisation can use straight away, with the ethical choices already worked in.',
-      'And after that you are not on your own. With a block of hours or a single session, you keep someone who knows your systems and understands what you are talking about right away.',
+      'And after that you’re not on your own. With a block of hours or a single session, you keep someone who knows your systems and doesn’t need the backstory every time.',
     ],
   },
 
@@ -265,14 +265,14 @@ const EN: HomeInhoud = {
     ],
     label: 'Thoughts and articles: to the article overview',
     kaarten: [
-      { sym: 13, cat: 'Machine learning', titel: 'Machine learning or generative AI: the difference decides the risk you run', status: null, href: '/en/articles/machine-learning-or-generative-ai', linktekst: 'Read the article →' },
+      { sym: 13, cat: 'Machine learning', titel: 'Machine learning or generative AI: the difference determines the risk you’re taking', status: null, href: '/en/articles/machine-learning-or-generative-ai', linktekst: 'Read the article →' },
       { sym: 9, cat: 'Systems architecture', titel: 'Why most AI problems are really architecture problems', status: null, href: '/en/articles/ai-problems-are-architecture-problems', linktekst: 'Read the article →' },
-      { sym: 8, cat: 'NLP', titel: 'The language model you have been using for years without knowing it', status: null, href: '/en/articles/google-bert-and-chatgpt', linktekst: 'Read the article →' },
-      { sym: 15, cat: 'AI ethics', titel: 'Growing up in AI ethics, and why you do not need a perfect score', status: null, href: '/en/articles/growing-up-in-ai-ethics', linktekst: 'Read the article →' },
+      { sym: 8, cat: 'NLP', titel: 'The language model you’ve been using for years without knowing it', status: null, href: '/en/articles/google-bert-and-chatgpt', linktekst: 'Read the article →' },
+      { sym: 15, cat: 'AI ethics', titel: 'Growing up in AI ethics, and why you don’t need a perfect score', status: null, href: '/en/articles/growing-up-in-ai-ethics', linktekst: 'Read the article →' },
       { sym: 10, cat: 'Humane technology', titel: 'Technology that sees people, and the manifesto I hold my work to', status: null, href: '/en/articles/technology-that-sees-people', linktekst: 'Read the article →' },
-      { sym: 16, cat: 'EU AI Act', titel: 'What the AI Act really asks of you as a business owner (and what it does not)', status: null, href: '/en/articles/the-ai-act-for-smes', linktekst: 'Read the article →' },
+      { sym: 16, cat: 'EU AI Act', titel: 'What the AI Act really asks of you as a business owner (and what it doesn’t)', status: null, href: '/en/articles/the-ai-act-for-smes', linktekst: 'Read the article →' },
       { sym: 11, cat: 'Privacy', titel: 'The client data you share with ChatGPT by accident', status: null, href: '/en/articles/client-data-and-chatgpt', linktekst: 'Read the article →' },
-      { sym: 4, cat: 'Research · NLP', titel: 'Algorithms built to spot online hate, and biased themselves', status: null, href: 'https://github.com/kimberleyscode/Master-Thesis-HateSpeech-Twitter', linktekst: 'See the research on GitHub →' },
+      { sym: 4, cat: 'Research · NLP', titel: 'Algorithms built to spot online hate, that turn out to be biased themselves', status: null, href: 'https://github.com/kimberleyscode/Master-Thesis-HateSpeech-Twitter', linktekst: 'See the research on GitHub →' },
       { sym: 7, cat: 'Machine learning · NLP', titel: 'How I labelled 1300 tweets and trained a BERT model that recognises hate speech', status: null, href: 'https://github.com/kimberleyscode/Master-Thesis-HateSpeech-Twitter/blob/master/BERT_sentence_classification.ipynb', linktekst: 'See the BERT notebook →' },
       { sym: 5, cat: 'Reading list', titel: 'The books that shaped how I see AI and humanity', status: null, href: '/en/manifesto', linktekst: 'See the reading list →' },
     ],
@@ -282,7 +282,7 @@ const EN: HomeInhoud = {
     /* De uitspraak van Jasmijn is in het Nederlands gedaan. Een echte klantuitspraak
        vertaal je niet stilzwijgend, dus staat erbij dat dit een vertaling is. */
     na_diensten: {
-      tekst: 'This is wonderful! I am getting so much lovely, usable information out of it. I had no idea it could work this beautifully.',
+      tekst: 'This is wonderful! I’m getting so much genuinely useful information out of it. I had no idea it could work this beautifully.',
       naam: 'Jasmijn de Jong · Children’s nutrition coach',
       vertaald: 'Translated from Dutch',
     },
@@ -298,7 +298,7 @@ const EN: HomeInhoud = {
       { tekst: 'Con', speed: 0.5 },
       { tekst: 'tact', speed: -0.5 },
     ],
-    body: 'Wondering what a human-centred future with technology would mean for your organisation? I would be glad to think it through with you.',
+    body: 'Wondering what a human-centred future with technology would mean for your organisation? I’d be glad to think it through with you.',
     cta: 'Book an intro call',
   },
 
