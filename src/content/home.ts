@@ -126,10 +126,11 @@ const NL: HomeInhoud = {
       tekst: 'Wat geweldig dit! Ik krijg hier zoveel mooie en bruikbare informatie uit. Ik wist niet dat dit zo mooi zou kunnen werken.',
       naam: 'Jasmijn de Jong · Kindervoedingscoach',
     },
-    /* DUMMY: tekst en naam vervangen door echte review zodra Kimberley die aanlevert */
+    /* ECHT (Luciënne Bregman, 12 juli 2026): letterlijk fragment uit haar review,
+       alleen ingekort. Volledige tekst staat in de chat van 12 juli. */
     voor_contact: {
-      tekst: 'Ze bouwde precies wat we nodig hadden en legde bij elke stap uit wat er gebeurde. Zo voelt AI eindelijk als iets van onszelf.',
-      naam: '[Naam] · [Rol, bedrijf]',
+      tekst: 'Voordat ik met Kim begon, had ik eigenlijk geen idee hoe ik AI, en specifiek Claude, echt volgens mijn eigen woorden kon laten schrijven. Ik dacht dat dat gewoon niet mogelijk was. Kim liet me zien dat het wél kan.',
+      naam: 'Luciënne Bregman · Somatisch coach',
     },
   },
 
@@ -286,10 +287,11 @@ const EN: HomeInhoud = {
       naam: 'Jasmijn de Jong · Children’s nutrition coach',
       vertaald: 'Translated from Dutch',
     },
-    /* DUMMY, net als in het Nederlands: mag nooit live. */
+    /* Ook Luciënnes uitspraak is in het Nederlands gedaan, dus ook hier het vertaal-label. */
     voor_contact: {
-      tekst: 'She built exactly what we needed and explained what was happening at every step. AI finally feels like something of our own.',
-      naam: '[Name] · [Role, company]',
+      tekst: 'Before I started working with Kim, I had no idea how to get AI, and Claude in particular, to write in my own words. I thought it simply wasn’t possible. Kim showed me that it is.',
+      naam: 'Luciënne Bregman · Somatic coach',
+      vertaald: 'Translated from Dutch',
     },
   },
 

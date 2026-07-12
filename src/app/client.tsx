@@ -475,11 +475,14 @@ export default function Concept2Client({ locale = 'nl' }: { locale?: Locale }) {
         </svg>
       </div>
 
-      {/* Klantcitaat 2 — DUMMY: tekst en naam vervangen door echte review zodra Kimberley die aanlevert */}
+      {/* Klantcitaat 2 — ECHT (Luciënne Bregman, 12 juli 2026), ingekort uit haar review */}
       <figure className="c2-citaat c2-citaat--r">
         <span className="c2-citaat-teken" aria-hidden="true"><Glyph t={12} size={2.7} /></span>
         <blockquote>{t.citaten.voor_contact.tekst}</blockquote>
-        <figcaption>{t.citaten.voor_contact.naam}</figcaption>
+        <figcaption>
+          {t.citaten.voor_contact.naam}
+          {t.citaten.voor_contact.vertaald && <span className="c2-citaat-vertaald">{t.citaten.voor_contact.vertaald}</span>}
+        </figcaption>
       </figure>
 
       {/* Contact */}
