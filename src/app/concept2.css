@@ -30,9 +30,11 @@
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
-.c2-lang { display: flex; align-items: center; gap: 0.55rem; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.04em; }
+.c2-lang { display: flex; align-items: center; gap: 0.55rem; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.04em; text-decoration: none; }
 .c2-lang .is-active { color: var(--c2-blue); }
 .c2-lang .is-idle { color: var(--c2-ink); }
+/* De hele pil is klikbaar; de niet-actieve taal licht op bij hover */
+.c2-lang:hover .is-idle { color: var(--c2-blue); }
 .c2-lang-pill {
   width: 44px; height: 22px;
   border: 1.5px solid var(--c2-ink);
@@ -49,6 +51,12 @@
   background:
     linear-gradient(var(--c2-blue), var(--c2-blue)) center/1.5px 100% no-repeat,
     linear-gradient(var(--c2-blue), var(--c2-blue)) center/100% 1.5px no-repeat;
+  transition: left 0.25s ease;
+}
+/* Staat de site in het Engels, dan schuift het knopje naar de EN-kant */
+.c2-lang-pill--en::after { left: 24px; }
+@media (prefers-reduced-motion: reduce) {
+  .c2-lang-pill::after { transition: none; }
 }
 .c2-reach {
   font-size: 0.85rem; font-weight: 500; letter-spacing: 0.06em;
@@ -799,6 +807,16 @@ a.c2-artikel-kaart:hover .c2-case-hover { opacity: 1; transform: translateY(0); 
   color: var(--c2-grey);
   letter-spacing: 0.06em;
   text-transform: uppercase;
+}
+/* Op de Engelse site staat erbij dat een Nederlandse klantuitspraak vertaald is */
+.c2-citaat-vertaald {
+  display: block;
+  margin-top: 0.45rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  font-style: italic;
+  opacity: 0.75;
 }
 
 /* ── Batik-kunstkaarten bewegen doorlopend (forn-stijl), rustig tempo ── */

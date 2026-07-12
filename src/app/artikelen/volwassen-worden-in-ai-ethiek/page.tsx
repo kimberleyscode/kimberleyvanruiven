@@ -3,10 +3,9 @@ import Link from 'next/link';
 import { C2Tekstpagina } from '../../gedeeld';
 
 export const metadata: Metadata = {
-  alternates: { canonical: '/concept-2/artikelen/volwassen-worden-in-ai-ethiek' },
+  alternates: { canonical: '/artikelen/volwassen-worden-in-ai-ethiek' },
   title: "Volwassen worden in AI-ethiek · Kimberley van Ruiven",
   description: "Tussen AI-principes en praktijk zit een gat. Het AI-ethiek volwassenheidsmodel van de Erasmus Universiteit maakt zichtbaar waar je staat, langs zes dimensies.",
-  robots: "noindex, nofollow", // conceptversie; het oude /artikelen-pad blijft voorlopig het echte
 };
 
 export default function VolwassenheidArtikel() {

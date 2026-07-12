@@ -3,10 +3,9 @@ import Link from 'next/link';
 import { C2Tekstpagina } from '../../gedeeld';
 
 export const metadata: Metadata = {
-  alternates: { canonical: '/concept-2/artikelen/machine-learning-of-generatieve-ai' },
+  alternates: { canonical: '/artikelen/machine-learning-of-generatieve-ai' },
   title: "Machine learning of generatieve AI: het verschil bepaalt je risico · Kimberley van Ruiven",
   description: "Machine learning voorspelt, generatieve AI maakt. Wie het verschil kent, weet welke vragen je aan een AI-tool moet stellen en welk risico je loopt.",
-  robots: "noindex, nofollow", // conceptversie; het oude /artikelen-pad blijft voorlopig het echte
 };
 
 export default function MLvsGenAIArtikel() {

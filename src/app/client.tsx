@@ -4,9 +4,46 @@ import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import './concept2.css';
 import { Glyph, Scatter, useKinetiek, useLichteAchtergrond, fontVars } from './gedeeld';
-import { DIENSTEN } from '../diensten/diensten';
+import { DIENSTEN } from './diensten/diensten';
+import { HOME_INHOUD } from '../content/home';
+import type { Alinea, KinRegel, Locale } from '../content/types';
 
 const CAL_LINK = "https://calendar.app.google/douZqiDQ7p39Xf6u7";
+
+/* Kinetische titel: elke regel schuift met de scroll zijn eigen kant op. De regelopdeling
+   komt uit het woordenboek, want die is taalgebonden. Inspringing volgt uit de index. */
+function Kinetisch({ regels }: { regels: KinRegel[] }) {
+  return (
+    <>
+      {regels.map((r, i) => (
+        <span
+          key={i}
+          className={`c2-line${i === 1 ? ' c2-line--indent1' : i >= 2 ? ' c2-line--indent2' : ''}`}
+          data-speed={r.speed}
+        >
+          {r.tekst}
+        </span>
+      ))}
+    </>
+  );
+}
+
+/* Lopende tekst met links erin: het woordenboek levert stukjes tekst en linkobjecten. */
+function Rijk({ alinea }: { alinea: Alinea }) {
+  return (
+    <p>
+      {alinea.map((deel, i) => {
+        if (typeof deel === 'string') return <span key={i}>{deel}</span>;
+        const klasse = `c2-a${deel.uitgelicht ? ' c2-a--uitgelicht' : ''}`;
+        return deel.extern ? (
+          <a key={i} className={klasse} href={deel.href} target="_blank" rel="noopener noreferrer">{deel.tekst}</a>
+        ) : (
+          <Link key={i} className={klasse} href={deel.href}>{deel.tekst}</Link>
+        );
+      })}
+    </p>
+  );
+}
 
 /* Batik-geïnspireerde lijnmotieven voor de kunstkaartjes (moderne knipoog naar Indonesië).
    Elk motief beweegt doorlopend (forn-stijl); reduced-motion zet alles stil via concept2.css. */
@@ -74,37 +111,24 @@ function KunstKaart({ vorm, blauw = false }: { vorm: 'kawung' | 'parang' | 'trun
   );
 }
 
-const CASES = [
-  { sym: 6, meta: 'Interactieve tool · Next.js', titel: 'Quiz: gebruik jij AI, of gebruikt AI jou?', desc: 'Vijf minuten spelen, direct zicht op hoe bewust je met AI omgaat.', href: '/concept-2/quiz', linktekst: 'Doe de quiz →', extern: false },
-  { sym: 5, meta: 'Webtool · Next.js · Claude API', titel: 'AI CO₂-calculator', desc: 'In één minuut inzicht in de klimaatimpact van je AI-gebruik, met groenere alternatieven. Gebouwd op wetenschappelijke bronnen.', href: '/concept-2/co2', linktekst: 'Bekijk de calculator →', extern: false },
-  // De demo is een losse statische app in public/nectar (geen Next-route), dus als <a> en niet als Link.
-  { sym: 0, meta: 'PWA · D3 · offline-first', titel: 'Nectar, privacyvriendelijke cyclustracker', desc: 'Alle data blijft op je eigen apparaat: geen account, geen server, wél inzicht.', href: '/nectar', linktekst: 'Bekijk de demo →', extern: true },
-  { sym: 1, meta: 'LLM-integratie · GDPR · Claude', titel: 'GDPR-compliant AI-chatbot', desc: 'Leden krijgen dag en nacht antwoord zonder extra personeel, en de privacy is contractueel geregeld via een AI-addendum.', href: null, linktekst: null, extern: false },
-  { sym: 3, meta: 'Promptontwerp · Whisper · Claude', titel: 'AI-persona voor content', desc: 'Een getrainde schrijfassistent op basis van merkdocumenten en voice notes: content die klinkt als de klant zelf.', href: null, linktekst: null, extern: false },
-  { sym: 4, meta: 'WordPress · security · SEO', titel: 'Site gered na malware', desc: 'Ruim 100 verdachte bestanden opgeruimd, plugins gesaneerd, site beveiligd en SEO geoptimaliseerd.', href: null, linktekst: null, extern: false },
-  { sym: 2, meta: 'Systeemontwerp · Notion', titel: 'Klantportaal-systeem', desc: 'Klanten kijken gestructureerd mee in lopende projecten; gegevens strikt gescheiden per portaal.', href: null, linktekst: null, extern: false },
-  { sym: 7, meta: 'Systeemontwerp · Notion · rollups', titel: 'Cursusomgeving', desc: 'Lessen, cursisten en voortgang op één plek, zonder de kosten van een leerplatform.', href: null, linktekst: null, extern: false },
-];
-
-const GEDACHTEN = [
-  { sym: 13, cat: 'Machine learning', titel: 'Machine learning of generatieve AI: het verschil bepaalt welk risico je loopt', status: null, href: '/concept-2/artikelen/machine-learning-of-generatieve-ai', linktekst: 'Lees het artikel →' },
-  { sym: 9, cat: 'Systems architecture', titel: 'Waarom de meeste AI-problemen eigenlijk architectuurproblemen zijn', status: null, href: '/concept-2/artikelen/ai-problemen-zijn-architectuurproblemen', linktekst: 'Lees het artikel →' },
-  { sym: 8, cat: 'NLP', titel: 'Het taalmodel dat je al jaren gebruikt zonder het te weten', status: null, href: '/concept-2/artikelen/google-bert-en-chatgpt', linktekst: 'Lees het artikel →' },
-  { sym: 15, cat: 'AI-ethiek', titel: 'Volwassen worden in AI-ethiek, en waarom je geen tien hoeft te scoren', status: null, href: '/concept-2/artikelen/volwassen-worden-in-ai-ethiek', linktekst: 'Lees het artikel →' },
-  { sym: 10, cat: 'Humane technologie', titel: 'Technologie die de mens ziet, en het manifest waar ik mijn werk langs leg', status: null, href: '/concept-2/artikelen/technologie-die-de-mens-ziet', linktekst: 'Lees het artikel →' },
-  { sym: 16, cat: 'EU AI Act', titel: 'Wat de AI Act echt van je vraagt als ondernemer (en wat niet)', status: null, href: '/concept-2/artikelen/ai-act-voor-ondernemers', linktekst: 'Lees het artikel →' },
-  { sym: 11, cat: 'Privacy', titel: 'De klantdata die je per ongeluk met ChatGPT deelt', status: null, href: '/concept-2/artikelen/klantdata-en-chatgpt', linktekst: 'Lees het artikel →' },
-  { sym: 4, cat: 'Onderzoek · NLP', titel: 'Algoritmes die online haat moeten herkennen, en zelf bevooroordeeld blijken', status: null, href: 'https://github.com/kimberleyscode/Master-Thesis-HateSpeech-Twitter', linktekst: 'Bekijk het onderzoek op GitHub →' },
-  { sym: 7, cat: 'Machine learning · NLP', titel: 'Hoe ik 1300 tweets labelde en een BERT-model trainde dat haatspraak herkent', status: null, href: 'https://github.com/kimberleyscode/Master-Thesis-HateSpeech-Twitter/blob/master/BERT_sentence_classification.ipynb', linktekst: 'Bekijk het BERT-notebook →' },
-  { sym: 5, cat: 'Leeslijst', titel: 'De boeken die mijn kijk op AI en menselijkheid vormden', status: null, href: '/manifest', linktekst: 'Bekijk de leeslijst →' },
-];
-
-
-export default function Concept2Client() {
+export default function Concept2Client({ locale = 'nl' }: { locale?: Locale }) {
   const rootRef = useRef<HTMLDivElement>(null);
+  const t = HOME_INHOUD[locale];
+  const CASES = t.werk.kaarten;
+  const GEDACHTEN = t.gedachten.kaarten;
 
   useLichteAchtergrond();
   useKinetiek();
+
+  /* De root-layout zet <html lang="nl"> en kan dat niet per route veranderen zonder de
+     hele app onder een [lang]-segment te hangen, wat alle Nederlandse URL's zou breken.
+     De wortel-div draagt daarom lang={locale} (daar luisteren schermlezers naar) en hier
+     zetten we het ook op <html>, zodat de browser en crawlers de juiste taal zien. */
+  useEffect(() => {
+    const vorig = document.documentElement.lang;
+    document.documentElement.lang = locale;
+    return () => { document.documentElement.lang = vorig; };
+  }, [locale]);
 
   /* Drag-carousels */
   useEffect(() => {
@@ -153,26 +177,30 @@ export default function Concept2Client() {
   }, []);
 
   return (
-    <div className={`c2-root ${fontVars}`} ref={rootRef}>
+    <div className={`c2-root ${fontVars}`} ref={rootRef} lang={locale}>
 
       <nav className="c2-top">
-        <span className="c2-lang" title="Conceptweergave: taalwissel zoals op forn.dk">
-          <span className="is-active">NL</span>
-          <span className="c2-lang-pill" aria-hidden="true" />
-          <span className="is-idle">EN</span>
-        </span>
-        <a className="c2-reach" href="mailto:info@kimberleyvanruiven.nl">Neem contact op</a>
+        {/* Echte taalwissel: de hele pil is klikbaar naar de andere taal. */}
+        <Link
+          className="c2-lang"
+          href={locale === 'nl' ? '/en' : '/'}
+          hrefLang={locale === 'nl' ? 'en' : 'nl'}
+          aria-label={locale === 'nl' ? 'Switch to English' : 'Bekijk deze pagina in het Nederlands'}
+        >
+          <span className={locale === 'nl' ? 'is-active' : 'is-idle'}>NL</span>
+          <span className={`c2-lang-pill${locale === 'en' ? ' c2-lang-pill--en' : ''}`} aria-hidden="true" />
+          <span className={locale === 'en' ? 'is-active' : 'is-idle'}>EN</span>
+        </Link>
+        <a className="c2-reach" href="mailto:info@kimberleyvanruiven.nl">{t.nav.contact}</a>
       </nav>
 
       {/* Hero */}
       <header className="c2-hero">
         <Scatter items={[[8, 6.5, '56%', '6%'], [14, 3.6, '74%', '72%'], [3, 2.6, '38%', '82%']]} />
         <div>
-          <p className="c2-eyebrow">Kimberley van Ruiven · Ethische AI-adviseur voor het mkb · Rotterdam</p>
+          <p className="c2-eyebrow">{t.hero.eyebrow}</p>
           <h1 className="c2-kinetic c2-hero-title">
-            <span className="c2-line" data-speed="-0.5">Een mens-gerichte</span>
-            <span className="c2-line c2-line--indent1" data-speed="0.5">toekomst met</span>
-            <span className="c2-line c2-line--indent2" data-speed="-0.45">technologie</span>
+            <Kinetisch regels={t.hero.titel} />
           </h1>
         </div>
         <div className="c2-symbol-col" aria-hidden="true">
@@ -185,11 +213,9 @@ export default function Concept2Client() {
       {/* Statement */}
       <section className="c2-section">
         <Scatter items={[[2, 5.2, '80%', '8%'], [19, 3.1, '64%', '60%']]} />
-        <p className="c2-eyebrow">Ik bouw</p>
-        <div className="c2-kinetic" aria-label="AI waar je achter kunt staan">
-          <span className="c2-line" data-speed="-0.6">AI</span>
-          <span className="c2-line c2-line--indent1" data-speed="0.5">waar je achter</span>
-          <span className="c2-line c2-line--indent2" data-speed="-0.4">kunt staan</span>
+        <p className="c2-eyebrow">{t.statement.eyebrow}</p>
+        <div className="c2-kinetic" aria-label={t.statement.titel.map((r) => r.tekst).join(' ')}>
+          <Kinetisch regels={t.statement.titel} />
         </div>
         <div className="c2-statement-rij">
           {/* Gevulde halve cirkel van aksara (ringen + middelpunt): rechte kant tegen de
@@ -214,16 +240,16 @@ export default function Concept2Client() {
             <span className="c2-hc-item" style={{ left: '0%', top: '50%' }}><Glyph t={16} size={1.9} /></span>
           </div>
           <div className="c2-card">
-            <p>De vorm die AI krijgt, is een keuze. Ook die van jou. Ik heb AI-bias wetenschappelijk onderzocht en bouw AI-systemen. Mijn focus is AI die bij jouw organisatie klopt: ik ben er voor kleine en middelgrote organisaties die kiezen voor een mens-gerichte toekomst met technologie.</p>
+            <p>{t.statement.kaart}</p>
           </div>
           {/* Mijn AI-manifest (gekozen variant H): stipje cirkelt om de woorden in het titel-font,
               rechts van het aksara-teken naast de kaart; klikbaar naar /manifest */}
-          <Link href="/manifest" className="c2-manifest-orbit" aria-label="Lees mijn AI-manifest">
+          <Link href="/manifest" className="c2-manifest-orbit" aria-label={t.statement.orbitLabel}>
             <svg viewBox="0 0 120 120" aria-hidden="true">
               <circle cx="60" cy="60" r="45" fill="none" stroke="rgba(0, 33, 143, 0.22)" strokeWidth="1" />
               <g className="c2-mo-stip"><circle cx="60" cy="15" r="3.4" fill="var(--c2-blue)" /></g>
             </svg>
-            <span className="c2-mo-tekst">Mijn AI-manifest</span>
+            <span className="c2-mo-tekst">{t.statement.orbit}</span>
           </Link>
         </div>
       </section>
@@ -231,27 +257,22 @@ export default function Concept2Client() {
       {/* Over */}
       <section className="c2-section">
         <Scatter items={[[6, 4.4, '88%', '22%'], [10, 2.8, '88%', '92%']]} />
-        <div className="c2-kinetic" aria-label="Over">
-          <span className="c2-line" data-speed="-0.5">Over</span>
+        <div className="c2-kinetic" aria-label={t.over.titel.map((r) => r.tekst).join(' ')}>
+          <Kinetisch regels={t.over.titel} />
         </div>
         <div className="c2-over">
           <figure className="c2-photo">
-            <img src="/kimberley.jpg" alt="Portret van Kimberley van Ruiven" />
+            <img src="/kimberley.jpg" alt={t.over.fotoAlt} />
           </figure>
           <div>
-            <p className="c2-eyebrow">Een technische kijk door een menselijke bril</p>
+            <p className="c2-eyebrow">{t.over.eyebrow}</p>
             <div className="c2-body">
-              <p>Ik ben Kimberley, voormalig IT-consultant, gespecialiseerd in ethische AI en AI-bias. Ik help kleine en middelgrote organisaties om AI verantwoord in te voeren: van beleid en training tot systemen die ik zelf bouw. Ik bouw systemen die mij niet nodig zouden moeten hebben, en ik denk vooraf na over de vragen die anderen pas stellen als het misgaat.</p>
-              <p>AI staat niet stil, en de regels ook niet: de AI Act rolt tot in 2027 uit en elke nieuwe tool in je organisatie vraagt om een nieuwe afweging. Daarom blijf ik ook na een project beschikbaar als vast aanspreekpunt.</p>
-              <p>Ik geloof dat technologie en menselijkheid samen kunnen gaan, en dat vrouwelijke perspectieven onmisbaar zijn in hoe we AI bouwen en gebruiken. Vandaar ook de Indonesische aksara en batikpatronen die door deze site bewegen: een eerbetoon aan de Javaanse roots die ik via mijn moeder heb meegekregen. Benieuwd hoe ik zelf met AI werk? Ik leg het volledig open in <Link className="c2-a c2-a--uitgelicht" href="/zo-werk-ik-met-ai">zo werk ik met AI</Link>.</p>
-              {/* Zodra de definitieve scriptie-PDF er is: link vervangen door /scriptie.pdf */}
-              <p>Mijn afstudeeronderzoek ging over AI-bias in hate speech-detectie: hoe algoritmes die online haat moeten herkennen zelf bevooroordeeld kunnen zijn. Dat onderzoek bepaalt tot vandaag hoe ik naar elk AI-systeem kijk; <a className="c2-a" href="https://github.com/kimberleyscode/Master-Thesis-HateSpeech-Twitter" target="_blank" rel="noopener noreferrer">bekijk het onderzoek op GitHub</a>. Die wetenschappelijke basis is gebleven: voor AI-ethiek in organisaties werk ik met het volwassenheidsmodel van de Erasmus Universiteit, en mijn kijk op humane technologie is gevormd door het gedachtegoed van het Center for Humane Technology.</p>
+              {t.over.alineas.map((a, i) => <Rijk key={i} alinea={a} />)}
             </div>
             <dl className="c2-meta">
-              <div className="c2-meta-row"><dt>Achtergrond</dt><dd>MSc Information Studies · bank, pensioenfonds, IT-startup</dd></div>
-              <div className="c2-meta-row"><dt>Onderzoek</dt><dd>AI-bias in hate speech-detectie</dd></div>
-              <div className="c2-meta-row"><dt>Kompas</dt><dd>Center for Humane Technology · AI ethics maturity model (Erasmus)</dd></div>
-              <div className="c2-meta-row"><dt>Gereedschap</dt><dd>Linux (Ubuntu) · TypeScript · React · Next.js · Tailwind · D3 · Jupyter Notebook · Vercel · Claude Code · Codex · Cursor · VS Code · Git</dd></div>
+              {t.over.meta.map((m) => (
+                <div className="c2-meta-row" key={m.dt}><dt>{m.dt}</dt><dd>{m.dd}</dd></div>
+              ))}
             </dl>
           </div>
         </div>
@@ -265,18 +286,20 @@ export default function Concept2Client() {
       {/* Diensten */}
       <section className="c2-section">
         <Scatter items={[[10, 5.6, '80%', '3%'], [15, 3, '68%', '72%']]} />
-        <div className="c2-kinetic" aria-label="Diensten">
-          <span className="c2-line" data-speed="0.55">Dien</span>
-          <span className="c2-line c2-line--indent1" data-speed="-0.5">sten</span>
+        <div className="c2-kinetic" aria-label={t.diensten.titel.map((r) => r.tekst).join('')}>
+          <Kinetisch regels={t.diensten.titel} />
         </div>
         <div className="c2-kaartgrid">
-          {DIENSTEN.flatMap((d, i) => {
+          {DIENSTEN.flatMap((dienst, i) => {
+            /* De detailpagina's bestaan nog alleen in het Nederlands; zodra de Engelse
+               versies er zijn wordt dit /en/services/<slug>. */
+            const d = locale === 'en' ? dienst.en : dienst;
             const kaart = (
-              <Link className="c2-case c2-case--klik" key={d.naam} href={`/diensten/${d.slug}`} title={`Lees meer over ${d.naam}`}>
+              <Link className="c2-case c2-case--klik" key={dienst.slug} href={`/diensten/${dienst.slug}`} title={t.diensten.leesMeerOver.replace('{naam}', d.naam)}>
                 <span className="c2-case-symbol"><Glyph t={[1, 4, 7, 13, 16, 9, 2][i % 7]} size={2.9} /></span>
                 <h3 className="c2-case-title">{d.naam}</h3>
                 <p className="c2-case-desc">{d.desc}</p>
-                <span className="c2-case-hover" aria-hidden="true">Lees verder →</span>
+                <span className="c2-case-hover" aria-hidden="true">{t.diensten.leesVerder}</span>
               </Link>
             );
             if (i === 2) return [kaart, <KunstKaart vorm="megamendung" blauw key="kunst-megamendung" />];
@@ -286,11 +309,15 @@ export default function Concept2Client() {
       </section>
 
       {/* Klantcitaat 1 — ECHT (Jasmijn de Jong, 10 juli 2026): ingekort uit haar bericht,
-          woorden onaangepast op de ï na */}
+          woorden onaangepast op de ï na. In het Engels staat erbij dat het een vertaling is:
+          een echte uitspraak van een klant geef je niet stilzwijgend in een andere taal weer. */}
       <figure className="c2-citaat">
         <span className="c2-citaat-teken" aria-hidden="true"><Glyph t={7} size={2.7} /></span>
-        <blockquote>Wat geweldig dit! Ik krijg hier zoveel mooie en bruikbare informatie uit. Ik wist niet dat dit zo mooi zou kunnen werken.</blockquote>
-        <figcaption>Jasmijn de Jong · Kindervoedingscoach</figcaption>
+        <blockquote>{t.citaten.na_diensten.tekst}</blockquote>
+        <figcaption>
+          {t.citaten.na_diensten.naam}
+          {t.citaten.na_diensten.vertaald && <span className="c2-citaat-vertaald">{t.citaten.na_diensten.vertaald}</span>}
+        </figcaption>
       </figure>
 
       {/* Speelse aksara-strook midden op de pagina */}
@@ -301,10 +328,13 @@ export default function Concept2Client() {
       {/* Werk */}
       <section className="c2-section">
         <Scatter items={[[1, 4.6, '84%', '4%']]} />
-        <div className="c2-kinetic" aria-label="Werk">
-          <span className="c2-line c2-line--indent1" data-speed="-0.55">Werk</span>
+        <div className="c2-kinetic" aria-label={t.werk.titel.map((r) => r.tekst).join(' ')}>
+          {/* Werk-titel springt bewust in, ook als er maar één regel is */}
+          {t.werk.titel.map((r, i) => (
+            <span key={i} className="c2-line c2-line--indent1" data-speed={r.speed}>{r.tekst}</span>
+          ))}
         </div>
-        <p className="c2-drag-hint" aria-hidden="true"><span>←</span> drag <span>→</span></p>
+        <p className="c2-drag-hint" aria-hidden="true"><span>←</span> {t.werk.sleepHint} <span>→</span></p>
         <div className="c2-carousel c2-carousel--groot">
           {CASES.map((c) => {
             const inhoud = (
@@ -328,27 +358,24 @@ export default function Concept2Client() {
       {/* Aanpak */}
       <section className="c2-section">
         <Scatter items={[[12, 6, '78%', '8%'], [5, 3.3, '66%', '76%']]} />
-        <div className="c2-kinetic" aria-label="Aanpak">
-          <span className="c2-line" data-speed="0.5">Aan</span>
-          <span className="c2-line c2-line--indent2" data-speed="-0.45">pak</span>
+        <div className="c2-kinetic" aria-label={t.aanpak.titel.map((r) => r.tekst).join('')}>
+          {/* Tweede regel springt hier extra ver in (indent2), afwijkend van het standaardpatroon */}
+          {t.aanpak.titel.map((r, i) => (
+            <span key={i} className={`c2-line${i === 1 ? ' c2-line--indent2' : ''}`} data-speed={r.speed}>{r.tekst}</span>
+          ))}
         </div>
         <div className="c2-body c2-aanpak">
-          <p>We beginnen bij de vraag achter de vraag. Soms is het antwoord AI, soms een beter proces; je krijgt altijd een eerlijk antwoord.</p>
-          <p>Daarna denk ik vooraf na over wat er mis kan gaan. Data, privacy, bias en verantwoordelijkheid staan bij mij aan het begin, niet als voetnoot achteraf.</p>
-          <p>Dan bouw ik wat je nodig hebt: iets wat je organisatie direct kan gebruiken, met de ethische keuzes al verwerkt.</p>
-          <p>En daarna sta je er niet alleen voor. Via de strippenkaart of een losse sessie houd je een aanspreekpunt dat je systemen kent en meteen weet waar je het over hebt.</p>
+          {t.aanpak.alineas.map((p, i) => <p key={i}>{p}</p>)}
         </div>
       </section>
 
       {/* Gedachten & artikelen (verhalend, forn-stories-stijl) */}
       <section className="c2-section">
         <Scatter items={[[18, 4.5, '82%', '8%']]} />
-        <Link className="c2-kinetic c2-kinetic--link" href="/concept-2/artikelen" aria-label="Gedachten en artikelen: naar het artikeloverzicht">
-          <span className="c2-line" data-speed="-0.5">Gedach</span>
-          <span className="c2-line c2-line--indent1" data-speed="0.45">ten &amp;</span>
-          <span className="c2-line c2-line--indent2" data-speed="-0.4">artikelen</span>
+        <Link className="c2-kinetic c2-kinetic--link" href="/artikelen" aria-label={t.gedachten.label}>
+          <Kinetisch regels={t.gedachten.titel} />
         </Link>
-        <p className="c2-drag-hint" aria-hidden="true"><span>←</span> drag <span>→</span></p>
+        <p className="c2-drag-hint" aria-hidden="true"><span>←</span> {t.werk.sleepHint} <span>→</span></p>
         <div className="c2-carousel c2-carousel--groot">
           {GEDACHTEN.flatMap((g, i) => {
             const inhoud = (
@@ -455,22 +482,23 @@ export default function Concept2Client() {
       {/* Klantcitaat 2 — DUMMY: tekst en naam vervangen door echte review zodra Kimberley die aanlevert */}
       <figure className="c2-citaat c2-citaat--r">
         <span className="c2-citaat-teken" aria-hidden="true"><Glyph t={12} size={2.7} /></span>
-        <blockquote>Ze bouwde precies wat we nodig hadden en legde bij elke stap uit wat er gebeurde. Zo voelt AI eindelijk als iets van onszelf.</blockquote>
-        <figcaption>[Naam] · [Rol, bedrijf]</figcaption>
+        <blockquote>{t.citaten.voor_contact.tekst}</blockquote>
+        <figcaption>{t.citaten.voor_contact.naam}</figcaption>
       </figure>
 
       {/* Contact */}
       <section className="c2-section">
         <Scatter items={[[0, 5.4, '68%', '24%'], [9, 3.6, '84%', '62%']]} />
-        <div className="c2-kinetic" aria-label="Contact">
-          <span className="c2-line" data-speed="0.5">Con</span>
-          <span className="c2-line c2-line--indent2" data-speed="-0.5">tact</span>
+        <div className="c2-kinetic" aria-label={t.contact.titel.map((r) => r.tekst).join('')}>
+          {t.contact.titel.map((r, i) => (
+            <span key={i} className={`c2-line${i === 1 ? ' c2-line--indent2' : ''}`} data-speed={r.speed}>{r.tekst}</span>
+          ))}
         </div>
         <div className="c2-body">
-          <p className="c2-grey">Benieuwd wat een mens-gerichte toekomst met technologie voor jouw organisatie betekent? Ik denk graag mee.</p>
+          <p className="c2-grey">{t.contact.body}</p>
         </div>
         <div className="c2-contact-links">
-          <a className="c2-cta" href={CAL_LINK} target="_blank" rel="noopener noreferrer">Plan een kennismaking</a>
+          <a className="c2-cta" href={CAL_LINK} target="_blank" rel="noopener noreferrer">{t.contact.cta}</a>
           <a className="c2-icon-btn" href="mailto:info@kimberleyvanruiven.nl" aria-label="E-mail" title="E-mail">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2.5" /><path d="M3.5 7l8.5 6 8.5-6" /></svg>
           </a>
@@ -494,10 +522,10 @@ export default function Concept2Client() {
 
       <footer className="c2-footer">
         <span>© 2026 Kimberley van Ruiven</span>
-        <Link href="/zo-werk-ik-met-ai">Zo werk ik met AI</Link>
-        <Link href="/manifest">AI-manifest</Link>
-        <Link href="/privacy">Privacybeleid</Link>
-        <span>Gebouwd mét AI, met een mens aan het stuur.</span>
+        <Link href="/zo-werk-ik-met-ai">{t.footer.zoWerkIk}</Link>
+        <Link href="/manifest">{t.footer.manifest}</Link>
+        <Link href="/privacy">{t.footer.privacy}</Link>
+        <span>{t.footer.missie}</span>
       </footer>
     </div>
   );

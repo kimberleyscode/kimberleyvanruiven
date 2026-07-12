@@ -5,9 +5,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      // Werkpagina's en de losse demo-app: die staan al op noindex, maar horen ook geen
-      // crawlbudget te kosten. De varianten-pagina's verdwijnen bij livegang.
-      disallow: ['/bril-varianten', '/manifest-varianten', '/favicon-varianten', '/hoek-varianten', '/concept', '/nectar'],
+      // De Nectar-demo is een losse statische app en hoort niet in de zoekresultaten.
+      disallow: ['/nectar'],
     },
     sitemap: 'https://kimberleyvanruiven.nl/sitemap.xml',
   };

@@ -15,7 +15,7 @@ export const AKSARA = ['ꦲ', 'ꦤ', 'ꦕ', 'ꦫ', 'ꦏ', 'ꦢ', 'ꦠ', 'ꦱ', '
 
 /* Dé homepage van de nieuwe site. Nu nog /concept-2; bij livegang deze ene regel
    op '/' zetten en alle interne links binnen het concept-2-universum wijzen meteen goed. */
-export const HOME = '/concept-2';
+export const HOME = '/';
 
 /* Hoekvariant B (gekozen 11 juli): het knipperoog uit het bril-kunstwerk als
    thuis-link linksboven, op alle pagina's behalve de homepage zelf.

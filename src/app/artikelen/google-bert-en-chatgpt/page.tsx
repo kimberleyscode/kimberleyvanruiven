@@ -3,10 +3,9 @@ import Link from 'next/link';
 import { C2Tekstpagina } from '../../gedeeld';
 
 export const metadata: Metadata = {
-  alternates: { canonical: '/concept-2/artikelen/google-bert-en-chatgpt' },
+  alternates: { canonical: '/artikelen/google-bert-en-chatgpt' },
   title: "Het taalmodel dat je al jaren gebruikt zonder het te weten · Kimberley van Ruiven",
   description: "Google BERT begrijpt taal al sinds 2019, ChatGPT en Claude schrijven zelf. Wat NLP-modellen en generatieve taalmodellen delen, en wanneer klein de betere keuze is.",
-  robots: "noindex, nofollow", // conceptversie; het oude /artikelen-pad blijft voorlopig het echte
 };
 
 export default function BertEnChatGPTArtikel() {
@@ -37,7 +36,7 @@ export default function BertEnChatGPTArtikel() {
           ChatGPT en Claude komen uit dezelfde familie. Ze zijn gebouwd op dezelfde onderliggende techniek, de transformer, en ze leerden taal op dezelfde manier: door enorme hoeveelheden menselijke tekst te verwerken. Alleen is hun taak omgedraaid. Waar BERT leest en beoordeelt, voorspellen deze modellen telkens het volgende woord, en uit die voorspellingen ontstaat nieuwe tekst.
         </p>
         <p>
-          Dat maakt ze veel breder inzetbaar: ze schrijven, vatten samen, vertalen en denken mee. Het maakt ze ook veel groter, duurder en dorstiger in energie, en hun uitkomst is open. Je weet vooraf niet precies wat eruit komt, en een overtuigend antwoord is nog geen juist antwoord. In <Link href="/concept-2/artikelen/machine-learning-of-generatieve-ai">machine learning of generatieve AI</Link> lees je wat dat verschil betekent voor de risico&apos;s die je loopt.
+          Dat maakt ze veel breder inzetbaar: ze schrijven, vatten samen, vertalen en denken mee. Het maakt ze ook veel groter, duurder en dorstiger in energie, en hun uitkomst is open. Je weet vooraf niet precies wat eruit komt, en een overtuigend antwoord is nog geen juist antwoord. In <Link href="/artikelen/machine-learning-of-generatieve-ai">machine learning of generatieve AI</Link> lees je wat dat verschil betekent voor de risico&apos;s die je loopt.
         </p>
       </section>
 
@@ -54,7 +53,7 @@ export default function BertEnChatGPTArtikel() {
       <section>
         <h2>Klein kan de betere keuze zijn</h2>
         <p>
-          Hier wordt het praktisch voor je organisatie. Veel taken waar bedrijven nu een groot generatief model op zetten, zijn eigenlijk leestaken: binnenkomende mails naar de juiste afdeling sturen, klachten signaleren die urgent zijn, reacties filteren op een forum. Voor dat soort werk is een klein, gespecialiseerd model vaak sneller, goedkoper, zuiniger en beter controleerbaar. Hoeveel dat scheelt in klimaatimpact kun je zien in mijn <Link href="/concept-2/co2">AI CO₂-calculator</Link>.
+          Hier wordt het praktisch voor je organisatie. Veel taken waar bedrijven nu een groot generatief model op zetten, zijn eigenlijk leestaken: binnenkomende mails naar de juiste afdeling sturen, klachten signaleren die urgent zijn, reacties filteren op een forum. Voor dat soort werk is een klein, gespecialiseerd model vaak sneller, goedkoper, zuiniger en beter controleerbaar. Hoeveel dat scheelt in klimaatimpact kun je zien in mijn <Link href="/co2">AI CO₂-calculator</Link>.
         </p>
         <p>
           De vraag die er echt toe doet: wat heeft jouw taak nodig? Moet er iets gelezen en beoordeeld worden, of moet er iets gemaakt worden? Wie die vraag eerst stelt, kiest gereedschap dat past. Wil je daar hulp bij, kijk dan bij <Link href="/diensten/ai-oplossingen-op-maat">AI-oplossingen op maat</Link>, of mail naar <a href="mailto:info@kimberleyvanruiven.nl">info@kimberleyvanruiven.nl</a>.

@@ -1,54 +1,46 @@
 import type { MetadataRoute } from 'next';
+import { DIENSTEN } from './diensten/diensten';
+
+const SITE = 'https://kimberleyvanruiven.nl';
+
+/* De artikelen staan hier met de hand: een sitemap hoort een bewuste keuze te zijn,
+   geen automatisch bijproduct van de bestandsboom. Nieuw artikel? Hier toevoegen. */
+const ARTIKELEN = [
+  'ai-act-voor-ondernemers',
+  'klantdata-en-chatgpt',
+  'machine-learning-of-generatieve-ai',
+  'ai-problemen-zijn-architectuurproblemen',
+  'technologie-die-de-mens-ziet',
+  'volwassen-worden-in-ai-ethiek',
+  'google-bert-en-chatgpt',
+];
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const nu = new Date();
   return [
-    {
-      url: 'https://kimberleyvanruiven.nl',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 1,
-    },
-    {
-      url: 'https://kimberleyvanruiven.nl/co2',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: 'https://kimberleyvanruiven.nl/zo-werk-ik-met-ai',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: 'https://kimberleyvanruiven.nl/artikelen',
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
-    {
-      url: 'https://kimberleyvanruiven.nl/artikelen/ai-act-voor-ondernemers',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
+    { url: SITE, lastModified: nu, changeFrequency: 'monthly', priority: 1 },
+    { url: `${SITE}/manifest`, lastModified: nu, changeFrequency: 'yearly', priority: 0.8 },
+    { url: `${SITE}/zo-werk-ik-met-ai`, lastModified: nu, changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${SITE}/artikelen`, lastModified: nu, changeFrequency: 'weekly', priority: 0.8 },
+    ...DIENSTEN.map((d) => ({
+      url: `${SITE}/diensten/${d.slug}`,
+      lastModified: nu,
+      changeFrequency: 'monthly' as const,
+      priority: 0.9,
+    })),
+    ...ARTIKELEN.map((slug) => ({
+      url: `${SITE}/artikelen/${slug}`,
+      lastModified: nu,
+      changeFrequency: 'monthly' as const,
       priority: 0.6,
-    },
-    {
-      url: 'https://kimberleyvanruiven.nl/artikelen/klantdata-en-chatgpt',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.6,
-    },
-    {
-      url: 'https://kimberleyvanruiven.nl/manifest',
-      lastModified: new Date(),
-      changeFrequency: 'yearly',
-      priority: 0.7,
-    },
-    {
-      url: 'https://kimberleyvanruiven.nl/privacy',
-      lastModified: new Date(),
-      changeFrequency: 'yearly',
-      priority: 0.2,
-    },
+    })),
+    { url: `${SITE}/quiz`, lastModified: nu, changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${SITE}/co2`, lastModified: nu, changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${SITE}/privacy`, lastModified: nu, changeFrequency: 'yearly', priority: 0.2 },
+
+    /* Engels. Alleen pagina's die echt in het Engels bestaan komen hierin; quiz, CO₂-tool
+       en de Nectar-demo blijven Nederlands en horen hier dus niet. Groeit mee zodra de
+       overige Engelse pagina's er zijn. */
+    { url: `${SITE}/en`, lastModified: nu, changeFrequency: 'monthly', priority: 0.9 },
   ];
 }

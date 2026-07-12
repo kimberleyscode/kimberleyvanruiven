@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { C2Tekstpagina } from '../concept-2/gedeeld';
+import { C2Tekstpagina } from '../gedeeld';
 
 export const metadata: Metadata = {
   alternates: { canonical: '/manifest' },

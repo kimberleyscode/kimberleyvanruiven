@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { C2Tekstpagina } from './concept-2/gedeeld';
+import { C2Tekstpagina } from './gedeeld';
 
 export default function NotFound() {
   return (

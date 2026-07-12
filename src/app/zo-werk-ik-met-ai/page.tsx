@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { C2Tekstpagina } from '../concept-2/gedeeld';
+import { C2Tekstpagina } from '../gedeeld';
 
 export const metadata: Metadata = {
   alternates: { canonical: '/zo-werk-ik-met-ai' },
@@ -58,7 +58,7 @@ export default function ZoWerkIkMetAI() {
       <section>
         <h2>Duurzaamheid</h2>
         <p>
-          AI-gebruik kost energie en water. Ik houd mijn eigen gebruik bewust: ik kies het lichtste model dat de taak aankan en zet AI niet in voor taken die zonder ook prima gaan. Benieuwd naar de klimaatimpact van jouw AI-gebruik? Daarvoor bouwde ik een gratis <Link href="/concept-2/co2">AI CO₂-calculator</Link>.
+          AI-gebruik kost energie en water. Ik houd mijn eigen gebruik bewust: ik kies het lichtste model dat de taak aankan en zet AI niet in voor taken die zonder ook prima gaan. Benieuwd naar de klimaatimpact van jouw AI-gebruik? Daarvoor bouwde ik een gratis <Link href="/co2">AI CO₂-calculator</Link>.
         </p>
       </section>
 

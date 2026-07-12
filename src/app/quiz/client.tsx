@@ -130,7 +130,7 @@ const THEMES: Array<{ label: string; tip: React.ReactNode }> = [
   { label: 'Datakennis', tip: <>Zoek van je belangrijkste tool op wat er met je invoer gebeurt. Dat staat in de privacyvoorwaarden, en het antwoord bepaalt wat je er wel en niet in kwijt kunt.</> },
   { label: 'Vertrouwelijke gegevens', tip: <>Spreek met je team af welke gegevens nooit een AI-tool in gaan, zoals klantdata en persoonsgegevens.</> },
   { label: 'EU AI Act', tip: <>De wet geldt ook voor kleine organisaties, en op 2 augustus 2026 gaat de volgende fase in. Weten wat er voor jullie in staat is de eerste stap.</> },
-  { label: 'Ecologische impact', tip: <>Modelkeuze is klimaatkeuze. Reken je uitstoot uit met de <Link href="/concept-2/co2">CO&#8322;-calculator</Link>.</> },
+  { label: 'Ecologische impact', tip: <>Modelkeuze is klimaatkeuze. Reken je uitstoot uit met de <Link href="/co2">CO&#8322;-calculator</Link>.</> },
   { label: 'Waarden', tip: <>Leg vast waar jouw organisatie met AI w&eacute;l en niet aan wil meewerken. Dat maakt elke volgende keuze makkelijker.</> },
   { label: 'AI-beleid', tip: <>Een half A4 met afspraken is al een AI-beleid. Dat het er is, is belangrijker dan dat het compleet is.</> },
 ];

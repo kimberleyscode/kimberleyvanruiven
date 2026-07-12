@@ -3,10 +3,9 @@ import Link from 'next/link';
 import { C2Tekstpagina } from '../../gedeeld';
 
 export const metadata: Metadata = {
-  alternates: { canonical: '/concept-2/artikelen/technologie-die-de-mens-ziet' },
+  alternates: { canonical: '/artikelen/technologie-die-de-mens-ziet' },
   title: "Technologie die de mens ziet · Kimberley van Ruiven",
   description: "Elke technologie draagt de prikkels van zijn makers in zich. Over humane technologie, misleidend mensachtige AI, en het manifest waar ik mijn werk langs leg.",
-  robots: "noindex, nofollow", // conceptversie; het oude /artikelen-pad blijft voorlopig het echte
 };
 
 export default function HumaneTechArtikel() {

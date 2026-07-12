@@ -1,7 +1,10 @@
-/* Eén bron voor de diensten: de kaarten in concept-2 en de detailpagina's lezen allebei hieruit.
+/* Eén bron voor de diensten: de kaarten op de homepage en de detailpagina's lezen allebei hieruit.
    Volgorde = klantreis: eerst weten waar je staat, dan regelen, dan bouwen, dan bijblijven.
    watJeKrijgt/hoeHetWerkt/ethisch zijn CONCEPTTEKSTEN (grove uitlijning aanbod-analyse 9 juli);
-   ontbreken ze, dan toont de detailpagina de [Tekst volgt]-placeholder. */
+   ontbreken ze, dan toont de detailpagina de [Tekst volgt]-placeholder.
+
+   `en` bevat voorlopig alleen wat op de KAART staat (naam, regels, desc). De Engelse
+   detailteksten volgen zodra Kimberley de Engelse toon heeft goedgekeurd. */
 type Dienst = {
   slug: string;
   naam: string;
@@ -10,6 +13,14 @@ type Dienst = {
   watJeKrijgt?: string;
   hoeHetWerkt?: string;
   ethisch?: string;
+  en: {
+    naam: string;
+    regels: string[];
+    desc: string;
+    watJeKrijgt?: string;
+    hoeHetWerkt?: string;
+    ethisch?: string;
+  };
 };
 
 export const DIENSTEN: Dienst[] = [
@@ -24,6 +35,11 @@ export const DIENSTEN: Dienst[] = [
       'We starten met een intakegesprek en een rondgang langs je team, want er draait vaak meer AI dan je denkt. Daarna toets ik alles aan de AI Act en aan de zes dimensies van het volwassenheidsmodel. De uitkomsten krijg je in gewone taal en licht ik toe in één gesprek, met per punt wat je zelf kunt oppakken en waar je eventueel hulp bij wilt. Wil je die vervolgstappen niet alleen zetten, dan begeleid ik ook de implementatie: de regelgeving vertaald naar concrete stappen, op het tempo van jouw organisatie.',
     ethisch:
       'De scan rapporteert wat ik aantref, ook als de uitkomst is dat je weinig hoeft te regelen. Gegevens over jouw organisatie blijven bij jou en verdwijnen niet in externe tools. De methode is wetenschappelijk onderbouwd, met bronvermelding, zodat je weet waarop het oordeel rust.',
+    en: {
+      naam: 'AI Act quickscan',
+      regels: ['AI Act', 'quickscan'],
+      desc: 'A clear picture of the AI running in your organisation, what is already in good shape, and what to settle before 2 August. So you know exactly where you stand.',
+    },
   },
   {
     slug: 'ai-beleid-en-training',
@@ -36,6 +52,11 @@ export const DIENSTEN: Dienst[] = [
       'We beginnen met een waardensessie: waar staat jouw organisatie voor, en wat betekent dat voor hoe jullie met AI willen werken? Pas daarna kijken we naar tools en regels, zodat het beleid ergens op rust. In twee weken vertalen we dat naar werkbare afspraken en een goedgekeurde toollijst. We sluiten af met de workshop, zodat het beleid niet in een la belandt maar iedereen weet hoe het werkt.',
     ethisch:
       'Het beleid regelt behalve wat mag ook hoe helder je erover bent, naar medewerkers én naar klanten. De plichten uit de AI Act, zoals AI-geletterdheid en transparantie, zitten er standaard in verwerkt.',
+    en: {
+      naam: 'AI policy and training',
+      regels: ['AI policy', 'and training'],
+      desc: 'In two weeks, a working AI policy and a team that can use it: clear agreements, approved tools, and the AI literacy the AI Act asks of you.',
+    },
   },
   {
     slug: 'ai-oplossingen-op-maat',
@@ -48,6 +69,11 @@ export const DIENSTEN: Dienst[] = [
       'We bepalen samen wat de oplossing wel en niet mag doen en op welke bronnen en systemen die steunt. Ik bouw en test op jouw materiaal, we scherpen aan op basis van echt gebruik, en na livegang blijf ik beschikbaar om bij te sturen.',
     ethisch:
       'Wat ik bouw doet zich nooit voor als mens: gebruikers zien altijd dat ze met AI werken en kunnen altijd bij een mens terecht. Dat vraagt de AI Act, en het wekt bovendien precies het vertrouwen dat een nagemaakte mens ondermijnt. De privacy is contractueel geregeld, met duidelijke afspraken over wat er met de data gebeurt.',
+    en: {
+      naam: 'Tailored AI solutions',
+      regels: ['Tailored AI', 'solutions'],
+      desc: 'From chatbot to workflow or web application: whatever eats your time gets automated, with the ethical choices already made.',
+    },
   },
   {
     slug: 'extern-ai-aanspreekpunt',
@@ -60,5 +86,10 @@ export const DIENSTEN: Dienst[] = [
       'Je kiest wat bij je past: een strippenkaart voor losse vragen of een abonnement met een vast aantal uren per maand. Kleine vragen handelen we af per mail, voor grotere plannen we kort overleg. Komt er iets voorbij dat meer vraagt, zoals een tool invoeren of je beleid bijwerken, dan pakken we dat op wanneer het jou uitkomt. Je zit nergens aan vast en kunt op elk moment stoppen of opschalen.',
     ethisch:
       'Mijn advies is onafhankelijk: ik verkoop geen tools en ontvang niets van aanbieders die ik aanraad. Is het eerlijke antwoord dat je iets niet nodig hebt, dan hoor je dat ook. Zo weet je zeker dat een aanbeveling er alleen is omdat die bij jouw organisatie past.',
+    en: {
+      naam: 'Outsourced AI lead',
+      regels: ['Outsourced', 'AI lead'],
+      desc: 'For every AI question that comes up: new tools, new rules, new opportunities. On a bundle of hours or a monthly retainer.',
+    },
   },
 ];

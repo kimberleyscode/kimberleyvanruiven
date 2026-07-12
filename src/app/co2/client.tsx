@@ -380,7 +380,7 @@ export default function CO2Concept2Client() {
         <div className="card">
           <div className="card-title">Hier beleid van maken?</div>
           <p className="cta-tekst">
-            Benieuwd wat bewust AI-gebruik voor jouw organisatie betekent? Met de <Link href="/diensten/ai-act-quickscan">AI Act-quickscan</Link> breng ik in kaart welke AI er bij jou draait, wat daarvan al goed zit en wat nog aandacht vraagt. En wil je eerst weten waar je zelf staat als AI-gebruiker, doe dan de gratis quiz <Link href="/concept-2/quiz">Gebruik jij AI, of gebruikt AI jou?</Link>
+            Benieuwd wat bewust AI-gebruik voor jouw organisatie betekent? Met de <Link href="/diensten/ai-act-quickscan">AI Act-quickscan</Link> breng ik in kaart welke AI er bij jou draait, wat daarvan al goed zit en wat nog aandacht vraagt. En wil je eerst weten waar je zelf staat als AI-gebruiker, doe dan de gratis quiz <Link href="/quiz">Gebruik jij AI, of gebruikt AI jou?</Link>
           </p>
         </div>
 

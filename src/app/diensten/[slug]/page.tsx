@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { C2Tekstpagina } from '../../concept-2/gedeeld';
+import { C2Tekstpagina } from '../../gedeeld';
 import { DIENSTEN } from '../diensten';
 
 const CAL_LINK = 'https://calendar.app.google/douZqiDQ7p39Xf6u7';
@@ -18,7 +18,6 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title: `${dienst.naam} · Kimberley van Ruiven`,
     description: dienst.desc,
     alternates: { canonical: `/diensten/${dienst.slug}` },
-    robots: 'noindex, nofollow', // opzet: indexeren pas zodra de teksten definitief zijn
   };
 }
 
