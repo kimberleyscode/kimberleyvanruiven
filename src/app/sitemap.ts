@@ -38,6 +38,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE}/quiz`, lastModified: nu, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${SITE}/co2`, lastModified: nu, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${SITE}/privacy`, lastModified: nu, changeFrequency: 'yearly', priority: 0.2 },
+    { url: `${SITE}/algemene-voorwaarden`, lastModified: nu, changeFrequency: 'yearly', priority: 0.2 },
 
     /* Engels. Alleen pagina's die echt in het Engels bestaan komen hierin; de quiz, de
        CO₂-calculator en de Nectar-demo blijven Nederlands en horen hier dus niet. */

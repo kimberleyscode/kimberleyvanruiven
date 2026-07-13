@@ -28,6 +28,7 @@ export const SCHIL = {
       { href: '/zo-werk-ik-met-ai', tekst: 'Zo werk ik met AI' },
       { href: '/manifest', tekst: 'AI-manifest' },
       { href: '/privacy', tekst: 'Privacybeleid' },
+      { href: '/algemene-voorwaarden', tekst: 'Algemene voorwaarden' },
     ],
     home: 'Home',
   },
