@@ -14,7 +14,7 @@ const NL: HomeInhoud = {
   nav: { contact: 'Neem contact op' },
 
   hero: {
-    eyebrow: 'Kimberley van Ruiven · Verantwoordelijke AI-adviseur voor het mkb · Rotterdam',
+    eyebrow: 'Kimberley van Ruiven · Adviseur verantwoorde AI voor het mkb · Rotterdam',
     titel: [
       { tekst: 'Een mensgerichte', speed: -0.5 },
       { tekst: 'toekomst met', speed: 0.5 },

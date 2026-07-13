@@ -4,10 +4,10 @@ import { taalVarianten } from '../content/paden';
 
 export const metadata: Metadata = {
   alternates: { canonical: '/', languages: taalVarianten('/') },
-  title: "Kimberley van Ruiven · Ethische AI-adviseur voor het mkb",
+  title: "Kimberley van Ruiven · Adviseur verantwoorde AI voor het mkb",
   description: "Benieuwd wat een mensgerichte toekomst met technologie voor jouw organisatie betekent? Ik denk graag mee.",
   openGraph: {
-    title: "Kimberley van Ruiven · Ethische AI-adviseur voor het mkb",
+    title: "Kimberley van Ruiven · Adviseur verantwoorde AI voor het mkb",
     description: "Benieuwd wat een mensgerichte toekomst met technologie voor jouw organisatie betekent? Ik denk graag mee.",
     locale: 'nl_NL',
     // Een eigen openGraph-blok vervangt dat van de root-layout, dus zonder deze regel
