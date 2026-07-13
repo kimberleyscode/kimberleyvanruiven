@@ -14,9 +14,9 @@ const NL: HomeInhoud = {
   nav: { contact: 'Neem contact op' },
 
   hero: {
-    eyebrow: 'Kimberley van Ruiven · Ethische AI-adviseur voor het mkb · Rotterdam',
+    eyebrow: 'Kimberley van Ruiven · Verantwoordelijke AI-adviseur voor het mkb · Rotterdam',
     titel: [
-      { tekst: 'Een mens-gerichte', speed: -0.5 },
+      { tekst: 'Een mensgerichte', speed: -0.5 },
       { tekst: 'toekomst met', speed: 0.5 },
       { tekst: 'technologie', speed: -0.45 },
     ],
@@ -29,7 +29,7 @@ const NL: HomeInhoud = {
       { tekst: 'waar je achter', speed: 0.5 },
       { tekst: 'kunt staan', speed: -0.4 },
     ],
-    kaart: 'De vorm die AI krijgt, is een keuze. Ook die van jou. Ik heb AI-bias wetenschappelijk onderzocht en bouw AI-systemen. Mijn focus is AI die bij jouw organisatie klopt: ik ben er voor kleine en middelgrote organisaties die kiezen voor een mens-gerichte toekomst met technologie.',
+    kaart: 'De vorm die AI krijgt, is een keuze. Ook die van jou. Ik heb AI-bias wetenschappelijk onderzocht en bouw AI-systemen. Mijn focus is AI die bij jouw organisatie klopt: ik ben er voor kleine en middelgrote organisaties die kiezen voor een mensgerichte toekomst met technologie.',
     orbit: 'Mijn AI-manifest',
     orbitLabel: 'Lees mijn AI-manifest',
   },
@@ -139,7 +139,7 @@ const NL: HomeInhoud = {
       { tekst: 'Con', speed: 0.5 },
       { tekst: 'tact', speed: -0.5 },
     ],
-    body: 'Benieuwd wat een mens-gerichte toekomst met technologie voor jouw organisatie betekent? Ik denk graag mee.',
+    body: 'Benieuwd wat een mensgerichte toekomst met technologie voor jouw organisatie betekent? Ik denk graag mee.',
     cta: 'Plan een kennismaking',
   },
 
@@ -157,7 +157,7 @@ const NL: HomeInhoud = {
 
    Uitgangspunten die ik heb aangehouden:
    - Merkzinnen zijn vertaald, niet vervangen: "AI waar je achter kunt staan" blijft de
-     kern ("AI you can stand behind"), "mens-gerichte toekomst met technologie" wordt
+     kern ("AI you can stand behind"), "mensgerichte toekomst met technologie" wordt
      "human-centred future with technology".
    - Britse spelling (centred, organisation): de doelgroep is Europees, en het sluit aan
      op de EU AI Act-context.
@@ -173,7 +173,7 @@ const EN: HomeInhoud = {
 
   hero: {
     /* Voluit, niet "SMEs": de CSS zet de eyebrow in kapitalen en dan wordt dat "SMES". */
-    eyebrow: 'Kimberley van Ruiven · Ethical AI adviser for small and medium-sized businesses · Rotterdam',
+    eyebrow: 'Kimberley van Ruiven · Responsible AI adviser for small and medium-sized businesses · Rotterdam',
     titel: [
       { tekst: 'A human-centred', speed: -0.5 },
       { tekst: 'future with', speed: 0.5 },

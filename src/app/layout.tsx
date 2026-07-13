@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   robots: "index, follow",
   openGraph: {
     title: "Kimberley van Ruiven · Ethische AI-adviseur voor het mkb",
-    description: "Ik help kleine en middelgrote organisaties AI verantwoord invoeren. AI waar je achter kunt staan, voor een mens-gerichte toekomst met technologie.",
+    description: "Ik help kleine en middelgrote organisaties AI verantwoord invoeren. AI waar je achter kunt staan, voor een mensgerichte toekomst met technologie.",
     url: "https://kimberleyvanruiven.nl",
     // Geen images-veld: de deelafbeelding komt uit src/app/opengraph-image.jpg en geldt
     // daardoor voor elke route (ook /manifest, /privacy en de dienstenpagina's).
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Kimberley van Ruiven · Ethische AI-adviseur voor het mkb",
-    description: "Ik help kleine en middelgrote organisaties AI verantwoord invoeren. AI waar je achter kunt staan, voor een mens-gerichte toekomst met technologie.",
+    description: "Ik help kleine en middelgrote organisaties AI verantwoord invoeren. AI waar je achter kunt staan, voor een mensgerichte toekomst met technologie.",
   },
 };
 
