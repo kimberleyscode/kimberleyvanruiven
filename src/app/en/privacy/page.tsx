@@ -52,7 +52,7 @@ export default function Privacy() {
       <section>
         <h2>Which data is processed?</h2>
         <p>
-          This website collects no personal data through forms or tracking. For visitor statistics the site uses Vercel Web Analytics: a privacy-friendly form of measurement that uses no cookies, stores no personal data and cannot identify individual visitors. A cookie banner is therefore not needed.
+          This website collects no personal data through forms or tracking. For visitor statistics the site uses Cloudflare Web Analytics: a privacy-friendly form of measurement that uses no cookies, stores no personal data and cannot identify individual visitors. A cookie banner is therefore not needed.
         </p>
         <p>
           When you get in touch through this website (by email or through a scheduling link) or use external services, the privacy terms of those services apply:
@@ -77,7 +77,7 @@ export default function Privacy() {
       <section>
         <h2>Hosting and processors</h2>
         <p>
-          This website runs on Vercel. Like any web server, Vercel records technical data in order to deliver and secure the site, including your IP address temporarily. A data processing agreement is in place with Vercel, and the transfer outside the EU is covered by the European Commission’s standard contractual clauses.
+          This website runs on Cloudflare. Like any web server, Cloudflare records technical data in order to deliver and secure the site, including your IP address temporarily. Cloudflare’s standard data processing agreement, which forms part of its subscription agreement, applies to that use, and the transfer outside the EU is covered by the European Commission’s standard contractual clauses.
         </p>
       </section>
 

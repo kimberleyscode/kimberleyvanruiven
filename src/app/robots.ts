@@ -1,5 +1,9 @@
 import type { MetadataRoute } from 'next';
 
+// Next behandelt robots.txt als een route; bij een statische export moet die expliciet
+// als bestand gebakken worden.
+export const dynamic = 'force-static';
+
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: {

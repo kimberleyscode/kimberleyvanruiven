@@ -2,6 +2,10 @@ import type { MetadataRoute } from 'next';
 import { DIENSTEN } from './diensten/diensten';
 import { ARTIKEL_SLUGS, DIENST_SLUGS } from '../content/paden';
 
+// Zie robots.ts: ook de sitemap is een route die bij een statische export als bestand
+// gebakken moet worden.
+export const dynamic = 'force-static';
+
 const SITE = 'https://kimberleyvanruiven.nl';
 
 /* De artikelen staan hier met de hand: een sitemap hoort een bewuste keuze te zijn,

@@ -37,7 +37,7 @@ export default function Privacy() {
       <section>
         <h2>Welke gegevens worden verwerkt?</h2>
         <p>
-          Deze website verzamelt geen persoonsgegevens via formulieren of tracking. Voor bezoekersstatistieken gebruikt de site Vercel Web Analytics: een privacyvriendelijke meting zonder cookies, waarbij geen persoonsgegevens worden opgeslagen en bezoekers niet individueel herkenbaar zijn. Een cookiebanner is daarom niet nodig.
+          Deze website verzamelt geen persoonsgegevens via formulieren of tracking. Voor bezoekersstatistieken gebruikt de site Cloudflare Web Analytics: een privacyvriendelijke meting zonder cookies, waarbij geen persoonsgegevens worden opgeslagen en bezoekers niet individueel herkenbaar zijn. Een cookiebanner is daarom niet nodig.
         </p>
         <p>
           Wanneer je via deze website contact opneemt (per e-mail of via een afspraaklink) of gebruik maakt van externe diensten, gelden de privacyvoorwaarden van die diensten:
@@ -63,7 +63,7 @@ export default function Privacy() {
       <section>
         <h2>Hosting en verwerkers</h2>
         <p>
-          Deze website draait bij Vercel. Zoals elke webserver legt Vercel technische gegevens vast om de site te kunnen leveren en te beveiligen, waaronder tijdelijk je IP-adres. Met Vercel is een verwerkersovereenkomst gesloten, en de doorgifte buiten de EU is gedekt door de standaardcontractbepalingen van de Europese Commissie.
+          Deze website draait bij Cloudflare. Zoals elke webserver legt Cloudflare technische gegevens vast om de site te kunnen leveren en te beveiligen, waaronder tijdelijk je IP-adres. Op dat gebruik is de standaard verwerkersovereenkomst van Cloudflare van toepassing, die onderdeel is van de gebruikersovereenkomst, en de doorgifte buiten de EU is gedekt door de standaardcontractbepalingen van de Europese Commissie.
         </p>
       </section>
 
