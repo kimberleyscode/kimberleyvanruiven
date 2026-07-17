@@ -59,7 +59,7 @@ export default function Manifest() {
       <section>
         <h2>Verantwoording</h2>
         <p>
-          Dit manifest is geschreven in mijn eigen woorden, geïnspireerd door het gedachtegoed van het <a href="https://www.humanetech.com" target="_blank" rel="noopener noreferrer">Center for Humane Technology</a> en door mijn eigen onderzoek naar bias in AI. Hoe dit er in de praktijk uitziet lees je op <Link href="/zo-werk-ik-met-ai">zo werk ik met AI</Link>.
+          Dit manifest is geïnspireerd door het gedachtegoed van het <a href="https://www.humanetech.com" target="_blank" rel="noopener noreferrer">Center for Humane Technology</a> en door mijn eigen onderzoek naar bias in AI. Hoe dit er in de praktijk uitziet lees je op <Link href="/zo-werk-ik-met-ai">zo werk ik met AI</Link>.
         </p>
       </section>
 

@@ -69,7 +69,7 @@ export default function Manifesto() {
       <section>
         <h2>Attribution</h2>
         <p>
-          This manifesto is written in my own words, inspired by the thinking of the <a href="https://www.humanetech.com" target="_blank" rel="noopener noreferrer">Center for Humane Technology</a> and by my own research into bias in AI. What this looks like in practice is set out in <Link href="/en/how-i-work-with-ai">how I work with AI</Link>.
+          This manifesto is inspired by the thinking of the <a href="https://www.humanetech.com" target="_blank" rel="noopener noreferrer">Center for Humane Technology</a> and by my own research into bias in AI. What this looks like in practice is set out in <Link href="/en/how-i-work-with-ai">how I work with AI</Link>.
         </p>
       </section>
 

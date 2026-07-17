@@ -48,7 +48,7 @@ export default function HumaneTechArtikel() {
       <section>
         <h2>Mijn manifest</h2>
         <p>
-          Deze denkwijze heb ik vertaald naar de lat waar ik mijn eigen werk langs leg: vijf uitgangspunten over AI die laat zien wat het is, de mens die het stuur houdt, en klein beginnen met een systeem dat klopt. Je leest ze in <Link href="/manifest">mijn manifest</Link>, en hoe dat er dagelijks uitziet staat op <Link href="/zo-werk-ik-met-ai">zo werk ik met AI</Link>. Geschreven in eigen woorden, geïnspireerd door het gedachtegoed van het <a href="https://www.humanetech.com" target="_blank" rel="noopener noreferrer">Center for Humane Technology</a>.
+          Deze denkwijze heb ik vertaald naar de lat waar ik mijn eigen werk langs leg: vijf uitgangspunten over AI die laat zien wat het is, de mens die het stuur houdt, en klein beginnen met een systeem dat klopt. Je leest ze in <Link href="/manifest">mijn manifest</Link>, en hoe dat er dagelijks uitziet staat op <Link href="/zo-werk-ik-met-ai">zo werk ik met AI</Link>. Geïnspireerd door het gedachtegoed van het <a href="https://www.humanetech.com" target="_blank" rel="noopener noreferrer">Center for Humane Technology</a>.
         </p>
       </section>
     </C2Tekstpagina>

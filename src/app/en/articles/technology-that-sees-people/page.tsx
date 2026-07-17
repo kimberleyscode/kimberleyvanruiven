@@ -49,7 +49,7 @@ export default function HumaneTechArticle() {
       <section>
         <h2>My manifesto</h2>
         <p>
-          I’ve translated this way of thinking into the bar I hold my own work to: five principles about AI that shows what it is, people who stay at the wheel, and starting small with a system that holds up. You can read them in <Link href="/en/manifesto">my manifesto</Link>, and what that looks like day to day is set out in <Link href="/en/how-i-work-with-ai">how I work with AI</Link>. Written in my own words, inspired by the thinking of the <a href="https://www.humanetech.com" target="_blank" rel="noopener noreferrer">Center for Humane Technology</a>.
+          I’ve translated this way of thinking into the bar I hold my own work to: five principles about AI that shows what it is, people who stay at the wheel, and starting small with a system that holds up. You can read them in <Link href="/en/manifesto">my manifesto</Link>, and what that looks like day to day is set out in <Link href="/en/how-i-work-with-ai">how I work with AI</Link>. Inspired by the thinking of the <a href="https://www.humanetech.com" target="_blank" rel="noopener noreferrer">Center for Humane Technology</a>.
         </p>
       </section>
     </C2Tekstpagina>
