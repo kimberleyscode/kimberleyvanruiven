@@ -57,7 +57,7 @@ const NL: HomeInhoud = {
       { dt: 'Achtergrond', dd: 'MSc Information Studies · bank, pensioenfonds, IT-startup' },
       { dt: 'Onderzoek', dd: 'AI-bias in hate speech-detectie' },
       { dt: 'Kompas', dd: 'Center for Humane Technology · AI ethics maturity model (Erasmus)' },
-      { dt: 'Gereedschap', dd: 'Linux (Ubuntu) · TypeScript · React · Next.js · Tailwind · D3 · Jupyter Notebook · Cloudflare · Claude Code · Codex · Cursor · VS Code · Git' },
+      { dt: 'Gereedschap', dd: 'Linux (Ubuntu) · TypeScript · React · Next.js · Tailwind · D3 · Jupyter Notebook · Cloudflare · Vercel · Claude Code · Codex · Cursor · VS Code · Git' },
     ],
   },
 
@@ -215,7 +215,7 @@ const EN: HomeInhoud = {
       { dt: 'Background', dd: 'MSc Information Studies · banking, pension fund, IT startup' },
       { dt: 'Research', dd: 'AI bias in hate speech detection' },
       { dt: 'Grounded in', dd: 'Center for Humane Technology · AI ethics maturity model (Erasmus)' },
-      { dt: 'Tools', dd: 'Linux (Ubuntu) · TypeScript · React · Next.js · Tailwind · D3 · Jupyter Notebook · Cloudflare · Claude Code · Codex · Cursor · VS Code · Git' },
+      { dt: 'Tools', dd: 'Linux (Ubuntu) · TypeScript · React · Next.js · Tailwind · D3 · Jupyter Notebook · Cloudflare · Vercel · Claude Code · Codex · Cursor · VS Code · Git' },
     ],
   },
 
