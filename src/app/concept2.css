@@ -206,7 +206,10 @@
   padding: 1.8rem;
   display: flex; flex-direction: column; gap: 0.7rem;
 }
-.c2-case-symbol { color: var(--c2-blue); margin-bottom: 0.6rem; }
+/* align-self houdt het vakje om de aksara heen zo smal als het teken zelf. Zonder dat
+   rekt het als flex-item op tot de volle kaartbreedte en ligt het draaipunt in het
+   midden van de kaart, waardoor het teken een baan maakt in plaats van om zijn as draait. */
+.c2-case-symbol { color: var(--c2-blue); margin-bottom: 0.6rem; align-self: flex-start; }
 .c2-case-meta { font-size: 0.78rem; color: var(--c2-grey); letter-spacing: 0.04em; text-transform: uppercase; }
 .c2-case-title { font-weight: 600; font-size: 1.2rem; line-height: 1.3; }
 .c2-case-desc { font-size: 0.95rem; color: var(--c2-grey); flex: 1; }
@@ -283,7 +286,7 @@
 }
 .c2-symbol-stack:nth-child(even) .c2-glyph,
 .c2-symbol-col .c2-glyph:nth-child(even) { animation-name: c2-drift-b; }
-.c2-case-symbol .c2-glyph { color: var(--c2-blue); animation: none; }
+.c2-case-symbol .c2-glyph { color: var(--c2-blue); }
 @keyframes c2-drift {
   0%   { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 0.55; }
   50%  { transform: translate(3px, -10px) rotate(5deg) scale(1.08); opacity: 1; }
@@ -369,11 +372,6 @@
   /* Tekstpagina's hebben geen witruimte tussen kop en tekst: daar vervalt het lage teken op mobiel */
   .c2-tekst-kop > .c2-scatter--laag { display: none; }
 }
-
-/* In kaarten staan de aksara stil: geen drift, spin of scroll-rotatie */
-.c2-case-symbol .c2-glyph,
-.c2-case-symbol .c2-glyph--spin { animation: none !important; }
-.c2-case-symbol .c2-glyph-rot { transform: none !important; transition: none; }
 
 /* ── Onderveld: schermvullend van links naar rechts, groter en sneller ── */
 .c2-symbol-field {
