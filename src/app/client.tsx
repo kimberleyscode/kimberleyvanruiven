@@ -567,6 +567,10 @@ export default function Concept2Client({ locale = 'nl' }: { locale?: Locale }) {
         </div>
         <div className="c2-contact-links">
           <a className="c2-cta" href={CAL_LINK} target="_blank" rel="noopener noreferrer">{t.contact.cta}</a>
+          {/* De drie rondjes in een eigen rij, zodat ze op mobiel altijd als groepje
+              naast elkaar blijven staan. Op desktop is die rij display:contents, dus
+              daar verandert er niets aan de bestaande indeling. */}
+          <span className="c2-icon-rij">
           <a className="c2-icon-btn" href="mailto:info@kimberleyvanruiven.nl" aria-label="E-mail" title="E-mail">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2.5" /><path d="M3.5 7l8.5 6 8.5-6" /></svg>
           </a>
@@ -576,6 +580,7 @@ export default function Concept2Client({ locale = 'nl' }: { locale?: Locale }) {
           <a className="c2-icon-btn" href="https://github.com/kimberleyscode" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="6.5" cy="5.5" r="2.2" /><circle cx="6.5" cy="18.5" r="2.2" /><circle cx="17.5" cy="7.5" r="2.2" /><path d="M6.5 7.7v8.6M17.5 9.7c0 3.6-5.5 2.6-9 5.4" /></svg>
           </a>
+          </span>
         </div>
       </section>
 

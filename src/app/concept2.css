@@ -489,6 +489,9 @@
 
 /* ── Contactregel (forn-stijl: meerdere routes) ── */
 .c2-contact-links { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1.8rem; }
+/* Op desktop bestaat de icoonrij niet als kader: de drie rondjes zijn daar gewoon
+   flexkinderen van .c2-contact-links, precies zoals voorheen. */
+.c2-icon-rij { display: contents; }
 .c2-contact-link {
   display: inline-block;
   border: 1.5px solid var(--c2-ink);
@@ -537,6 +540,14 @@
 }
 .c2-icon-btn svg { width: 23px; height: 23px; }
 .c2-icon-btn:hover { background: var(--c2-blue); border-color: var(--c2-blue); color: #fff; transform: translateY(-3px); }
+
+/* Op mobiel blijven de rondjes even groot (54px), maar ze horen gegarandeerd als
+   groepje naast elkaar te staan, links onder het begin van de knop. Zonder eigen rij
+   zijn het losse flexkinderen naast de knop, en dan kunnen ze bij een smal scherm of
+   grote systeemletters afzonderlijk afbreken. De rij eromheen voorkomt dat. */
+@media (max-width: 700px) {
+  .c2-icon-rij { display: flex; flex-wrap: nowrap; gap: 1.1rem; }
+}
 
 /* ── Kaarten zoals forn: normaal gewicht, zwart, geheel klikbaar ── */
 .c2-case-title, .c2-case-title--verhaal { font-weight: 400; }
