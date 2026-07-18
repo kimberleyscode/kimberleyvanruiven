@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import Link from 'next/link';
 import '../concept2.css';
-import { Glyph, Scatter, useKinetiek, useLichteAchtergrond, fontVars, HoekThuis, HOME } from '../gedeeld';
+import { Glyph, Scatter, useKinetiek, useLichteAchtergrond, fontVars, HoekThuis, HOME, MailLink } from '../gedeeld';
 
 /* Forn-stijl versie van de AI CO₂-calculator; rekenlogica identiek aan /co2 */
 export default function CO2Concept2Client() {
@@ -262,7 +262,7 @@ export default function CO2Concept2Client() {
 
       <nav className="c2-top">
         <HoekThuis />
-        <a className="c2-reach" href="mailto:info@kimberleyvanruiven.nl">Neem contact op</a>
+        <MailLink tekst="Neem contact op" />
       </nav>
 
       <header className="c2-section c2-tekst-kop">

@@ -103,6 +103,19 @@
   .c2-sectiemenu-woorden a { font-size: 0.78rem; letter-spacing: 0.04em; }
 }
 
+/* Topbalk van de TEKSTPAGINA'S op mobiel (18 juli).
+   Daar stonden oog + naam (130px), taalwissel (98px) en contactlink (130px) naast
+   elkaar: samen 358px terwijl er op een telefoon 326px is, dus de balk brak naar twee
+   regels (102px hoog). Onder 700px verdwijnt daarom de naam naast het oog en wordt de
+   contactlink een envelopje. Alleen hier: op de homepage staat "Neem contact op"
+   bewust voluit, die balk paste al. */
+.c2-reach-icoon { display: none; }
+@media (max-width: 700px) {
+  .c2-hoek-naam { display: none; }
+  .c2-reach--mail .c2-reach-woord { display: none; }
+  .c2-reach--mail .c2-reach-icoon { display: block; }
+}
+
 /* Hoekvariant B: knipperoog als thuis-link linksboven (alle pagina's behalve home) */
 .c2-hoek { display: inline-flex; align-items: center; gap: 0.65rem; }
 .c2-hoek-oog { display: block; flex-shrink: 0; animation: c2-hoek-knipper 7s ease-in-out infinite; transform-origin: center; }

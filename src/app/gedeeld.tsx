@@ -80,7 +80,8 @@ export function TaalWissel({ locale, anderePad }: { locale: Locale; anderePad?: 
 export function HoekThuis({ locale = 'nl' }: { locale?: Locale }) {
   return (
     <Link className="c2-reach c2-hoek" href={thuis(locale)}>
-      <svg className="c2-hoek-oog" width="26" height="16.12" viewBox="0 0 56 34" fill="none" stroke="#00218F" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      {/* 36px breed, gelijk aan het menu-oog in de topbalk van de homepage */}
+      <svg className="c2-hoek-oog" width="36" height="21.86" viewBox="0 0 56 34" fill="none" stroke="#00218F" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M2 17 Q28 -1 54 17 Q28 35 2 17 Z" />
         <g clipPath="url(#c2-hoek-oogvorm)">
           <circle className="c2-hoek-pupil" cx="28" cy="17" r="8" fill="#131313" stroke="none" />
@@ -88,8 +89,26 @@ export function HoekThuis({ locale = 'nl' }: { locale?: Locale }) {
         </g>
         <defs><clipPath id="c2-hoek-oogvorm"><path d="M2 17 Q28 -1 54 17 Q28 35 2 17 Z" /></clipPath></defs>
       </svg>
-      <span>Kimberley van Ruiven</span>
+      {/* De naam verdwijnt onder 700px: daar brak de balk anders naar twee regels
+          (oog+naam 130 + taalwissel 98 + contactlink 130 = 358px, beschikbaar 326). */}
+      <span className="c2-hoek-naam">Kimberley van Ruiven</span>
     </Link>
+  );
+}
+
+/* De contactlink uit de topbalk van alle subpagina's (tekstpagina's, CO₂-calculator,
+   quiz): op mobiel een envelopje in plaats van woorden. Op de homepage blijft
+   "Neem contact op" bewust wél voluit staan; daar past het en daar is het de enige
+   tekst-CTA bovenaan. */
+export function MailLink({ tekst }: { tekst: string }) {
+  return (
+    <a className="c2-reach c2-reach--mail" href="mailto:info@kimberleyvanruiven.nl" aria-label={tekst}>
+      <span className="c2-reach-woord">{tekst}</span>
+      <svg className="c2-reach-icoon" width="22" height="16" viewBox="0 0 24 18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <rect x="1" y="1" width="22" height="16" rx="1.5" />
+        <path d="M1.6 2 L12 10 L22.4 2" />
+      </svg>
+    </a>
   );
 }
 
@@ -185,7 +204,7 @@ export function C2Tekstpagina({ label, regels, bijgewerkt, intro, scatter, child
         <HoekThuis locale={locale} />
         <span className="c2-top-rechts">
           <TaalWissel locale={locale} anderePad={anderePad} />
-          <a className="c2-reach" href="mailto:info@kimberleyvanruiven.nl">{s.contact}</a>
+          <MailLink tekst={s.contact} />
         </span>
       </nav>
 

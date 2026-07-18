@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import '../concept2.css';
-import { Glyph, Scatter, fontVars, useLichteAchtergrond, HoekThuis, HOME } from '../gedeeld';
+import { Glyph, Scatter, fontVars, useLichteAchtergrond, HoekThuis, HOME, MailLink } from '../gedeeld';
 
 const CAL_LINK = 'https://calendar.app.google/douZqiDQ7p39Xf6u7';
 
@@ -375,7 +375,7 @@ export default function QuizClient() {
 
       <nav className="c2-top">
         <HoekThuis />
-        <a className="c2-reach" href="mailto:info@kimberleyvanruiven.nl">Neem contact op</a>
+        <MailLink tekst="Neem contact op" />
       </nav>
 
       {fase === 'intro' && (
