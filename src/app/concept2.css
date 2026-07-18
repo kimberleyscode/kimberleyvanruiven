@@ -70,6 +70,39 @@
 }
 .c2-reach:hover { color: var(--c2-blue); }
 
+/* ── Sectiemenu in de topbalk (18 juli) ──
+   Het oog staat rechts, vlak vóór de contactlink, en de vier secties klappen
+   zijwaarts naar links uit. Het oog is 36×24px; de taalwissel is 22px hoog, dus de
+   balk groeit maar 2px. Knipperen en pupil komen van .c2-oog / .c2-pupil, die al
+   voor de bril onderaan de pagina bestaan. */
+.c2-sectiemenu { display: flex; align-items: center; gap: 1.1rem; }
+.c2-sectiemenu-knop {
+  background: none; border: none; padding: 0; cursor: pointer;
+  display: flex; align-items: center;
+  line-height: 1;
+}
+.c2-sectiemenu-knop:hover { opacity: 0.7; }
+.c2-sectiemenu-knop svg { display: block; }
+.c2-sectiemenu-woorden { display: flex; align-items: center; gap: 1.1rem; }
+.c2-sectiemenu-woorden a {
+  font-size: 0.85rem; font-weight: 500; letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--c2-grey); text-decoration: none;
+  white-space: nowrap;
+}
+.c2-sectiemenu-woorden a:hover { color: var(--c2-blue); }
+
+/* Op smalle schermen passen taalwissel, oog, woorden en contactlink niet samen op één
+   regel (samen ~565px, telefoon 390px). Zolang het menu open staat maken de taalwissel
+   en de contactlink daarom plaats. Escape en een klik op een sectie sluiten het weer. */
+@media (max-width: 700px) {
+  .c2-root nav.c2-top--wijkt .c2-lang,
+  .c2-root nav.c2-top--wijkt .c2-reach { display: none; }
+  .c2-top--wijkt .c2-top-rechts { width: 100%; justify-content: space-between; }
+  .c2-sectiemenu, .c2-sectiemenu-woorden { gap: 0.85rem; }
+  .c2-sectiemenu-woorden a { font-size: 0.78rem; letter-spacing: 0.04em; }
+}
+
 /* Hoekvariant B: knipperoog als thuis-link linksboven (alle pagina's behalve home) */
 .c2-hoek { display: inline-flex; align-items: center; gap: 0.65rem; }
 .c2-hoek-oog { display: block; flex-shrink: 0; animation: c2-hoek-knipper 7s ease-in-out infinite; transform-origin: center; }

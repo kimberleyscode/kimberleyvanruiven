@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import './concept2.css';
 import { Glyph, Scatter, useKinetiek, useLichteAchtergrond, useHtmlTaal, SCHIL, fontVars } from './gedeeld';
@@ -10,6 +10,61 @@ import { DIENST_SLUGS } from '../content/paden';
 import type { Alinea, KinRegel, Locale } from '../content/types';
 
 const CAL_LINK = "https://calendar.app.google/douZqiDQ7p39Xf6u7";
+
+/* Het sectiemenu in de topbalk (gekozen 18 juli): het oog uit het bril-kunstwerk staat
+   rechts in de balk, vlak vóór de contactlink, en klapt zijwaarts uit naar de vier
+   secties van deze pagina.
+
+   Op smalle schermen past dat niet: taalwissel, oog, woorden en contactlink vragen samen
+   ongeveer 565px en een telefoon is er 390. Daarom maken de taalwissel en de contactlink
+   daar plaats zolang het menu open staat (.c2-top--wijkt). Dat is Kimberleys keuze; het
+   alternatief (woorden onder de balk) staat in de aantekeningen.
+
+   Het oog is 36px breed en daarmee 24px hoog, vrijwel gelijk aan de 22px van de
+   taalwissel, zodat de balk niet merkbaar hoger wordt. Knipperen doet .c2-oog vanzelf,
+   en de pupil wordt door hetzelfde effect aangestuurd als de bril onderaan de pagina. */
+function SectieMenu({
+  t,
+  open,
+  zetOpen,
+}: {
+  t: (typeof HOME_INHOUD)[Locale]['nav'];
+  open: boolean;
+  zetOpen: (v: boolean) => void;
+}) {
+  return (
+    <span className="c2-sectiemenu">
+      {open && (
+        <span className="c2-sectiemenu-woorden">
+          {t.secties.map((s) => (
+            <a key={s.anker} href={s.anker} onClick={() => zetOpen(false)}>{s.tekst}</a>
+          ))}
+        </span>
+      )}
+      <button
+        type="button"
+        className="c2-sectiemenu-knop"
+        onClick={() => zetOpen(!open)}
+        aria-expanded={open}
+        aria-label={open ? t.menuSluiten : t.menuLabel}
+      >
+        <svg width="36" height="23.8" viewBox="0 0 56 37" fill="none" stroke="#00218F" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <g className="c2-oog">
+            <path d="M0 18 Q28 0 56 18 Q28 34 0 18 Z" />
+            <g clipPath="url(#c2-menuoog)">
+              <g className="c2-pupil">
+                <circle cx="28" cy="17" r="8" fill="#131313" stroke="none" />
+                <circle cx="31" cy="14" r="2.2" fill="#FCFCFC" stroke="none" />
+              </g>
+            </g>
+            <path d="M6 28 Q28 36 50 28" strokeWidth="1.7" opacity="0.6" />
+          </g>
+          <defs><clipPath id="c2-menuoog"><path d="M0 18 Q28 0 56 18 Q28 34 0 18 Z" /></clipPath></defs>
+        </svg>
+      </button>
+    </span>
+  );
+}
 
 /* Kinetische titel: elke regel schuift met de scroll zijn eigen kant op. De regelopdeling
    komt uit het woordenboek, want die is taalgebonden. Inspringing volgt uit de index. */
@@ -128,6 +183,17 @@ export default function Concept2Client({ locale = 'nl' }: { locale?: Locale }) {
   useKinetiek();
   useHtmlTaal(locale);
 
+  /* Sectiemenu in de topbalk. Escape sluit het: op smalle schermen verdwijnen de
+     taalwissel en de contactlink zolang het open staat, dus er moet een uitweg zijn
+     zonder precies het oog te hoeven raken. Klikken op een sectie sluit het ook. */
+  const [menuOpen, setMenuOpen] = useState(false);
+  useEffect(() => {
+    if (!menuOpen) return;
+    const opToets = (e: KeyboardEvent) => { if (e.key === 'Escape') setMenuOpen(false); };
+    window.addEventListener('keydown', opToets);
+    return () => window.removeEventListener('keydown', opToets);
+  }, [menuOpen]);
+
   /* Drag-carousels */
   useEffect(() => {
     const cleanups: Array<() => void> = [];
@@ -177,7 +243,7 @@ export default function Concept2Client({ locale = 'nl' }: { locale?: Locale }) {
   return (
     <div className={`c2-root ${fontVars}`} ref={rootRef} lang={locale}>
 
-      <nav className="c2-top">
+      <nav className={`c2-top${menuOpen ? ' c2-top--wijkt' : ''}`}>
         {/* Echte taalwissel: de hele pil is klikbaar naar de andere taal. */}
         <Link
           className="c2-lang"
@@ -189,7 +255,10 @@ export default function Concept2Client({ locale = 'nl' }: { locale?: Locale }) {
           <span className={`c2-lang-pill${locale === 'en' ? ' c2-lang-pill--en' : ''}`} aria-hidden="true" />
           <span className={locale === 'en' ? 'is-active' : 'is-idle'}>EN</span>
         </Link>
-        <a className="c2-reach" href="mailto:info@kimberleyvanruiven.nl">{t.nav.contact}</a>
+        <span className="c2-top-rechts">
+          <SectieMenu t={t.nav} open={menuOpen} zetOpen={setMenuOpen} />
+          <a className="c2-reach" href="mailto:info@kimberleyvanruiven.nl">{t.nav.contact}</a>
+        </span>
       </nav>
 
       {/* Hero */}
@@ -253,7 +322,7 @@ export default function Concept2Client({ locale = 'nl' }: { locale?: Locale }) {
       </section>
 
       {/* Over */}
-      <section className="c2-section">
+      <section className="c2-section" id="over">
         <Scatter items={[[6, 4.4, '88%', '22%'], [10, 2.8, '88%', '92%']]} />
         <div className="c2-kinetic" aria-label={t.over.titel.map((r) => r.tekst).join(' ')}>
           <Kinetisch regels={t.over.titel} />
@@ -282,7 +351,7 @@ export default function Concept2Client({ locale = 'nl' }: { locale?: Locale }) {
       </div>
 
       {/* Diensten */}
-      <section className="c2-section">
+      <section className="c2-section" id="diensten">
         <Scatter items={[[10, 5.6, '80%', '3%'], [15, 3, '68%', '72%']]} />
         <div className="c2-kinetic" aria-label={t.diensten.titel.map((r) => r.tekst).join('')}>
           <Kinetisch regels={t.diensten.titel} />
@@ -322,7 +391,7 @@ export default function Concept2Client({ locale = 'nl' }: { locale?: Locale }) {
       </div>
 
       {/* Werk */}
-      <section className="c2-section">
+      <section className="c2-section" id="werk">
         <Scatter items={[[1, 4.6, '84%', '4%']]} />
         <div className="c2-kinetic" aria-label={t.werk.titel.map((r) => r.tekst).join(' ')}>
           {/* Werk-titel springt bewust in, ook als er maar één regel is */}
@@ -366,7 +435,7 @@ export default function Concept2Client({ locale = 'nl' }: { locale?: Locale }) {
       </section>
 
       {/* Gedachten & artikelen (verhalend, forn-stories-stijl) */}
-      <section className="c2-section">
+      <section className="c2-section" id="artikelen">
         <Scatter items={[[18, 4.5, '82%', '8%']]} />
         <Link className="c2-kinetic c2-kinetic--link" href={paden.artikelen} aria-label={t.gedachten.label}>
           <Kinetisch regels={t.gedachten.titel} />

@@ -11,7 +11,17 @@ import type { HomeInhoud, Locale } from './types';
    knipt bewust midden in een woord ("Dien / sten"), dus dat mag in het Engels ook. */
 
 const NL: HomeInhoud = {
-  nav: { contact: 'Neem contact op' },
+  nav: {
+    contact: 'Neem contact op',
+    menuLabel: 'Menu openen',
+    menuSluiten: 'Menu sluiten',
+    secties: [
+      { tekst: 'Over', anker: '#over' },
+      { tekst: 'Diensten', anker: '#diensten' },
+      { tekst: 'Werk', anker: '#werk' },
+      { tekst: 'Artikelen', anker: '#artikelen' },
+    ],
+  },
 
   hero: {
     eyebrow: 'Kimberley van Ruiven · Adviseur verantwoorde AI voor het mkb · Rotterdam',
@@ -169,7 +179,19 @@ const NL: HomeInhoud = {
    ------------------------------------------------------------------------------------ */
 
 const EN: HomeInhoud = {
-  nav: { contact: 'Get in touch' },
+  nav: {
+    contact: 'Get in touch',
+    menuLabel: 'Open menu',
+    menuSluiten: 'Close menu',
+    /* De ankers zijn dezelfde als in het Nederlands: het zijn id's in de pagina,
+       geen URL's die een bezoeker leest. */
+    secties: [
+      { tekst: 'About', anker: '#over' },
+      { tekst: 'Services', anker: '#diensten' },
+      { tekst: 'Work', anker: '#werk' },
+      { tekst: 'Articles', anker: '#artikelen' },
+    ],
+  },
 
   hero: {
     /* Voluit, niet "SMEs": de CSS zet de eyebrow in kapitalen en dan wordt dat "SMES". */
