@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import '../concept2.css';
-import { Glyph, Scatter, fontVars, useLichteAchtergrond, HoekThuis, HOME, MailLink } from '../gedeeld';
+import { Glyph, Scatter, fontVars, useLichteAchtergrond, useMenu, OogMenu, NaamThuis, HOME, MailLink } from '../gedeeld';
 
 const CAL_LINK = 'https://calendar.app.google/douZqiDQ7p39Xf6u7';
 
@@ -201,6 +201,7 @@ function Bril() {
 
 export default function QuizClient() {
   useLichteAchtergrond();
+  const { open: menuOpen, setOpen: zetMenuOpen } = useMenu();
 
   const [fase, setFase] = useState<'intro' | 'vraag' | 'resultaat'>('intro');
   const [qIndex, setQIndex] = useState(0);
@@ -373,9 +374,14 @@ export default function QuizClient() {
 
       <div className={`qzs-toast${toast ? ' is-zichtbaar' : ''}`} aria-live="polite">{toast}</div>
 
-      <nav className="c2-top">
-        <HoekThuis />
-        <MailLink tekst="Neem contact op" />
+      <nav className={`c2-top${menuOpen ? ' c2-top--wijkt' : ''}`}>
+        <span className="c2-top-links">
+          <OogMenu open={menuOpen} zetOpen={zetMenuOpen} />
+          {!menuOpen && <NaamThuis />}
+        </span>
+        <span className="c2-top-rechts">
+          <MailLink tekst="Neem contact op" />
+        </span>
       </nav>
 
       {fase === 'intro' && (

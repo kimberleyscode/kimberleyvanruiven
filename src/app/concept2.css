@@ -70,11 +70,14 @@
 }
 .c2-reach:hover { color: var(--c2-blue); }
 
-/* ── Sectiemenu in de topbalk (18 juli) ──
-   Het oog staat rechts, vlak vóór de contactlink, en de vier secties klappen
-   zijwaarts naar links uit. Het oog is 36×24px; de taalwissel is 22px hoog, dus de
-   balk groeit maar 2px. Knipperen en pupil komen van .c2-oog / .c2-pupil, die al
-   voor de bril onderaan de pagina bestaan. */
+/* ── Sectiemenu in de topbalk (oog links, 19 juli) ──
+   Het oog staat op elke pagina links in de balk en de woorden klappen zijwaarts
+   naar rechts uit; de taalwissel staat rechts, vóór de contactlink. Op de
+   subpagina's staat de naam naast het oog als thuis-link; die maakt plaats zolang
+   het menu open staat. Knipperen en pupil komen van .c2-oog / .c2-pupil, die al
+   voor de bril onderaan de homepage bestaan. */
+.c2-top-links { display: flex; align-items: center; gap: 0.65rem; min-width: 0; }
+.c2-top-naam { white-space: nowrap; }
 .c2-sectiemenu { display: flex; align-items: center; gap: 1.1rem; }
 .c2-sectiemenu-knop {
   background: none; border: none; padding: 0; cursor: pointer;
@@ -92,13 +95,12 @@
 }
 .c2-sectiemenu-woorden a:hover { color: var(--c2-blue); }
 
-/* Op smalle schermen passen taalwissel, oog, woorden en contactlink niet samen op één
-   regel (samen ~565px, telefoon 390px). Zolang het menu open staat maken de taalwissel
-   en de contactlink daarom plaats. Escape en een klik op een sectie sluiten het weer. */
+/* Op smalle schermen passen oog, woorden, taalwissel en contactlink niet samen op één
+   regel (samen ~565px, telefoon 390px). Zolang het menu open staat maakt de rechterkant
+   (taalwissel + contactlink) daarom plaats. Escape en een klik op een woord sluiten het
+   weer. */
 @media (max-width: 700px) {
-  .c2-root nav.c2-top--wijkt .c2-lang,
-  .c2-root nav.c2-top--wijkt .c2-reach { display: none; }
-  .c2-top--wijkt .c2-top-rechts { width: 100%; justify-content: space-between; }
+  .c2-root nav.c2-top--wijkt .c2-top-rechts { display: none; }
   .c2-sectiemenu, .c2-sectiemenu-woorden { gap: 0.85rem; }
   .c2-sectiemenu-woorden a { font-size: 0.78rem; letter-spacing: 0.04em; }
 }
@@ -111,20 +113,9 @@
    bewust voluit, die balk paste al. */
 .c2-reach-icoon { display: none; }
 @media (max-width: 700px) {
-  .c2-hoek-naam { display: none; }
+  .c2-top-naam { display: none; }
   .c2-reach--mail .c2-reach-woord { display: none; }
   .c2-reach--mail .c2-reach-icoon { display: block; }
-}
-
-/* Hoekvariant B: knipperoog als thuis-link linksboven (alle pagina's behalve home) */
-.c2-hoek { display: inline-flex; align-items: center; gap: 0.65rem; }
-.c2-hoek-oog { display: block; flex-shrink: 0; animation: c2-hoek-knipper 7s ease-in-out infinite; transform-origin: center; }
-@keyframes c2-hoek-knipper { 0%, 95%, 100% { transform: scaleY(1); } 97.5% { transform: scaleY(0.1); } }
-.c2-hoek-pupil { transition: transform 0.25s ease-out; }
-.c2-hoek:hover .c2-hoek-pupil { transform: translateX(-7px); }
-@media (prefers-reduced-motion: reduce) {
-  .c2-hoek-oog { animation: none; }
-  .c2-hoek-pupil { transition: none; }
 }
 
 /* ── Display-typografie ── */

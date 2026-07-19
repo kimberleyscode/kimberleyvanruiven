@@ -40,12 +40,8 @@ export type MetaRegel = { dt: string; dd: string };
 
 export type Citaat = { tekst: string; naam: string; vertaald?: string };
 
-/* Eén ingang van het sectiemenu in de topbalk: de zichtbare tekst en het anker
-   op de homepage. De ankers (#over, #diensten, ...) zijn taalonafhankelijk. */
-export type MenuIngang = { tekst: string; anker: string };
-
 export type HomeInhoud = {
-  nav: { contact: string; menuLabel: string; menuSluiten: string; secties: MenuIngang[] };
+  nav: { contact: string };
   hero: { eyebrow: string; titel: KinRegel[] };
   statement: { eyebrow: string; titel: KinRegel[]; kaart: string; orbit: string; orbitLabel: string };
   over: { titel: KinRegel[]; eyebrow: string; fotoAlt: string; alineas: Alinea[]; meta: MetaRegel[] };
