@@ -1,0 +1,80 @@
+/* Tijdelijke holdingpagina. Leunt op concept2.css voor palet, fonts, kinetische
+   titel en de zwevende aksara; hier staat alleen wat deze ene pagina extra nodig
+   heeft. Weggooien mag zodra de site weer open gaat. */
+
+.ia-blad {
+  position: relative;
+  isolation: isolate;
+  min-height: calc(100vh - 12rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 7rem 2rem 4rem;
+}
+
+.ia-merk { display: inline-flex; align-items: center; }
+.ia-merk svg { display: block; }
+
+/* De titel staat tussen de hero-maat en de tekstpagina-maat in: hij moet groot zijn,
+   maar wel op één scherm passen samen met de tekst en de knoppen eronder. */
+.ia-titel { margin: 0 0 2.4rem; }
+.ia-titel .c2-line { font-size: clamp(2.5rem, 8.4vw, 6.4rem); }
+
+.ia-tekst {
+  max-width: 34rem;
+  margin: 0 0 1.4rem;
+  font-size: 1.06rem;
+}
+.ia-tekst:last-of-type { margin-bottom: 0; }
+
+.ia-acties {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.6rem;
+  margin-top: 2.6rem;
+}
+.ia-icon-rij { display: flex; flex-wrap: nowrap; gap: 1.1rem; }
+
+/* Anders dan op de rest van de site vullen de knop en de rondjes zich hier niet
+   kobalt bij hover: ze blijven doorzichtig en worden alleen iets lichter.
+   Kimberleys keuze voor deze pagina (20 juli). */
+.ia-cta:hover,
+.ia-icon-btn:hover {
+  background: none;
+  border-color: var(--c2-ink);
+  color: var(--c2-ink);
+  opacity: 0.7;
+}
+.ia-icon-btn:hover { transform: translateY(-3px); }
+
+/* De kolom aksara rechts, zoals in de hero van de homepage */
+.ia-symbool-kolom {
+  position: absolute;
+  right: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  pointer-events: none;
+}
+
+/* Op een telefoon loopt de tekst over de volle breedte, dus de aksara-kolom zou
+   dwars door de zinnen vallen. Die gaat daar weg.
+
+   De regel die de lage strooitekens naar de onderrand schuift, staat in concept2.css
+   op `.c2-section > .c2-scatter--laag`, en dit blad is geen .c2-section. Daarom hier
+   dezelfde regel: de tekens gaan naar de strook tussen de tekst en de footer, met
+   ieder hun eigen plek zodat ze niet op elkaar vallen. */
+@media (max-width: 700px) {
+  .ia-blad { padding: 6rem 1.4rem 3rem; }
+  .ia-symbool-kolom { display: none; }
+  .ia-acties { gap: 1.3rem; }
+
+  .ia-blad > span.c2-scatter--laag { top: auto !important; bottom: -1.4rem; }
+  .ia-blad > span:nth-of-type(2) { left: 6% !important; }
+  .ia-blad > span:nth-of-type(3) { left: 44% !important; }
+  .ia-blad > span:nth-of-type(4) { left: 74% !important; }
+}

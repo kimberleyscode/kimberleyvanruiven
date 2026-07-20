@@ -1,0 +1,25 @@
+# TIJDELIJK (20 juli 2026): de site staat achter de aanbouwpagina.
+#
+# Reden: Kimberley past haar aanbod aan en wil dat haar dienstenpagina's even niet
+# zichtbaar zijn. Alles komt daarom op /in-aanbouw uit.
+#
+# TERUGDRAAIEN: verwijder de regels hieronder (het bestand mag helemaal weg) en push
+# naar main. Binnen een paar minuten staat de hele site er weer, ongewijzigd.
+#
+# Let op: het is bewust 302 en niet 301. Een 302 zegt "tijdelijk" tegen Google, dus
+# de echte pagina's blijven in de index staan en komen zonder kleerscheuren terug.
+# Een 301 zou permanent betekenen en de pagina's laten vervangen.
+#
+# De volgorde telt: de eerste regel die past, wint. Vandaar dat de uitzonderingen
+# bovenaan staan, anders zou de vangregel ook de aanbouwpagina zelf doorsturen en
+# een oneindige lus maken.
+#
+# Privacybeleid en algemene voorwaarden blijven bereikbaar: die zeggen niets over
+# het aanbod en het staat netjes om ze online te houden.
+
+/in-aanbouw    /in-aanbouw    200
+/privacy    /privacy    200
+/algemene-voorwaarden    /algemene-voorwaarden    200
+/en/privacy    /en/privacy    200
+
+/*    /in-aanbouw    302
