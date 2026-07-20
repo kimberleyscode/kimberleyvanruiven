@@ -3,23 +3,37 @@
 # Reden: Kimberley past haar aanbod aan en wil dat haar dienstenpagina's even niet
 # zichtbaar zijn. Alles komt daarom op /in-aanbouw uit.
 #
-# TERUGDRAAIEN: verwijder de regels hieronder (het bestand mag helemaal weg) en push
-# naar main. Binnen een paar minuten staat de hele site er weer, ongewijzigd.
+# TERUGDRAAIEN: verwijder dit bestand en push naar main. Binnen een paar minuten
+# staat de hele site er weer, ongewijzigd.
 #
 # Let op: het is bewust 302 en niet 301. Een 302 zegt "tijdelijk" tegen Google, dus
 # de echte pagina's blijven in de index staan en komen zonder kleerscheuren terug.
 # Een 301 zou permanent betekenen en de pagina's laten vervangen.
 #
-# De volgorde telt: de eerste regel die past, wint. Vandaar dat de uitzonderingen
-# bovenaan staan, anders zou de vangregel ook de aanbouwpagina zelf doorsturen en
-# een oneindige lus maken.
+# De volgorde telt: de eerste regel die past, wint. Een regel met status 200 betekent
+# "serveer dit gewoon", dus die werkt hier als uitzondering op de vangregel onderaan.
 #
+# BELANGRIJK, op de preview gemeten: de vangregel gaat VÓÓR de bestanden zelf. Zonder
+# de eerste blok hieronder ving hij ook /_next/... op, kreeg de browser HTML terug in
+# plaats van JavaScript en weigerde hij de scripts uit te voeren ("MIME type
+# text/html is not executable"). De pagina laadde dan zonder stijl en zonder beweging.
+
+# Alles wat een bestand is, moet gewoon een bestand blijven.
+/_next/*    /_next/:splat    200
+/robots.txt    /robots.txt    200
+/sitemap.xml    /sitemap.xml    200
+/favicon.ico    /favicon.ico    200
+/icon.svg    /icon.svg    200
+/opengraph-image.jpg    /opengraph-image.jpg    200
+
+# De aanbouwpagina zelf, anders stuurt de vangregel hem naar zichzelf door.
+/in-aanbouw    /in-aanbouw    200
+
 # Privacybeleid en algemene voorwaarden blijven bereikbaar: die zeggen niets over
 # het aanbod en het staat netjes om ze online te houden.
-
-/in-aanbouw    /in-aanbouw    200
 /privacy    /privacy    200
 /algemene-voorwaarden    /algemene-voorwaarden    200
 /en/privacy    /en/privacy    200
 
+# En al het overige komt op de aanbouwpagina uit.
 /*    /in-aanbouw    302
