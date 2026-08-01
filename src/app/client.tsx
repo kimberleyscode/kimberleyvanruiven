@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import './concept2.css';
-import { Glyph, Scatter, useKinetiek, useLichteAchtergrond, useHtmlTaal, useMenu, OogMenu, SCHIL, fontVars } from './gedeeld';
+import { Glyph, Scatter, useKinetiek, useLichteAchtergrond, useHtmlTaal, useOogVolgtMuis, Oog, MenuWoorden, MailLink, SCHIL, fontVars } from './gedeeld';
 import { DIENSTEN } from './diensten/diensten';
 import { HOME_INHOUD } from '../content/home';
 import { DIENST_SLUGS } from '../content/paden';
@@ -128,10 +128,6 @@ export default function Concept2Client({ locale = 'nl' }: { locale?: Locale }) {
   useKinetiek();
   useHtmlTaal(locale);
 
-  /* Sectiemenu in de topbalk (het oog links, gekozen 19 juli); Escape-gedrag zit in
-     useMenu. De woorden zijn hier ankers op de pagina zelf. */
-  const { open: menuOpen, setOpen: setMenuOpen } = useMenu();
-
   /* Drag-carousels */
   useEffect(() => {
     const cleanups: Array<() => void> = [];
@@ -154,35 +150,19 @@ export default function Concept2Client({ locale = 'nl' }: { locale?: Locale }) {
     return () => cleanups.forEach((fn) => fn());
   }, []);
 
-  /* Pupillen van de bril kijken naar de muis */
-  useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const ogen = Array.from(document.querySelectorAll<SVGGElement>('.c2-oog')).map((oog) => ({
-      vorm: oog.querySelector<SVGPathElement>('path'),
-      pupil: oog.querySelector<SVGGElement>('.c2-pupil'),
-    })).filter((p) => p.vorm && p.pupil);
-    if (!ogen.length) return;
-    let raf = 0, mx = -1, my = -1;
-    const update = () => {
-      ogen.forEach(({ vorm, pupil }) => {
-        const r = vorm!.getBoundingClientRect();
-        const dx = mx - (r.left + r.width / 2), dy = my - (r.top + r.height / 2);
-        const d = Math.hypot(dx, dy) || 1;
-        const f = Math.min(1, d / 320);
-        pupil!.style.transform = `translate(${(dx / d) * f * 10}px, ${(dy / d) * f * 4}px)`;
-      });
-      raf = 0;
-    };
-    const onMove = (e: PointerEvent) => { mx = e.clientX; my = e.clientY; if (!raf) raf = requestAnimationFrame(update); };
-    window.addEventListener('pointermove', onMove, { passive: true });
-    return () => { window.removeEventListener('pointermove', onMove); if (raf) cancelAnimationFrame(raf); };
-  }, []);
+  /* Pupillen van de bril en van het topbalk-oog kijken naar de muis */
+  useOogVolgtMuis();
 
   return (
     <div className={`c2-root ${fontVars}`} ref={rootRef} lang={locale}>
 
-      <nav className={`c2-top${menuOpen ? ' c2-top--wijkt' : ''}`}>
-        <OogMenu locale={locale} opHome open={menuOpen} zetOpen={setMenuOpen} />
+      {/* De modifier --woorden geeft de balk onder 700px ruimte voor de woordenregel;
+         alleen hier, want alleen de homepage toont de menuwoorden (1 augustus). */}
+      <nav className="c2-top c2-top--woorden">
+        <span className="c2-top-links">
+          <Oog />
+          <MenuWoorden locale={locale} />
+        </span>
         <span className="c2-top-rechts">
           {/* Echte taalwissel: de hele pil is klikbaar naar de andere taal. */}
           <Link
@@ -195,7 +175,7 @@ export default function Concept2Client({ locale = 'nl' }: { locale?: Locale }) {
             <span className={`c2-lang-pill${locale === 'en' ? ' c2-lang-pill--en' : ''}`} aria-hidden="true" />
             <span className={locale === 'en' ? 'is-active' : 'is-idle'}>EN</span>
           </Link>
-          <a className="c2-reach" href="mailto:info@kimberleyvanruiven.nl">{t.nav.contact}</a>
+          <MailLink tekst={t.nav.contact} />
         </span>
       </nav>
 

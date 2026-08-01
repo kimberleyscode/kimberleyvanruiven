@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Link from 'next/link';
 import { Righteous, Noto_Sans_Javanese } from 'next/font/google';
 import './concept2.css';
@@ -31,8 +31,6 @@ export const SCHIL = {
       { href: '/algemene-voorwaarden', tekst: 'Algemene voorwaarden' },
     ],
     home: 'Home',
-    menuLabel: 'Menu openen',
-    menuSluiten: 'Menu sluiten',
     secties: [
       { tekst: 'Over', anker: '#over' },
       { tekst: 'Diensten', anker: '#diensten' },
@@ -50,8 +48,6 @@ export const SCHIL = {
       { href: '/en/privacy', tekst: 'Privacy policy' },
     ],
     home: 'Home',
-    menuLabel: 'Open menu',
-    menuSluiten: 'Close menu',
     secties: [
       { tekst: 'About', anker: '#over' },
       { tekst: 'Services', anker: '#diensten' },
@@ -90,85 +86,63 @@ export function TaalWissel({ locale, anderePad }: { locale: Locale; anderePad?: 
   );
 }
 
-/* Het sectiemenu (gekozen 19 juli): het oog uit het bril-kunstwerk staat op elke
-   pagina links in de balk en klapt zijwaarts naar rechts uit. Op de homepage zijn de
-   woorden ankers op de pagina zelf; op de subpagina's wijzen ze naar de homepage en
-   staat Home voorop, zodat de weg naar huis er ook op een telefoon is (de naam naast
-   het oog verdwijnt daar).
+/* Het sectiemenu (aangepast 1 augustus): het oog uit het bril-kunstwerk staat op elke
+   pagina links in de balk. Alleen op de homepage staan de sectiewoorden er standaard
+   zichtbaar naast, als ankers op de pagina zelf; er klapt niets meer open of dicht
+   (Kimberleys keuze van 1 augustus, eerder klapte het menu zijwaarts uit achter een
+   klik op het oog). Op de subpagina's staat er alleen het woord Home naast het oog,
+   als weg terug naar huis.
 
-   Het oog heeft de vorm van het vroegere hoek-oog (amandeloog zonder onderlidje) met
-   de lijndikte van het vroegere menu-oog (2.4): Kimberleys keuze van 19 juli.
-   Knipperen komt van .c2-oog; op de homepage stuurt het pupil-effect van de bril de
-   pupil ook hier aan, op de subpagina's staat de pupil stil. */
-export function useMenu() {
-  const [open, setOpen] = useState(false);
-  /* Escape sluit het: op smalle schermen verdwijnen de taalwissel en de contactlink
-     zolang het open staat, dus er moet een uitweg zijn zonder precies het oog te
-     hoeven raken. Klikken op een woord sluit het ook. */
-  useEffect(() => {
-    if (!open) return;
-    const opToets = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false); };
-    window.addEventListener('keydown', opToets);
-    return () => window.removeEventListener('keydown', opToets);
-  }, [open]);
-  return { open, setOpen };
-}
+   Het oog is daarmee puur decoratie geworden (aria-hidden, geen knop meer). Het houdt
+   de vorm van het hoek-oog (amandeloog zonder onderlidje) met lijndikte 2.4: Kimberleys
+   keuze van 19 juli. Knipperen komt van .c2-oog; de pupil kijkt op elke pagina met de
+   muis mee via useOogVolgtMuis (sinds 1 augustus, eerst alleen op de homepage).
 
-export function OogMenu({ locale = 'nl', opHome = false, open, zetOpen }: {
-  locale?: Locale;
-  opHome?: boolean;
-  open: boolean;
-  zetOpen: (v: boolean) => void;
-}) {
-  const s = SCHIL[locale];
-  const items: Array<{ tekst: string; href: string }> = opHome
-    ? s.secties.map((x) => ({ tekst: x.tekst, href: x.anker }))
-    : [{ tekst: s.home, href: thuis(locale) }, ...s.secties.map((x) => ({ tekst: x.tekst, href: `${thuis(locale)}${x.anker}` }))];
+   Onder 700px passen de woorden op de homepage niet naast de taalwissel en de
+   contactlink; daar staan ze op een eigen regel onder de balk (zie concept2.css). */
+export function Oog() {
   return (
-    <span className="c2-sectiemenu">
-      <button
-        type="button"
-        className="c2-sectiemenu-knop"
-        onClick={() => zetOpen(!open)}
-        aria-expanded={open}
-        aria-label={open ? s.menuSluiten : s.menuLabel}
-      >
-        <svg width="36" height="21.86" viewBox="0 0 56 34" fill="none" stroke="#00218F" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <g className="c2-oog">
-            <path d="M2 17 Q28 -1 54 17 Q28 35 2 17 Z" />
-            <g clipPath="url(#c2-menuoog)">
-              <g className="c2-pupil">
-                <circle cx="28" cy="17" r="8" fill="#131313" stroke="none" />
-                <circle cx="31" cy="14" r="2.2" fill="#FCFCFC" stroke="none" />
-              </g>
+    <span className="c2-sectiemenu-oog" aria-hidden="true">
+      <svg width="36" height="21.86" viewBox="0 0 56 34" fill="none" stroke="#00218F" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <g className="c2-oog">
+          <path d="M2 17 Q28 -1 54 17 Q28 35 2 17 Z" />
+          <g clipPath="url(#c2-menuoog)">
+            <g className="c2-pupil">
+              <circle cx="28" cy="17" r="8" fill="#131313" stroke="none" />
+              <circle cx="31" cy="14" r="2.2" fill="#FCFCFC" stroke="none" />
             </g>
           </g>
-          <defs><clipPath id="c2-menuoog"><path d="M2 17 Q28 -1 54 17 Q28 35 2 17 Z" /></clipPath></defs>
-        </svg>
-      </button>
-      {open && (
-        <span className="c2-sectiemenu-woorden">
-          {items.map((x) => x.href.startsWith('#')
-            ? <a key={x.href} href={x.href} onClick={() => zetOpen(false)}>{x.tekst}</a>
-            : <Link key={x.href} href={x.href} onClick={() => zetOpen(false)}>{x.tekst}</Link>
-          )}
-        </span>
-      )}
+        </g>
+        <defs><clipPath id="c2-menuoog"><path d="M2 17 Q28 -1 54 17 Q28 35 2 17 Z" /></clipPath></defs>
+      </svg>
     </span>
   );
 }
 
-/* De naam als thuis-link naast het oog, alleen op de subpagina's. Maakt plaats
-   zolang het menu open staat en verdwijnt onder 700px (daar brak de balk anders
-   naar twee regels); de weg naar huis zit dan in het menu zelf. */
-export function NaamThuis({ locale = 'nl' }: { locale?: Locale }) {
-  return <Link className="c2-reach c2-top-naam" href={thuis(locale)}>Kimberley van Ruiven</Link>;
+export function MenuWoorden({ locale = 'nl' }: { locale?: Locale }) {
+  return (
+    <span className="c2-sectiemenu-woorden">
+      {SCHIL[locale].secties.map((x) => <a key={x.anker} href={x.anker}>{x.tekst}</a>)}
+    </span>
+  );
 }
 
-/* De contactlink uit de topbalk van alle subpagina's (tekstpagina's, CO₂-calculator,
-   quiz): op mobiel een envelopje in plaats van woorden. Op de homepage blijft
-   "Neem contact op" bewust wél voluit staan; daar past het en daar is het de enige
-   tekst-CTA bovenaan. */
+/* De thuis-link naast het oog, alleen op de subpagina's (Kimberleys keuze van
+   1 augustus): op desktop haar naam voluit (werkt als logo linksboven), op mobiel
+   het korte woord Home in de grijze stijl van de menuwoorden. Beide spans staan in
+   de HTML; concept2.css wisselt ze op 700px. */
+export function ThuisWoord({ locale = 'nl' }: { locale?: Locale }) {
+  return (
+    <Link className="c2-reach c2-top-thuis" href={thuis(locale)} aria-label={SCHIL[locale].home}>
+      <span className="c2-thuis-naam">Kimberley van Ruiven</span>
+      <span className="c2-thuis-home">{SCHIL[locale].home}</span>
+    </Link>
+  );
+}
+
+/* De contactlink uit de topbalk van alle pagina's: op mobiel een envelopje in plaats
+   van woorden. Sinds 1 augustus ook op de homepage (eerder stond hij daar bewust
+   voluit, maar met de vaste menuwoorden erbij is die balk daarvoor te vol). */
 export function MailLink({ tekst }: { tekst: string }) {
   return (
     <a className="c2-reach c2-reach--mail" href="mailto:info@kimberleyvanruiven.nl" aria-label={tekst}>
@@ -250,6 +224,34 @@ export function useKinetiek() {
   }, []);
 }
 
+/* Alle ogen op de pagina kijken naar de muis (de bril op de homepage én het oog in de
+   topbalk). Verhuisd uit de homepage-client op 1 augustus, zodat het oog dit op elke
+   pagina doet; daarvoor stond de pupil op de subpagina's stil. */
+export function useOogVolgtMuis() {
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const ogen = Array.from(document.querySelectorAll<SVGGElement>('.c2-oog')).map((oog) => ({
+      vorm: oog.querySelector<SVGPathElement>('path'),
+      pupil: oog.querySelector<SVGGElement>('.c2-pupil'),
+    })).filter((p) => p.vorm && p.pupil);
+    if (!ogen.length) return;
+    let raf = 0, mx = -1, my = -1;
+    const update = () => {
+      ogen.forEach(({ vorm, pupil }) => {
+        const r = vorm!.getBoundingClientRect();
+        const dx = mx - (r.left + r.width / 2), dy = my - (r.top + r.height / 2);
+        const d = Math.hypot(dx, dy) || 1;
+        const f = Math.min(1, d / 320);
+        pupil!.style.transform = `translate(${(dx / d) * f * 10}px, ${(dy / d) * f * 4}px)`;
+      });
+      raf = 0;
+    };
+    const onMove = (e: PointerEvent) => { mx = e.clientX; my = e.clientY; if (!raf) raf = requestAnimationFrame(update); };
+    window.addEventListener('pointermove', onMove, { passive: true });
+    return () => { window.removeEventListener('pointermove', onMove); if (raf) cancelAnimationFrame(raf); };
+  }, []);
+}
+
 /* Schil voor tekstpagina's (privacy, zo-werk-ik-met-ai, artikelen, diensten, 404).
    `anderePad` = dezelfde pagina in de andere taal; laat je die weg, dan verschijnt er
    geen taalwissel (bewust zo voor de 404 en voor pagina's die maar één taal hebben). */
@@ -266,14 +268,14 @@ export function C2Tekstpagina({ label, regels, bijgewerkt, intro, scatter, child
   useLichteAchtergrond();
   useKinetiek();
   useHtmlTaal(locale);
+  useOogVolgtMuis();
   const s = SCHIL[locale];
-  const { open: menuOpen, setOpen: zetMenuOpen } = useMenu();
   return (
     <div className={`c2-root ${fontVars}`} lang={locale}>
-      <nav className={`c2-top${menuOpen ? ' c2-top--wijkt' : ''}`}>
+      <nav className="c2-top">
         <span className="c2-top-links">
-          <OogMenu locale={locale} open={menuOpen} zetOpen={zetMenuOpen} />
-          {!menuOpen && <NaamThuis locale={locale} />}
+          <Oog />
+          <ThuisWoord locale={locale} />
         </span>
         <span className="c2-top-rechts">
           <TaalWissel locale={locale} anderePad={anderePad} />

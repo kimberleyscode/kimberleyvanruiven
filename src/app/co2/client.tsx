@@ -3,13 +3,13 @@
 import React, { useEffect } from 'react';
 import Link from 'next/link';
 import '../concept2.css';
-import { Glyph, Scatter, useKinetiek, useLichteAchtergrond, fontVars, useMenu, OogMenu, NaamThuis, HOME, MailLink } from '../gedeeld';
+import { Glyph, Scatter, useKinetiek, useLichteAchtergrond, fontVars, useOogVolgtMuis, Oog, ThuisWoord, HOME, MailLink } from '../gedeeld';
 
 /* Forn-stijl versie van de AI CO₂-calculator; rekenlogica identiek aan /co2 */
 export default function CO2Concept2Client() {
   useLichteAchtergrond();
   useKinetiek();
-  const { open: menuOpen, setOpen: zetMenuOpen } = useMenu();
+  useOogVolgtMuis();
 
   useEffect(() => {
     let period = 'day';
@@ -261,10 +261,10 @@ export default function CO2Concept2Client() {
         }
       `}</style>
 
-      <nav className={`c2-top${menuOpen ? ' c2-top--wijkt' : ''}`}>
+      <nav className="c2-top">
         <span className="c2-top-links">
-          <OogMenu open={menuOpen} zetOpen={zetMenuOpen} />
-          {!menuOpen && <NaamThuis />}
+          <Oog />
+          <ThuisWoord />
         </span>
         <span className="c2-top-rechts">
           <MailLink tekst="Neem contact op" />

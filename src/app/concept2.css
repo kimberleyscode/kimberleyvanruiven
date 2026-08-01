@@ -70,22 +70,27 @@
 }
 .c2-reach:hover { color: var(--c2-blue); }
 
-/* ── Sectiemenu in de topbalk (oog links, 19 juli) ──
-   Het oog staat op elke pagina links in de balk en de woorden klappen zijwaarts
-   naar rechts uit; de taalwissel staat rechts, vóór de contactlink. Op de
-   subpagina's staat de naam naast het oog als thuis-link; die maakt plaats zolang
-   het menu open staat. Knipperen en pupil komen van .c2-oog / .c2-pupil, die al
-   voor de bril onderaan de homepage bestaan. */
-.c2-top-links { display: flex; align-items: center; gap: 0.65rem; min-width: 0; }
-.c2-top-naam { white-space: nowrap; }
-.c2-sectiemenu { display: flex; align-items: center; gap: 1.1rem; }
-.c2-sectiemenu-knop {
-  background: none; border: none; padding: 0; cursor: pointer;
-  display: flex; align-items: center;
-  line-height: 1;
+/* ── Sectiemenu in de topbalk (oog links; woorden vast zichtbaar sinds 1 augustus) ──
+   Het oog staat op elke pagina links in de balk. Alleen op de homepage staan de
+   sectiewoorden er standaard naast; er klapt niets meer open of dicht (eerder,
+   19 juli, zat het achter een klik op het oog). Op de subpagina's staat naast het
+   oog alleen het woord Home als thuis-link, in dezelfde stijl als de menuwoorden
+   (1 augustus; eerder stond daar de naam voluit). Knipperen en pupil komen van
+   .c2-oog / .c2-pupil, die al voor de bril onderaan de homepage bestaan. */
+.c2-top-links { display: flex; align-items: center; gap: 0.85rem; min-width: 0; }
+/* De thuis-link toont op desktop de naam en onder 700px het woord Home, allebei in
+   het lichtgrijs van de menuwoorden (Kimberleys keuze); beide spans staan in de HTML
+   en bij hover kleurt het geheel kobalt via .c2-reach:hover. */
+.c2-top-thuis { white-space: nowrap; color: var(--c2-grey); }
+.c2-thuis-home { display: none; }
+@media (max-width: 700px) {
+  .c2-thuis-naam { display: none; }
+  .c2-thuis-home { display: inline; }
 }
-.c2-sectiemenu-knop:hover { opacity: 0.7; }
-.c2-sectiemenu-knop svg { display: block; }
+/* De naam voluit als losse span wordt alleen nog op de in-aanbouwpagina gebruikt */
+.c2-top-naam { white-space: nowrap; }
+.c2-sectiemenu-oog { display: flex; align-items: center; line-height: 1; }
+.c2-sectiemenu-oog svg { display: block; }
 .c2-sectiemenu-woorden { display: flex; align-items: center; gap: 1.1rem; }
 .c2-sectiemenu-woorden a {
   font-size: 0.85rem; font-weight: 500; letter-spacing: 0.06em;
@@ -95,25 +100,35 @@
 }
 .c2-sectiemenu-woorden a:hover { color: var(--c2-blue); }
 
-/* Op smalle schermen passen oog, woorden, taalwissel en contactlink niet samen op één
-   regel (samen ~565px, telefoon 390px). Zolang het menu open staat maakt de rechterkant
-   (taalwissel + contactlink) daarom plaats. Escape en een klik op een woord sluiten het
-   weer. */
+/* Onder 700px passen de vier woorden op de homepage niet meer naast de taalwissel en
+   de voluit geschreven contactlink (samen ~660px). De woorden verhuizen daar naar een
+   eigen regel onder in de balk: absoluut gepositioneerd binnen de vaste nav, met extra
+   padding-bottom op de balk (alleen via de modifier --woorden, want alleen de homepage
+   heeft de woordenregel) zodat de regel binnen de papieren achtergrond valt. Gemeten:
+   bovenste rij eindigt op ~2.5rem (1.1rem padding + oog 21.86px); de woorden beginnen
+   op 3rem en zijn ~0.8rem hoog, dus 2.1rem padding-bottom dekt ze af. De hero krijgt
+   de extra balkhoogte (~16px boven op de 5.5rem uit het generieke mobielblok
+   verderop) erbij, anders plakt de eyebrow tegen de woorden; .c2-root erbij wint op
+   specificiteit van dat latere blok. */
 @media (max-width: 700px) {
-  .c2-root nav.c2-top--wijkt .c2-top-rechts { display: none; }
-  .c2-sectiemenu, .c2-sectiemenu-woorden { gap: 0.85rem; }
+  .c2-root nav.c2-top--woorden { padding-bottom: 2.1rem; }
+  .c2-sectiemenu-woorden {
+    position: absolute;
+    left: 2rem; right: 2rem; top: 3rem;
+    gap: 0.85rem;
+  }
   .c2-sectiemenu-woorden a { font-size: 0.78rem; letter-spacing: 0.04em; }
+  .c2-root .c2-hero { padding-top: 6.5rem; }
 }
 
 /* Topbalk van de TEKSTPAGINA'S op mobiel (18 juli).
    Daar stonden oog + naam (130px), taalwissel (98px) en contactlink (130px) naast
    elkaar: samen 358px terwijl er op een telefoon 326px is, dus de balk brak naar twee
-   regels (102px hoog). Onder 700px verdwijnt daarom de naam naast het oog en wordt de
-   contactlink een envelopje. Alleen hier: op de homepage staat "Neem contact op"
-   bewust voluit, die balk paste al. */
+   regels (102px hoog). Onder 700px wordt de contactlink daarom een envelopje (de naam
+   is hierboven al onder 900px verdwenen). Alleen hier: op de homepage staat
+   "Neem contact op" bewust voluit, die balk paste al. */
 .c2-reach-icoon { display: none; }
 @media (max-width: 700px) {
-  .c2-top-naam { display: none; }
   .c2-reach--mail .c2-reach-woord { display: none; }
   .c2-reach--mail .c2-reach-icoon { display: block; }
 }
