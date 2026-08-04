@@ -24,14 +24,14 @@ const dmSans = DM_Sans({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://kimberleyvanruiven.nl"),
-  title: "Kimberley van Ruiven · Adviseur verantwoorde AI voor het mkb",
+  title: "Kimberley van Ruiven · Verantwoorde AI-implementatie voor mkb en ondernemers",
   description:
     "Ik help kleine en middelgrote organisaties AI verantwoord invoeren: AI-beleid, AI Act-quickscan, workshops AI-geletterdheid en systemen op maat. AI waar je achter kunt staan.",
-  keywords: ["ethische AI", "AI-adviseur mkb", "AI-beleid opstellen", "AI Act quickscan", "verantwoorde AI", "AI-geletterdheid workshop", "AI-systemen bouwen", "EU AI Act", "AI bias", "Kimberley van Ruiven"],
+  keywords: ["ethische AI", "AI-implementatie mkb", "AI-adviseur mkb", "AI-beleid opstellen", "AI Act quickscan", "verantwoorde AI", "AI-geletterdheid workshop", "AI-systemen bouwen", "EU AI Act", "AI bias", "Kimberley van Ruiven"],
   authors: [{ name: "Kimberley van Ruiven" }],
   robots: "index, follow",
   openGraph: {
-    title: "Kimberley van Ruiven · Adviseur verantwoorde AI voor het mkb",
+    title: "Kimberley van Ruiven · Verantwoorde AI-implementatie voor mkb en ondernemers",
     description: "Ik help kleine en middelgrote organisaties AI verantwoord invoeren. AI waar je achter kunt staan, voor een mensgerichte toekomst met technologie.",
     url: "https://kimberleyvanruiven.nl",
     // Geen images-veld: de deelafbeelding komt uit src/app/opengraph-image.jpg en geldt
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Kimberley van Ruiven · Adviseur verantwoorde AI voor het mkb",
+    title: "Kimberley van Ruiven · Verantwoorde AI-implementatie voor mkb en ondernemers",
     description: "Ik help kleine en middelgrote organisaties AI verantwoord invoeren. AI waar je achter kunt staan, voor een mensgerichte toekomst met technologie.",
   },
 };
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
-  name: 'Kimberley van Ruiven · Adviseur verantwoorde AI voor het mkb',
+  name: 'Kimberley van Ruiven · Verantwoorde AI-implementatie voor mkb en ondernemers',
   description:
     'Advies over verantwoorde AI voor kleine en middelgrote organisaties: AI Act-quickscan, AI-beleid, workshops AI-geletterdheid, AI-chatbots, automatisering en tools op maat.',
   url: 'https://kimberleyvanruiven.nl',

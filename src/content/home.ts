@@ -14,7 +14,7 @@ const NL: HomeInhoud = {
   nav: { contact: 'Neem contact op' },
 
   hero: {
-    eyebrow: 'Kimberley van Ruiven · Adviseur verantwoorde AI voor het mkb · Rotterdam',
+    eyebrow: 'Kimberley van Ruiven · Verantwoorde AI-implementatie voor mkb en ondernemers · Rotterdam',
     titel: [
       { tekst: 'Een mensgerichte', speed: -0.5 },
       { tekst: 'toekomst met', speed: 0.5 },
@@ -173,7 +173,7 @@ const EN: HomeInhoud = {
 
   hero: {
     /* Voluit, niet "SMEs": de CSS zet de eyebrow in kapitalen en dan wordt dat "SMES". */
-    eyebrow: 'Kimberley van Ruiven · Responsible AI adviser for small and medium-sized businesses · Rotterdam',
+    eyebrow: 'Kimberley van Ruiven · Responsible AI implementation for smaller businesses and entrepreneurs · Rotterdam',
     titel: [
       { tekst: 'A human-centred', speed: -0.5 },
       { tekst: 'future with', speed: 0.5 },
