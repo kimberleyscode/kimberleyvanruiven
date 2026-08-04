@@ -189,6 +189,16 @@
   letter-spacing: 0.1em; text-transform: uppercase;
   margin-bottom: 0.8rem;
 }
+/* De heroregel loopt op brede schermen als één zin door. Onder ongeveer 510px past hij
+   niet meer op twee regels en breekt hij midden in "Verantwoorde AI-implementatie";
+   daarom valt de breuk daar bewust na de naam: naam, vak, plaats, even hoog als eerst.
+   De ondergrens hoort er ook bij: onder ongeveer 350px past de rest zelf niet meer op
+   twee regels, en zou de gedwongen breuk juist een vierde regel opleveren. Beide grenzen
+   zijn opgemeten in de gebouwde site, niet berekend: de afbreekpunten liggen grillig. */
+@media (min-width: 340px) and (max-width: 500px) {
+  .c2-eyebrow--hero .c2-eyebrow-naam { display: block; }
+  .c2-eyebrow--hero .c2-eyebrow-punt { display: none; }
+}
 .c2-body { max-width: 40rem; }
 .c2-body p { margin-bottom: 1rem; }
 .c2-grey { color: var(--c2-grey); }

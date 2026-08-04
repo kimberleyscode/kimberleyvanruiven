@@ -29,6 +29,21 @@ function Kinetisch({ regels }: { regels: KinRegel[] }) {
   );
 }
 
+/* De regel boven de herotitel is in het woordenboek één zin (naam · vak · plaats). Hier
+   wordt de naam als eigen stukje gezet, zodat de CSS hem op smalle schermen op een eigen
+   regel kan zetten en het vak niet meer doormidden breekt. Het scheidingsteken hoort bij
+   de naam en verdwijnt mee. Geldt voor beide talen: die beginnen allebei met de naam. */
+function HeroEyebrow({ tekst }: { tekst: string }) {
+  const [naam, ...rest] = tekst.split(' · ');
+  return (
+    <p className="c2-eyebrow c2-eyebrow--hero">
+      <span className="c2-eyebrow-naam">{naam}</span>
+      <span className="c2-eyebrow-punt"> · </span>
+      {rest.join(' · ')}
+    </p>
+  );
+}
+
 /* Lopende tekst met links erin: het woordenboek levert stukjes tekst en linkobjecten. */
 function Rijk({ alinea }: { alinea: Alinea }) {
   return (
@@ -183,7 +198,7 @@ export default function Concept2Client({ locale = 'nl' }: { locale?: Locale }) {
       <header className="c2-hero">
         <Scatter items={[[8, 6.5, '56%', '6%'], [14, 3.6, '74%', '72%'], [3, 2.6, '38%', '82%']]} />
         <div>
-          <p className="c2-eyebrow">{t.hero.eyebrow}</p>
+          <HeroEyebrow tekst={t.hero.eyebrow} />
           <h1 className="c2-kinetic c2-hero-title">
             <Kinetisch regels={t.hero.titel} />
           </h1>
