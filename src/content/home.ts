@@ -148,7 +148,7 @@ const NL: HomeInhoud = {
     manifest: 'AI-manifest',
     privacy: 'Privacybeleid',
     home: 'Home',
-    missie: 'Gebouwd mét AI, met een mens aan het stuur.',
+    missie: 'Deze website is gebouwd met AI-ondersteuning, met een mens aan het stuur.',
   },
 };
 
@@ -309,7 +309,7 @@ const EN: HomeInhoud = {
     manifest: 'AI manifesto',
     privacy: 'Privacy policy',
     home: 'Home',
-    missie: 'Built with AI, with a human at the wheel.',
+    missie: 'This website was built with AI support, with a human at the wheel.',
   },
 };
 

@@ -405,7 +405,7 @@ export default function CO2Concept2Client() {
         <Link href="/manifest">AI-manifest</Link>
         <Link href="/privacy">Privacybeleid</Link>
         <Link href={HOME}>Home</Link>
-        <span>Gebouwd mét AI, met een mens aan het stuur.</span>
+        <span>Deze website is gebouwd met AI-ondersteuning, met een mens aan het stuur.</span>
       </footer>
     </div>
   );

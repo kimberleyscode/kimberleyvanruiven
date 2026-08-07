@@ -530,7 +530,7 @@ export default function QuizClient() {
         <Link href="/manifest">AI-manifest</Link>
         <Link href="/privacy">Privacybeleid</Link>
         <Link href={HOME}>Home</Link>
-        <span>Gebouwd m&eacute;t AI, met een mens aan het stuur.</span>
+        <span>Deze website is gebouwd met AI-ondersteuning, met een mens aan het stuur.</span>
       </footer>
     </div>
   );

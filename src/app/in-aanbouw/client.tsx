@@ -112,7 +112,7 @@ export default function InAanbouwClient() {
         <span>© 2026 Kimberley van Ruiven</span>
         <Link href="/privacy">Privacybeleid</Link>
         <Link href="/algemene-voorwaarden">Algemene voorwaarden</Link>
-        <span>Gebouwd mét AI, met een mens aan het stuur.</span>
+        <span>Deze website is gebouwd met AI-ondersteuning, met een mens aan het stuur.</span>
       </footer>
     </div>
   );

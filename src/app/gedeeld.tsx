@@ -23,7 +23,7 @@ export const SCHIL = {
   nl: {
     contact: 'Neem contact op',
     bijgewerkt: 'Laatst bijgewerkt:',
-    missie: 'Gebouwd mét AI, met een mens aan het stuur.',
+    missie: 'Deze website is gebouwd met AI-ondersteuning, met een mens aan het stuur.',
     links: [
       { href: '/zo-werk-ik-met-ai', tekst: 'Zo werk ik met AI' },
       { href: '/manifest', tekst: 'AI-manifest' },
@@ -41,7 +41,7 @@ export const SCHIL = {
   en: {
     contact: 'Get in touch',
     bijgewerkt: 'Last updated:',
-    missie: 'Built with AI, with a human at the wheel.',
+    missie: 'This website was built with AI support, with a human at the wheel.',
     links: [
       { href: '/en/how-i-work-with-ai', tekst: 'How I work with AI' },
       { href: '/en/manifesto', tekst: 'AI manifesto' },
