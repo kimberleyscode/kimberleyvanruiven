@@ -41,7 +41,7 @@ export const SCHIL = {
   en: {
     contact: 'Get in touch',
     bijgewerkt: 'Last updated:',
-    missie: 'This website was built with AI support, with a human at the wheel.',
+    missie: 'This website was built with the help of AI and a human at the wheel.',
     links: [
       { href: '/en/how-i-work-with-ai', tekst: 'How I work with AI' },
       { href: '/en/manifesto', tekst: 'AI manifesto' },

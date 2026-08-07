@@ -309,7 +309,7 @@ const EN: HomeInhoud = {
     manifest: 'AI manifesto',
     privacy: 'Privacy policy',
     home: 'Home',
-    missie: 'This website was built with AI support, with a human at the wheel.',
+    missie: 'This website was built with the help of AI and a human at the wheel.',
   },
 };
 
