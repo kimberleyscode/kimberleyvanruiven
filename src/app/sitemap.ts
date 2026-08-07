@@ -18,6 +18,8 @@ const ARTIKELEN = [
   'technologie-die-de-mens-ziet',
   'volwassen-worden-in-ai-ethiek',
   'google-bert-en-chatgpt',
+  'tweets-labelen-en-de-verkeerde-les',
+  'boeken-die-mijn-kijk-vormden',
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

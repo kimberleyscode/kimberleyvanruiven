@@ -40,7 +40,7 @@ export default function BertEnChatGPTArtikel() {
           ChatGPT en Claude komen uit dezelfde familie. Ze zijn gebouwd op dezelfde onderliggende techniek, de transformer, en ze leerden taal op dezelfde manier: door enorme hoeveelheden menselijke tekst te verwerken. Alleen is hun taak omgedraaid. Waar BERT leest en beoordeelt, voorspellen deze modellen telkens het volgende woord, en uit die voorspellingen ontstaat nieuwe tekst.
         </p>
         <p>
-          Dat maakt ze veel breder inzetbaar: ze schrijven, vatten samen, vertalen en denken mee. Het maakt ze ook veel groter, duurder en dorstiger in energie, en hun uitkomst is open. Je weet vooraf niet precies wat eruit komt, en een overtuigend antwoord is nog geen juist antwoord. In <Link href="/artikelen/machine-learning-of-generatieve-ai">machine learning of generatieve AI</Link> lees je wat dat verschil betekent voor de risico&apos;s die je loopt.
+          Dat maakt ze veel breder inzetbaar: ze schrijven, vatten samen, vertalen en denken mee. Het maakt ze ook veel groter, duurder en dorstiger in energie, en hun uitkomst is open. Je weet vooraf niet precies wat eruit komt, en een overtuigend antwoord is nog geen juist antwoord. In <Link href="/artikelen/machine-learning-of-generatieve-ai">machine learning of generatieve AI</Link>{' '}lees je wat dat verschil betekent voor de risico&apos;s die je loopt.
         </p>
       </section>
 

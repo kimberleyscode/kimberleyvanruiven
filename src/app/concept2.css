@@ -734,8 +734,38 @@ a.c2-artikel-kaart:hover .c2-case-hover { opacity: 1; transform: translateY(0); 
 .c2-artikel-kaart .c2-artikel-meta { color: var(--c2-grey); font-size: 0.9rem; letter-spacing: 0.05em; margin-bottom: 0.7rem; }
 .c2-artikel-kaart h2 { font-family: inherit; font-weight: 400; color: var(--c2-ink); font-size: 1.45rem; line-height: 1.35; margin: 0 0 0.7rem; }
 .c2-artikel-kaart p { margin: 0; }
+/* Trailerkaarten in een artikel: eigen thumbnail uit public/, dus geen verzoek naar
+   YouTube bij het laden van de pagina. De CSP staat externe afbeeldingen ook niet toe. */
+.c2-trailers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.4rem;
+  margin: 1.6rem 0 2.2rem;
+}
+a.c2-trailer { display: block; color: var(--c2-ink); transition: transform 0.35s ease; }
+a.c2-trailer:hover { transform: translateY(-4px); opacity: 1; }
+.c2-trailer img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+  border-radius: 22px;
+  border: 1px solid var(--c2-hairline);
+  filter: grayscale(1);
+  transition: filter 0.35s ease;
+}
+a.c2-trailer:hover img { filter: grayscale(0); }
+.c2-trailer-titel { display: block; margin-top: 0.8rem; font-size: 1rem; line-height: 1.45; }
+.c2-trailer-meta {
+  display: block;
+  color: var(--c2-grey);
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  margin-top: 0.25rem;
+}
 @media (max-width: 800px) {
   .c2-tekst-content { padding: 0.5rem 1.4rem 4rem; }
+  .c2-trailers { grid-template-columns: 1fr; }
 }
 .c2-zweef--zij { flex: 0 0 auto; }
 @media (max-width: 800px) { .c2-zweef--zij { display: none; } }

@@ -76,18 +76,18 @@ const ARTIKELEN: Kaart[] = [
     intro: 'Mijn masterscriptie aan de UvA: onderzoek naar bias in algoritmes die haatspraak herkennen op Twitter.',
   },
   {
-    href: 'https://github.com/kimberleyscode/Master-Thesis-HateSpeech-Twitter/blob/master/BERT_sentence_classification.ipynb',
-    linktekst: 'Bekijk het BERT-notebook →',
+    slug: 'tweets-labelen-en-de-verkeerde-les',
     label: 'Machine learning · NLP',
-    titel: 'Hoe ik 1300 tweets labelde en een BERT-model trainde dat haatspraak herkent',
-    intro: 'Het technische hart van mijn scriptie, van handmatig labelen tot een getraind classificatiemodel, stap voor stap te volgen in het notebook.',
+    titel: 'Ik labelde tweets op haatspraak, en het model leerde de verkeerde les',
+    intro: 'Het technische hart van mijn scriptie: van handmatig labelen tot getrainde modellen, en waarom die modellen leerden over wie een bericht ging in plaats van wat erin stond.',
+    datum: 'augustus 2026',
   },
   {
-    href: '/manifest',
-    linktekst: 'Bekijk de leeslijst →',
+    slug: 'boeken-die-mijn-kijk-vormden',
     label: 'Leeslijst',
     titel: 'De boeken die mijn kijk op AI en menselijkheid vormden',
-    intro: 'De leeslijst bij mijn AI-manifest: boeken over technologie, ethiek en de mens die ik iedereen aanraad.',
+    intro: 'Drie boeken over AI en verantwoordelijkheid, besproken en op een rij: waarom ze mijn manier van werken hebben gevormd.',
+    datum: 'augustus 2026',
   },
 ];
 
